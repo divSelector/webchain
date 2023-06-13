@@ -7,7 +7,8 @@ export default function FrontendSettings () {
             host: host,
             verifyEmail: "email/confirm",
             verifyEmailToken: "/email/confirm/:verifyToken",
-            getBaseUrl: () => host
+            getBaseUrl: () => host,
+            storageKeyName: "MOTHERFUCKINGSESSIONKEY"
         }
     )
 }

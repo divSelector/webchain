@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import SessionSettings from '../settings/Session';
+import FrontendSettings from '../settings/Frontend';
 
 export default function useToken() {
 
-  const storageKey = SessionSettings().storageKeyName
+  const storageKey = FrontendSettings().storageKeyName
 
   const getToken = () => {
     const tokenString = sessionStorage.getItem(storageKey);
