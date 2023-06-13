@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import BackendSettings from '../../settings/Backend';
 import FrontendSettings from '../../settings/Frontend';
 import LabeledInputField from '../Fields/LabeledInputField';
+import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
 
 export default function LoginForm({ setToken }) {
 
@@ -33,7 +34,6 @@ export default function LoginForm({ setToken }) {
       if (response.ok) {
         const data = await response.json()
         if (data.hasOwnProperty('key')) {
-          console.log(data.key)
           setToken(data.key)
           if (window.location.href.includes(front.verifyEmail)) {
             window.location.href = "/";
@@ -41,7 +41,6 @@ export default function LoginForm({ setToken }) {
         }
       } else {
         const data = await response.json()
-        console.log(data)
         
         const errorMappings = [
           { key: "email", setter: setEmailFieldError },
@@ -59,32 +58,17 @@ export default function LoginForm({ setToken }) {
     }
   };
 
-  const renderErrorMessage = (data, errors_prop, setErrorMsg) => {
-    let errors = ""
-    if (data.hasOwnProperty(errors_prop)) {
-      for (let error of data[errors_prop]) {
-        if (error) errors += error
-      }
-    }
-    setErrorMsg(errors)
-  }
-
-  const handleSubmit = async e => {
-      e.preventDefault()
-      const token = await loginUser({
-          email, password
-      })
-  }
-    
   return(
     <div id="login-form" className="login-register-wrapper">
       <h2>Please Log In</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handleSubmit(e, loginUser, {
+        email, password
+      })}>
 
         <LabeledInputField type="text" id="login-email" name="Email" 
           onChange={e => setEmail(e.target.value)} error={emailFieldError} 
         />
-        <LabeledInputField type="password" id="password" name="Password" 
+        <LabeledInputField type="password" id="login-password" name="Password" 
           onChange={e => setPassword(e.target.value)} error={passwordFieldError}
         />
 
