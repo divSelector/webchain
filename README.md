@@ -24,7 +24,7 @@ python manage.py runserver
 Start the development server and visit 
 
 1. http://127.0.0.1:8000/admin/
-2. http://127.0.0.1:8000/api/auth
+2. http://127.0.0.1:8000/api/auth/
 
 
 ## Front
@@ -39,6 +39,6 @@ yarn install
 yarn start
 ```
 
-1. http://127.0.0.1:3000/dashboard
+1. http://127.0.0.1:3000/
 
 Enjoy the shit.
