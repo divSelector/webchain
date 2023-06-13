@@ -1,0 +1,49 @@
+.app-wrapper {
+  padding: 20px;
+}
+
+.auth-form-group {
+  display: flex;
+  justify-content: center;
+}
+
+.login-register-wrapper {
+  width: 300px;
+}
+
+.login-register-wrapper h1 {
+  margin-bottom: 10px;
+}
+
+.login-register-wrapper label,
+.login-register-wrapper input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.login-register-wrapper button[type="submit"] {
+  display: block;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .auth-form-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-register-wrapper {
+    margin-bottom: 30px;
+  }
+}
+
+@media (min-width: 601px) {
+  .auth-form-group {
+    justify-content: center;
+    margin: 30px auto;
+  }
+
+  .login-register-wrapper {
+    margin: 0 calc((100vw - 601px) / 6); /* Adjust the horizontal margin as desired */
+  }
+}

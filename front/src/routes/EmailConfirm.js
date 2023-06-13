@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import BackendSettings from '../../settings/Backend';
-import LoginForm from '../../components/Login/LoginForm';
-import useToken from '../../hooks/useToken';
+import BackendSettings from '../settings/Backend';
+import LoginForm from '../components/Forms/LoginForm';
+import useToken from '../hooks/useToken';
 
 export default function AccountVerification() {
   const { verifyToken } = useParams();

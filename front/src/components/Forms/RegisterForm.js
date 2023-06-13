@@ -1,9 +1,6 @@
 import { React, useState } from 'react';
-import PropTypes from 'prop-types';
 import BackendSettings from '../../settings/Backend';
 import FrontendSettings from '../../settings/Frontend';
-import './RegisterForm.css';
-import { redirect } from 'react-router-dom';
 
 export default function RegisterForm() {
 
@@ -49,8 +46,8 @@ export default function RegisterForm() {
   }
   
   return(
-    <div className="login-wrapper">
-      <h1>Or Register Account</h1>
+    <div className="login-register-wrapper">
+      <h1>Or Register</h1>
       <form onSubmit={handleSubmit}>
 
         <label htmlFor="email">Email</label>

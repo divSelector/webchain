@@ -1,5 +1,5 @@
 import { React } from "react";
-import LogoutButton from "../../components/Logout/LogoutButton";
+import LogoutButton from "../components/Buttons/LogoutButton";
 import PropTypes from 'prop-types';
 
 export default function AuthenticatedView({ token, setToken }) {

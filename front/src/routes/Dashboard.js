@@ -1,6 +1,6 @@
 import { React } from "react";
-import AuthenticatedView from "../../views/AuthenticatedView/AuthenticatedView";
-import UnauthenticatedView from "../../views/UnauthenticatedView/UnauthenticatedView";
+import AuthenticatedView from "../views/AuthenticatedView";
+import UnauthenticatedView from "../views/UnauthenticatedView";
 import PropTypes from 'prop-types';
 
 export default function Dashboard({ token, setToken }) {

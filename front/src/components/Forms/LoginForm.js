@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 import BackendSettings from '../../settings/Backend';
-import './Login.css';
 import FrontendSettings from '../../settings/Frontend';
 
 export default function LoginForm({ setToken }) {
@@ -48,7 +47,7 @@ export default function LoginForm({ setToken }) {
   }
     
   return(
-    <div className="login-wrapper">
+    <div className="login-register-wrapper">
       <h1>Please Log In</h1>
       <form onSubmit={handleSubmit}>
 

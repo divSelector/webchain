@@ -1,9 +1,8 @@
-import Dashboard from './routes/Dashboard/Dashboard';
-import AccountVerification from './views/AccountVerification/AccountVerification';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FrontendSettings from './settings/Frontend';
-import './App.css';
+import Dashboard from './routes/Dashboard';
 import useToken from './hooks/useToken';
+import EmailConfirm from './routes/EmailConfirm';
 
 export default function App() {
 
@@ -12,13 +11,13 @@ export default function App() {
 
   return (
     <>
-      <div className="wrapper">
+      <div className="app-wrapper">
         <h1>Application</h1>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Dashboard token={token} setToken={setToken} />} />
-              <Route path={front.verifyEmail} element={<AccountVerification token={token} setToken={setToken} />} />
-              <Route path={front.verifyEmailToken} element={<AccountVerification token={token} setToken={setToken} />} />
+              <Route path={front.verifyEmail} element={<EmailConfirm token={token} setToken={setToken} />} />
+              <Route path={front.verifyEmailToken} element={<EmailConfirm token={token} setToken={setToken} />} />
             </Routes>
           </BrowserRouter>
       </div>
