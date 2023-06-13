@@ -8,7 +8,11 @@ export default function FrontendSettings () {
             verifyEmail: "email/confirm",
             verifyEmailToken: "/email/confirm/:verifyToken",
             getBaseUrl: () => host,
-            storageKeyName: "MOTHERFUCKINGSESSIONKEY"
+            storageKeyName: "MOTHERFUCKINGSESSIONKEY",
+            emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            errors: {
+                email_invalid: "FRONTEND NO CAN EMAIL"
+            }
         }
     )
 }

@@ -3,6 +3,7 @@ import BackendSettings from '../../settings/Backend';
 import FrontendSettings from '../../settings/Frontend';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
+
 export default function RegisterForm() {
 
   const [email, setEmail] = useState();
@@ -13,6 +14,8 @@ export default function RegisterForm() {
   const [password1FieldError, setPassword1FieldError] = useState('');
   const [password2FieldError, setPassword2FieldError] = useState('');
   const [feedbackMsg, setFeedbackMsg] = useState('');
+
+  const frontend = FrontendSettings()
 
   const registerUser = async (credentials) => {
     const settings = BackendSettings()
@@ -29,12 +32,11 @@ export default function RegisterForm() {
           password2: credentials.password2
         })
       });
-
       if (response.ok) {
         const data = await response.json()
         if (data.hasOwnProperty('detail') && 
             data.detail == "Verification e-mail sent.") {
-          const frontend = FrontendSettings()
+          
           window.location.replace(frontend.verifyEmail)
         } else {
           console.log("Doesn't have detail key")
@@ -66,7 +68,7 @@ export default function RegisterForm() {
         email, password1, password2
       })}>
 
-        <LabeledInputField type="text" id="register-email" name="Email" 
+        <LabeledInputField type="text" id="register-email" name="Email" pattern={frontend.emailRegex}
           onChange={e => setEmail(e.target.value)} error={emailFieldError}
         />
         <LabeledInputField type="password" id="register-password1" name="Password" 
