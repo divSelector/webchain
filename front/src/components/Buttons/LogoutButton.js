@@ -43,7 +43,7 @@ export default function LogoutButton({ token, setToken }) {
     
   return(
 <>
-    <button onClick={handleClick}>Log Out</button>
+    <button type="submit" onClick={handleClick}>Log Out</button>
 </>
   )
 }

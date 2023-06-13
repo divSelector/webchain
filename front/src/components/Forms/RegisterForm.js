@@ -1,6 +1,7 @@
-import { React, useState } from 'react';
+import { useState } from 'react';
 import BackendSettings from '../../settings/Backend';
 import FrontendSettings from '../../settings/Frontend';
+import LabeledInputField from '../Fields/LabeledInputField';
 
 export default function RegisterForm() {
 
@@ -46,20 +47,23 @@ export default function RegisterForm() {
   }
   
   return(
-    <div className="login-register-wrapper">
-      <h1>Or Register</h1>
+    <div id="register-form" className="login-register-wrapper">
+      <h2>or Register</h2>
       <form onSubmit={handleSubmit}>
 
-        <label htmlFor="email">Email</label>
-        <input type="text" id="email" onChange={e => setEmail(e.target.value)} />
+        <LabeledInputField type="text" id="register-email" name="Email" 
+          onChange={e => setEmail(e.target.value)} 
+        />
+        <LabeledInputField type="password" id="password1" name="Password" 
+          onChange={e => setPassword1(e.target.value)} 
+        />
+        <LabeledInputField type="password" id="password2" name="Password Again" 
+          onChange={e => setPassword2(e.target.value)} 
+        />
 
-        <label htmlFor="password1">Password</label>
-        <input type="password" id="password1" onChange={e => setPassword1(e.target.value)} />
+        <button type="submit">REGISTER</button>
 
-        <label htmlFor="password2">Password Again</label>
-        <input type="password" id="password2" onChange={e => setPassword2(e.target.value)} />
-
-        <button type="submit">Submit</button>
+        <p id="register-form-error"></p>
 
       </form>
     </div>
