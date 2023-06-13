@@ -1,50 +1,53 @@
 import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 import BackendSettings from '../../settings/Backend';
+import FrontendSettings from '../../settings/Frontend';
 import './RegisterForm.css';
-
+import { redirect } from 'react-router-dom';
 
 export default function RegisterForm() {
 
-    async function registerUser(credentials) {
-      const settings = BackendSettings()
-      const endpoint = settings.getBaseUrl() + settings.register
-      console.log(endpoint)
-      return fetch(endpoint, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              email: credentials.email,
-              password1: credentials.password1,
-              password2: credentials.password2
-          })
+  async function registerUser(credentials) {
+    const backend = BackendSettings()
+    const endpoint = backend.getBaseUrl() + backend.register
+    console.log(endpoint)
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: credentials.email,
+        password1: credentials.password1,
+        password2: credentials.password2
       })
-      .then(response => response.json())
-      .then(data => {
-        Object.entries(data).forEach(([key, values]) => {
-          console.log(key + " : " + values.forEach(
-            value => console.log(value)
-          ))
-        })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.hasOwnProperty('detail') && data.detail == "Verification e-mail sent.") {
+        const frontend = FrontendSettings()
+        window.location.replace(frontend.verifyEmail)
+      }
+      Object.entries(data).forEach(([key, value]) => {
+        console.log(key + " : " + value)
       })
-      .catch(error => {
-          console.error('Error:', error)
-      })
+    })
+    .catch(error => {
+      console.error('Error:', error)
+    })
   }
 
-    const [email, setEmail] = useState();
-    const [password1, setPassword1] = useState();
-    const [password2, setPassword2] = useState();
+  const [email, setEmail] = useState();
+  const [password1, setPassword1] = useState();
+  const [password2, setPassword2] = useState();
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-        const token = await registerUser({
-            email, password1, password2
-        })
-    }
-    
+  const handleSubmit = async e => {
+      e.preventDefault()
+      const token = await registerUser({
+          email, password1, password2
+      })
+  }
+  
   return(
     <div className="login-wrapper">
       <h1>Or Register Account</h1>

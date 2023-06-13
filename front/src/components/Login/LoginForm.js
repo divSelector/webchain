@@ -2,44 +2,50 @@ import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 import BackendSettings from '../../settings/Backend';
 import './Login.css';
-
+import FrontendSettings from '../../settings/Frontend';
 
 export default function LoginForm({ setToken }) {
 
-    async function loginUser(credentials) {
-      const settings = BackendSettings()
-      const endpoint = settings.getBaseUrl() + settings.login
-      console.log(endpoint)
-      return fetch(endpoint, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              email: credentials.email,
-              password: credentials.password
-          })
+  const front = FrontendSettings()
+
+  async function loginUser(credentials) {
+    const back = BackendSettings()
+    const endpoint = back.getBaseUrl() + back.login
+    console.log(endpoint)
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.hasOwnProperty('key')) {
-          setToken(data.key)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.hasOwnProperty('key')) {
+        console.log(data.key)
+        setToken(data.key)
+        if (window.location.href.includes(front.verifyEmail)) {
+          window.location.href = "/";
         }
-      })
-      .catch(error => {
-          console.error('Error:', error)
-      })
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error)
+    })
   }
 
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-        const token = await loginUser({
-            email, password
-        })
-    }
+  const handleSubmit = async e => {
+      e.preventDefault()
+      const token = await loginUser({
+          email, password
+      })
+  }
     
   return(
     <div className="login-wrapper">

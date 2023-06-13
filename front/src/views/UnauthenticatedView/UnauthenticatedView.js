@@ -3,11 +3,11 @@ import LoginForm from "../../components/Login/LoginForm";
 import RegisterForm from "../../components/Register/RegisterForm";
 import PropTypes from 'prop-types';
 
-export default function UnauthenticatedView({ token, setToken }) {
+export default function UnauthenticatedView({ setToken }) {
 
     return (
         <>
-        <LoginForm token={token} setToken={setToken} /> 
+        <LoginForm setToken={setToken} /> 
         <RegisterForm />
         </>
     )

@@ -1,11 +1,9 @@
 import { React } from "react";
-import useToken from "../../hooks/useToken";
 import AuthenticatedView from "../../views/AuthenticatedView/AuthenticatedView";
 import UnauthenticatedView from "../../views/UnauthenticatedView/UnauthenticatedView";
+import PropTypes from 'prop-types';
 
-export default function Dashboard() {
-
-    const { token, setToken } = useToken()
+export default function Dashboard({ token, setToken }) {
 
     return (
         <>
@@ -15,4 +13,8 @@ export default function Dashboard() {
             : <UnauthenticatedView setToken={setToken} />}
         </>
     )
+}
+
+Dashboard.propTypes = {
+    setToken: PropTypes.func.isRequired
 }

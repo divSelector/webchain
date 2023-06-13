@@ -1,10 +1,14 @@
 import Dashboard from './routes/Dashboard/Dashboard';
-import Preferences from './routes/Preferences/Preferences';
 import AccountVerification from './views/AccountVerification/AccountVerification';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import FrontendSettings from './settings/Frontend';
 import './App.css';
+import useToken from './hooks/useToken';
 
 export default function App() {
+
+  const { token, setToken } = useToken()
+  const front = FrontendSettings()
 
   return (
     <>
@@ -12,9 +16,9 @@ export default function App() {
         <h1>Application</h1>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/email/confirm/:token" element={<AccountVerification />} />
-              <Route path="/preferences" element={<Preferences />} />
+              <Route path="/" element={<Dashboard token={token} setToken={setToken} />} />
+              <Route path={front.verifyEmail} element={<AccountVerification token={token} setToken={setToken} />} />
+              <Route path={front.verifyEmailToken} element={<AccountVerification token={token} setToken={setToken} />} />
             </Routes>
           </BrowserRouter>
       </div>

@@ -2,13 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BackendSettings from '../../settings/Backend';
 import LoginForm from '../../components/Login/LoginForm';
+import useToken from '../../hooks/useToken';
 
 export default function AccountVerification() {
-  const { token } = useParams();
-  const [errorMessage, setErrorMessage] = useState('');
+  const { verifyToken } = useParams();
+  const [feedbackMsg, setFeedbackMsg] = useState('');
   const [isVerified, setIsVerified] = useState(false)
 
+  const { token, setToken } = useToken()  
+
   useEffect(() => {
+    console.log(verifyToken)
+    if (!verifyToken) {
+      setFeedbackMsg('Check your email to confirm your account.');
+      return;
+    }
     const verifyAccount = async () => {
       const settings = BackendSettings()
       const endpoint = settings.getBaseUrl() + settings.verifyEmail
@@ -19,7 +27,7 @@ export default function AccountVerification() {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ 
-            key: token
+            key: verifyToken
            })
         });
 
@@ -28,24 +36,24 @@ export default function AccountVerification() {
           setIsVerified(true)
         } else {
           const errorText = await response.statusText;
-          setErrorMessage(`Token ${errorText.toLowerCase()}`)
+          setFeedbackMsg(`Token ${errorText.toLowerCase()}`)
         }
       } catch (error) {
-        setErrorMessage("Error Communicating with Server")
+        setFeedbackMsg("Error Communicating with Server")
       }
     };
 
     verifyAccount();
-  }, [token]);
+  }, [verifyToken]);
 
   return (
-    <div>
+    <>
       <h2>Account Verification</h2>
       {isVerified && <>
         <h3 id="verify-success-message">Account verified. You may now login.</h3>
-        <LoginForm />
+        <LoginForm setToken={setToken} />
       </>}
-      {errorMessage && <p id="verify-error-message">{errorMessage}</p>}
-    </div>
+      {feedbackMsg && <p id="verify-error-message">{feedbackMsg}</p>}
+    </>
   );
 }
