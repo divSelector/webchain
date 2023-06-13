@@ -1,6 +1,7 @@
 import { React } from "react";
-import Login from "../../components/Login/Login";
 import useToken from "../../hooks/useToken";
+import AuthenticatedView from "../../views/AuthenticatedView/AuthenticatedView";
+import UnauthenticatedView from "../../views/UnauthenticatedView/UnauthenticatedView";
 
 export default function Dashboard() {
 
@@ -9,7 +10,9 @@ export default function Dashboard() {
     return (
         <>
         <h2>Dashboard</h2>
-        {token ? null : <Login setToken={setToken} />}
+        {token 
+            ? <AuthenticatedView token={token} setToken={setToken} /> 
+            : <UnauthenticatedView setToken={setToken} />}
         </>
     )
 }

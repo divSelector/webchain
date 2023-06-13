@@ -4,13 +4,11 @@ import BackendSettings from '../../settings/Backend';
 import './Login.css';
 
 
-export default function Login({ setToken }) {
+export default function LoginForm({ setToken }) {
 
     async function loginUser(credentials) {
-      const backend = BackendSettings()
-      const backendHost = backend.host
-      const backendAPI = backend.api
-      const endpoint = backendHost + backendAPI + "/login/"
+      const settings = BackendSettings()
+      const endpoint = settings.getBaseUrl() + settings.login
       console.log(endpoint)
       return fetch(endpoint, {
           method: 'POST',
@@ -47,22 +45,20 @@ export default function Login({ setToken }) {
     <div className="login-wrapper">
       <h1>Please Log In</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          <p>Username</p>
-          <input type="text" onChange={e => setEmail(e.target.value)} />
-        </label>
-        <label>
-          <p>Password</p>
-          <input type="password" onChange={e => setPassword(e.target.value)} />
-        </label>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
+
+        <label htmlFor="email">Email</label>
+        <input type="text" id="email" onChange={e => setEmail(e.target.value)} />
+
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" onChange={e => setPassword(e.target.value)} />
+
+        <button type="submit">Submit</button>
+
       </form>
     </div>
   )
 }
 
-Login.propTypes = {
+LoginForm.propTypes = {
   setToken: PropTypes.func.isRequired
 }
