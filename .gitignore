@@ -24,7 +24,7 @@ front/yarn-error.log*
 
 
 
-
+*.pyc
 # Byte-compiled / optimized / DLL files
 back/*/__pycache__/
 __pycache__/

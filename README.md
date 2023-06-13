@@ -18,6 +18,7 @@ python -m pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py creategroups
+python manage.py runserver
 ```
 
 Start the development server and visit 
@@ -28,7 +29,9 @@ Start the development server and visit
 
 ## Front
 
-Open another terminal
+I just started it.
+
+Open another terminal.
 
 ```
 cd front
