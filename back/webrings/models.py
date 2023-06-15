@@ -15,14 +15,15 @@ class Account(models.Model):
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    account_type = models.CharField(max_length=12, choices=ACCOUNT_TYPE_CHOICES, default='free')
+    name = models.CharField(max_length=36)
+    type = models.CharField(max_length=12, choices=ACCOUNT_TYPE_CHOICES, default='free')
     date_updated = models.DateTimeField(auto_now=True,  validators=[validate_date_not_in_future])
     
     def __str__(self):
         return self.user.email
     
     def __repr__(self):
-        return f"Account: {self.user.email}, type={self.account_type}"
+        return f"Account: {self.user.email}, type={self.type}"
     
     
 class Webring(models.Model):
