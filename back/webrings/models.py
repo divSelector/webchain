@@ -26,8 +26,6 @@ class Account(models.Model):
     
     
 class Webring(models.Model):
-    MAX_FREE_WEBRINGS = 1
-
     account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='webrings_from_account')
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=500, null=True, blank=True)
@@ -38,12 +36,7 @@ class Webring(models.Model):
     primary = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        # if self.account.account_type == 'free':
-        #     page_count = Webring.objects.filter(account=self.account).count()
-        #     if page_count >= Webring.MAX_FREE_WEBRINGS:
-        #         raise ValidationError(f"Free accounts are limited to {Webring.MAX_FREE_WEBRINGS} Webrings.")
-            
-        # If there are no other primary pages, mark this page as primary
+
         if not Webring.objects.filter(account=self.account, primary=True).exists():
             self.primary = True
         
@@ -62,8 +55,6 @@ class Webring(models.Model):
 
 
 class Page(models.Model):
-    MAX_FREE_PAGES = 1
-
     account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='pages_from_account')
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=500, null=True, blank=True)
@@ -74,12 +65,7 @@ class Page(models.Model):
     primary = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        # if self.account.user.account.account_type == 'free':
-        #     page_count = Page.objects.filter(account=self.account).count()
-        #     if page_count >= Page.MAX_FREE_PAGES:
-        #         raise ValidationError(f"Free accounts are limited to {Page.MAX_FREE_PAGES} page.")
-            
-        # If there are no other primary pages, mark this page as primary
+
         if not Page.objects.filter(account=self.account, primary=True).exists():
             self.primary = True
         
