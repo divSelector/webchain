@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Page, Webring, WebringPageLink, Profile, Account
+from .models import Page, Webring, WebringPageLink, Account
 
 class WebringPageInline(admin.TabularInline):
     model = WebringPageLink
@@ -13,6 +13,5 @@ class WebringAdmin(admin.ModelAdmin):
 
 admin.site.register(Page, PageAdmin)
 admin.site.register(Webring, WebringAdmin)
-admin.site.register(Profile)
 admin.site.register(WebringPageLink)
 admin.site.register(Account)

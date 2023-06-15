@@ -20,37 +20,37 @@ class WebringsTestCases(TestCase):
         Webring.MAX_FREE_WEBRINGS = 1
 
     # def test_free_account_max_pages_limit(self):
-    #     Page.objects.create(profile=self.free_user.profile, title='First Page', url='firstpage.com')
+    #     Page.objects.create(account=self.free_user.account, title='First Page', url='firstpage.com')
     #     with self.assertRaises(ValidationError) as cm:
-    #         Page.objects.create(profile=self.free_user.profile, title='Second Page', url='secondpage.com')
+    #         Page.objects.create(account=self.free_user.account, title='Second Page', url='secondpage.com')
 
     # def test_subscribed_account_max_pages_limit(self):
-    #     Page.objects.create(profile=self.subscribed_user.profile, title='First Page', url='firstpage.com')
+    #     Page.objects.create(account=self.subscribed_user.account, title='First Page', url='firstpage.com')
     #     try:
-    #         Page.objects.create(profile=self.subscribed_user.profile, title='Second Page', url='secondpage.com')
+    #         Page.objects.create(account=self.subscribed_user.account, title='Second Page', url='secondpage.com')
     #     except ValidationError:
     #         self.fail("ValidationError should not have been raised.")
 
     # def test_free_account_max_webrings_limit(self):
-    #     Webring.objects.create(profile=self.free_user.profile, title='First Webring')
+    #     Webring.objects.create(account=self.free_user.account, title='First Webring')
     #     with self.assertRaises(ValidationError) as cm:
-    #         Webring.objects.create(profile=self.free_user.profile, title='Second Webring')
+    #         Webring.objects.create(account=self.free_user.account, title='Second Webring')
 
     # def test_subscribed_account_max_webrings_limit(self):
-    #     Webring.objects.create(profile=self.subscribed_user.profile, title='First Webring')
+    #     Webring.objects.create(account=self.subscribed_user.account, title='First Webring')
         
     #     try:
-    #         Webring.objects.create(profile=self.subscribed_user.profile, title='Second Webring')
+    #         Webring.objects.create(account=self.subscribed_user.account, title='Second Webring')
     #     except ValidationError:
     #         self.fail("ValidationError should not have been raised.")
 
     def test_primary_page_assignment(self):
         # Create the first page
-        first_page = Page.objects.create(profile=self.subscribed_user.profile, title="First Page", url="example.com")
+        first_page = Page.objects.create(account=self.subscribed_user.account, title="First Page", url="example.com")
         self.assertEqual(first_page.primary, True)
 
         # Create the second page
-        second_page = Page.objects.create(profile=self.subscribed_user.profile, title="Second Page", url="example.com")
+        second_page = Page.objects.create(account=self.subscribed_user.account, title="Second Page", url="example.com")
         self.assertEqual(second_page.primary, False)
 
         # Set the second page as primary
@@ -63,11 +63,11 @@ class WebringsTestCases(TestCase):
 
     def test_primary_webring_assignment(self):
         # Create the first Webring
-        first_webring = Webring.objects.create(profile=self.subscribed_user.profile, title="First Ring")
+        first_webring = Webring.objects.create(account=self.subscribed_user.account, title="First Ring")
         self.assertEqual(first_webring.primary, True)
 
         # Create the second page
-        second_webring = Webring.objects.create(profile=self.subscribed_user.profile, title="Second Ring")
+        second_webring = Webring.objects.create(account=self.subscribed_user.account, title="Second Ring")
         self.assertEqual(second_webring.primary, False)
 
         # Set the second page as primary
