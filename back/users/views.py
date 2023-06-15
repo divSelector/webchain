@@ -23,8 +23,6 @@ def password_reset_confirm_redirect(request, uidb64, token):
         f"{settings.PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL}{uidb64}/{token}/"
     )
 
-
-
 User = get_user_model()
 
 class NewEmailConfirmation(APIView):

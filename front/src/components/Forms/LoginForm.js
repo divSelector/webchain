@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import BackendSettings from '../../settings/Backend';
 import FrontendSettings from '../../settings/Frontend';
@@ -8,6 +8,7 @@ import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
 export default function LoginForm({ setToken }) {
 
   const front = FrontendSettings()
+  const back = BackendSettings()
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -16,9 +17,16 @@ export default function LoginForm({ setToken }) {
   const [passwordFieldError, setPasswordFieldError] = useState('');
   const [feedbackMsg, setFeedbackMsg] = useState('');
 
+
+  useEffect(() => {
+    if (feedbackMsg === back.errors.emailNotVerified) {
+      resendVerificationEmail();
+    }
+  }, [feedbackMsg]);
+
   const loginUser = async (credentials) => {
-    const settings = BackendSettings()
-    const endpoint = settings.getBaseUrl() + settings.login
+   
+    const endpoint = back.getBaseUrl() + back.login
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -57,6 +65,29 @@ export default function LoginForm({ setToken }) {
       setFeedbackMsg("Error Communicating with Server")
     }
   };
+
+  const resendVerificationEmail = async () => {
+    const endpoint = back.getBaseUrl() + back.resendEmail
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email})
+      });
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.hasOwnProperty('message')) {
+          setFeedbackMsg(back.errors.emailNotVerified + " Resending Verification.")
+        }
+      }
+    } catch (error) {
+      setFeedbackMsg("Error Communicating with Server")
+    }
+  };
+  
 
   return(
     <div id="login-form" className="login-register-wrapper">

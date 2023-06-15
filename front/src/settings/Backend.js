@@ -10,7 +10,11 @@ export default function BackendSettings () {
             logout: "logout/",
             register: "register/",
             verifyEmail: "register/verify-email/",
-            getBaseUrl: () => host + api
+            resendEmail: "register/resend-email/",
+            getBaseUrl: () => host + api,
+            errors: {
+                emailNotVerified: "E-mail is not verified."
+            }
         }
     )
 }
