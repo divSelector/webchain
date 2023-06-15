@@ -15,16 +15,16 @@ export const renderErrorMessage = (data, errors_prop, setErrorMsg) => {
 export const handleSubmit = async (e, action, params) => {
   e.preventDefault()
 
-  const findErrorElement = (fieldType) => {
-    const parentFormId = e.nativeEvent.originalTarget.parentElement.id.replace('-form', '')
-    return document.querySelector(`#${parentFormId}-${fieldType}-field-error`)
-  }
+  // const findErrorElement = (fieldType) => {
+  //   const parentFormId = e.nativeEvent.originalTarget.parentElement.id.replace('-form', '')
+  //   return document.querySelector(`#${parentFormId}-${fieldType}-field-error`)
+  // }
   
-  if (!validateEmail(e.target.elements)) {
-    const errorTextElement = findErrorElement('email')
-    errorTextElement.innerHTML = front.errors.email_invalid
-    return
-  }
+  // if (!validateEmail(e.target.elements)) {
+  //   const errorTextElement = findErrorElement('email')
+  //   errorTextElement.innerHTML = front.errors.email_invalid
+  //   return
+  // }
 
   await action(params)
 }
