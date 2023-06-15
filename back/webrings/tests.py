@@ -19,30 +19,30 @@ class WebringsTestCases(TestCase):
         Page.MAX_FREE_PAGES = 1
         Webring.MAX_FREE_WEBRINGS = 1
 
-    def test_free_account_max_pages_limit(self):
-        Page.objects.create(profile=self.free_user.profile, title='First Page', url='firstpage.com')
-        with self.assertRaises(ValidationError) as cm:
-            Page.objects.create(profile=self.free_user.profile, title='Second Page', url='secondpage.com')
+    # def test_free_account_max_pages_limit(self):
+    #     Page.objects.create(profile=self.free_user.profile, title='First Page', url='firstpage.com')
+    #     with self.assertRaises(ValidationError) as cm:
+    #         Page.objects.create(profile=self.free_user.profile, title='Second Page', url='secondpage.com')
 
-    def test_subscribed_account_max_pages_limit(self):
-        Page.objects.create(profile=self.subscribed_user.profile, title='First Page', url='firstpage.com')
-        try:
-            Page.objects.create(profile=self.subscribed_user.profile, title='Second Page', url='secondpage.com')
-        except ValidationError:
-            self.fail("ValidationError should not have been raised.")
+    # def test_subscribed_account_max_pages_limit(self):
+    #     Page.objects.create(profile=self.subscribed_user.profile, title='First Page', url='firstpage.com')
+    #     try:
+    #         Page.objects.create(profile=self.subscribed_user.profile, title='Second Page', url='secondpage.com')
+    #     except ValidationError:
+    #         self.fail("ValidationError should not have been raised.")
 
-    def test_free_account_max_webrings_limit(self):
-        Webring.objects.create(profile=self.free_user.profile, title='First Webring')
-        with self.assertRaises(ValidationError) as cm:
-            Webring.objects.create(profile=self.free_user.profile, title='Second Webring')
+    # def test_free_account_max_webrings_limit(self):
+    #     Webring.objects.create(profile=self.free_user.profile, title='First Webring')
+    #     with self.assertRaises(ValidationError) as cm:
+    #         Webring.objects.create(profile=self.free_user.profile, title='Second Webring')
 
-    def test_subscribed_account_max_webrings_limit(self):
-        Webring.objects.create(profile=self.subscribed_user.profile, title='First Webring')
+    # def test_subscribed_account_max_webrings_limit(self):
+    #     Webring.objects.create(profile=self.subscribed_user.profile, title='First Webring')
         
-        try:
-            Webring.objects.create(profile=self.subscribed_user.profile, title='Second Webring')
-        except ValidationError:
-            self.fail("ValidationError should not have been raised.")
+    #     try:
+    #         Webring.objects.create(profile=self.subscribed_user.profile, title='Second Webring')
+    #     except ValidationError:
+    #         self.fail("ValidationError should not have been raised.")
 
     def test_primary_page_assignment(self):
         # Create the first page
