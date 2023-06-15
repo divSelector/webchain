@@ -15,7 +15,7 @@ class Command(BaseCommand):
         # can-view-accounts
         group_name = 'can-view-accounts'
         group, _ = Group.objects.get_or_create(name=group_name)
-        self.stdout.write(f'Group "{group_name}" initialized')
+        self.stdout.write(self.style.SUCCESS(f'Group "{group_name}" initialized'))
         models = [
             (UserModel, 'view_user'),
             (EmailAddress, 'view_emailaddress'),
@@ -29,6 +29,6 @@ class Command(BaseCommand):
                 codename=codename
             )
             group.permissions.add(permission)
-            self.stdout.write(f'Added {codename} permission to group "{group_name}"')
+            self.stdout.write(self.style.SUCCESS(f'Added {codename} permission to group "{group_name}"'))
 
 
