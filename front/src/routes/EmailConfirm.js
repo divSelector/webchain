@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BackendSettings from '../settings/Backend';
-import LoginForm from '../components/Forms/LoginForm';
+import AuthenticatedView from '../views/AuthenticatedView';
+import UnauthenticatedView from '../views/UnauthenticatedView';
 import useToken from '../hooks/useToken';
 
 export default function AccountVerification() {
@@ -30,8 +31,6 @@ export default function AccountVerification() {
             key: verifyToken
            })
         });
-
-        console.log(response)
         if (response.ok) {
           setIsVerified(true)
         } else {
@@ -51,7 +50,9 @@ export default function AccountVerification() {
       <h2>Account Verification</h2>
       {isVerified && <>
         <h3 id="verify-success-message">Account verified. You may now login.</h3>
-        <LoginForm setToken={setToken} />
+        {token 
+            ? <AuthenticatedView token={token} setToken={setToken} /> 
+            : <UnauthenticatedView setToken={setToken} />}
       </>}
       {feedbackMsg && <p id="verify-error-message">{feedbackMsg}</p>}
     </>

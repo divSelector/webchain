@@ -75,7 +75,10 @@ form .labeled-input:last-of-type {
   margin-bottom: 0;
 }
 
-
+a, button {
+  font-weight: bold;
+  cursor: pointer;
+}
 
 @media (max-width: 690px) {
   .auth-form-group {
@@ -111,4 +114,22 @@ form .labeled-input:last-of-type {
 .error-text {
   font-size: 0.6em;
   color: crimson;
+}
+
+.help-text {
+  font-size: 0.8em;
+  color: rgb(82, 70, 16);
+  text-decoration: none;
+  margin-top: 50px;
+}
+
+@media screen and (min-width: 1500px) {
+  /* CSS rules for viewport width over 1500px */
+  body, input, label {
+    font-size: 105%;
+  }
+
+
+
+  /* Additional styles for other elements */
 }

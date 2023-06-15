@@ -5,12 +5,12 @@ import FrontendSettings from '../../settings/Frontend';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
 
-export default function LoginForm({ setToken }) {
+export default function LoginForm({ setToken, toggleCantLogin, emailState }) {
 
   const front = FrontendSettings()
   const back = BackendSettings()
 
-  const [email, setEmail] = useState();
+  const [email, setEmail] = emailState;
   const [password, setPassword] = useState();
 
   const [emailFieldError, setEmailFieldError] = useState('');
@@ -87,6 +87,8 @@ export default function LoginForm({ setToken }) {
       setFeedbackMsg("Error Communicating with Server")
     }
   };
+
+
   
 
   return(
@@ -105,11 +107,14 @@ export default function LoginForm({ setToken }) {
 
         <button type="submit">LOGIN</button>
         {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>}
+        <a href={void(0)} onClick={toggleCantLogin} className="help-text">I can't get in.</a>
       </form>
     </div>
   )
 }
 
 LoginForm.propTypes = {
-  setToken: PropTypes.func.isRequired
+  setToken: PropTypes.func.isRequired,
+  toggleCantLogin: PropTypes.func.isRequired,
+  emailState: PropTypes.array.isRequired
 }
