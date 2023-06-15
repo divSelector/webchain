@@ -4,7 +4,7 @@ from .models import Webring, Page, Account
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'account_type']
 
 
 class WebringSerializer(serializers.ModelSerializer):
