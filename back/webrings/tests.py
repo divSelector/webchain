@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from webrings.models import Page, Webring
@@ -10,11 +9,11 @@ class WebringsTestCases(TestCase):
     def setUp(self):
         self.free_user = User.objects.create_user(email='testuser', password='testpassword')
         self.free_account = self.free_user.account
-        self.free_account.type = 'free'
+        self.free_account.account_type = 'free'
         self.free_account.save()
         self.subscribed_user = User.objects.create_user(email='testuser2', password='testpassword')
         self.subscribed_account = self.subscribed_user.account
-        self.subscribed_account.type = 'subscribed'
+        self.subscribed_account.account_type = 'subscribed'
         self.subscribed_account.save()
         Page.MAX_FREE_PAGES = 1
         Webring.MAX_FREE_WEBRINGS = 1
