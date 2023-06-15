@@ -15,7 +15,7 @@ class Account(models.Model):
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=36)
+    name = models.CharField(max_length=36, blank=False, null=False, unique=True)
     account_type = models.CharField(max_length=12, choices=ACCOUNT_TYPE_CHOICES, default='free')
     date_updated = models.DateTimeField(auto_now=True,  validators=[validate_date_not_in_future])
     
@@ -27,7 +27,7 @@ class Account(models.Model):
     
     
 class Webring(models.Model):
-    account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='account_from_webring', related_query_name='account')
+    account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='webrings', related_query_name='webrings')
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     date_created = models.DateTimeField(auto_now_add=True, validators=[validate_date_not_in_future])
@@ -44,13 +44,13 @@ class Webring(models.Model):
 
 
 class Page(models.Model):
-    account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='account_from_page', related_query_name='account')
+    account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='account', related_query_name='account')
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     url = models.URLField(validators=[URLValidator()])
     date_created = models.DateTimeField(auto_now_add=True, validators=[validate_date_not_in_future])
     date_updated = models.DateTimeField(auto_now=True, validators=[validate_date_not_in_future])
-    webrings = models.ManyToManyField('Webring', related_name='pages', related_query_name='page', blank=True)
+    webrings = models.ManyToManyField('Webring', related_name='page_links', through="WebringPageLink", related_query_name='page_links', blank=True)
     primary = models.BooleanField(default=False)
 
     def __str__(self):
@@ -58,3 +58,12 @@ class Page(models.Model):
 
     def __repr__(self):
         return f"Page(id={self.id}, account={self.account}, title='{self.title}', url='{self.url}', date_created='{self.date_created}', primary='{self.primary}')"
+
+
+class WebringPageLink(models.Model):
+    page = models.ForeignKey('Page', on_delete=models.CASCADE)
+    webring = models.ForeignKey('WebRing', on_delete=models.CASCADE)
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Page: {self.page.title} - WebRing: {self.webring.title}"

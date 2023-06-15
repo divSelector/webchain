@@ -1,14 +1,22 @@
 from django.urls import path
-# from .views import (
-#     WebringPagesViewSet
-# )
+from .views import (
+    WebringPagesViewSet,
+    PageViewSet,
+    AccountViewSet
+)
 from rest_framework.permissions import IsAuthenticated
 
 
 urlpatterns = [
-    # path('webring/<int:webring_id>/', WebringPagesViewSet.as_view(
-    #     {'get': 'by_webring'}
-    # ), name='webring-pages'),
+    path('webring/<int:webring_id>/', WebringPagesViewSet.as_view(
+        {'get': 'list'}
+    ), name='view-webring'),
+    path('page/<int:page_id>/', PageViewSet.as_view(
+        {'get': 'list'}
+    ), name='view-page'),
+    path('user/<int:account_id>/', AccountViewSet.as_view(
+        {'get': 'list'}
+    ), name='view-account'),
     # # Webring URLs
     # path('webrings/', WebringListCreateView.as_view(
     #      permission_classes=[IsAuthenticated],

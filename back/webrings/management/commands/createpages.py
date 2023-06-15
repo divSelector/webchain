@@ -1,0 +1,37 @@
+from django.core.management.base import BaseCommand
+from django.contrib.auth import get_user_model
+import random
+
+from webrings.models import Webring, Page, WebringPageLink
+
+from faker import Faker
+
+User = get_user_model()
+
+fake = Faker()
+
+class Command(BaseCommand):
+    help = 'Create Some Fake Model Instances'
+
+    def handle(self, *args, **options):
+        users = User.objects.all()
+        subscribed_account = users[1].account
+        subscribed_account.account_type = 'subscriber'
+        subscribed_account.save()
+        self.stdout.write(self.style.SUCCESS(f"{subscribed_account} is account_type='subscriber'"))
+        webring_owner = users.first().account
+        webring = Webring.objects.create(account=webring_owner, title="Cool Webring")
+        self.stdout.write(self.style.SUCCESS(f"{webring_owner} is owner of {webring}"))
+        for user in users:
+            user.account.name = fake.name()
+            user.account.save()
+            for i in range(5):
+                page = Page.objects.create(account=user.account, title=f"user-{i}", url="www.poop.com")
+                page.save()
+                link = WebringPageLink(page=page, webring=webring)
+                if random.random() < 0.5:
+                    link.approved = True
+                link.save()
+                self.stdout.write(self.style.SUCCESS(f"{page} is created and added to {webring} as {link.approved}"))
+
+

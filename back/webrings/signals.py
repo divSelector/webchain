@@ -2,13 +2,15 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import Account, Page, Webring
+from faker import Faker
 
 User = get_user_model()
+fake = Faker()
 
 @receiver(post_save, sender=User)
 def create_account(sender, instance, created, **kwargs):
     if created:
-        Account.objects.create(user=instance)
+        account = Account.objects.create(user=instance, name=fake.name())
 
 
 def create_pre_save_signal(model_class):
