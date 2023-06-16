@@ -43,18 +43,13 @@ export default function UnauthenticatedView({ setToken }) {
     } else {
         visibleContent = (
             <>
-                <div className="login-register-wrapper">
-                    <h2>Need help?</h2>
-                    <p>
-                    Enter your email and we can send you a verification code that will
-                    allow you to log in with your password;
-                    </p>
-                    <p>...or we can change your password if you don't know what it is.</p>
-                    <a href={void 0} onClick={toggleCantLogin} className="help-text">
-                    Take me back.
-                    </a>
-                </div>
-                <LockedOutForm toggleCantLogin={toggleCantLogin} emailState={emailState} />
+            <div className="login-register-wrapper">
+                <h2>Need help?</h2>
+                <p>Enter your email and we can send you a verification code that will allow you to log in with your password.</p>
+                <p>...or we can change your password if you don't know what it is.</p>
+                <a href={void 0} onClick={toggleCantLogin} className="help-text">Take me back.</a>
+            </div>
+            <LockedOutForm toggleCantLogin={toggleCantLogin} emailState={emailState} />
             </>
         );
     }
