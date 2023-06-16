@@ -31,9 +31,9 @@ export default function UnauthenticatedView({ setToken }) {
             </div>
             {!isShowingLogin ? (
                 <LoginForm
-                setToken={setToken}
-                toggleCantLogin={toggleCantLogin}
-                emailState={emailState}
+                    setToken={setToken}
+                    toggleCantLogin={toggleCantLogin}
+                    emailState={emailState}
                 />
             ) : (
                 <RegisterForm />
