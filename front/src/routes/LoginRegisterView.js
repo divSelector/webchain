@@ -26,24 +26,24 @@ export default function LoginRegisterView({ token, setToken }) {
     }, [location]);
 
     useEffect(() => {
-        if (token) navigate('/')
+        if (token && !location.pathname.startsWith(front.verifyEmail)) navigate('/')
     }, [token])
 
     function renderLeft() {
-        if (currentView === front.register || currentView === front.login) {
-            return <LoginRegisterText currentView={currentView} />
-        } else if (currentView === front.loginHelp) {
+        if (currentView === front.loginHelp) {
             return <LockedOutForm emailState={emailState }/>
+        } else {
+            return <LoginRegisterText currentView={currentView} />
         }
     }
 
     function renderRight() {
         if (currentView === front.register) {
             return <RegisterForm setToken={setToken} emailState={emailState} />;
-        } else if (currentView === front.login) {
-            return <LoginForm setToken={setToken} emailState={emailState} />;
         } else if (currentView === front.loginHelp) {
             return <LockedOutText />
+        } else {
+            return <LoginForm setToken={setToken} emailState={emailState} />;
         }
     }
 
