@@ -1,5 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FrontendSettings from './settings/Frontend';
 import Dashboard from './routes/Dashboard';
 import useToken from './hooks/useToken';
