@@ -35,8 +35,7 @@ export default function RegisterForm() {
       if (response.ok) {
         const data = await response.json()
         if (data.hasOwnProperty('detail') && 
-            data.detail == "Verification e-mail sent.") {
-          
+          data.detail == "Verification e-mail sent.") {
           window.location.replace(frontend.verifyEmail)
         } else {
           console.log("Doesn't have detail key")

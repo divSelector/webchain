@@ -4,8 +4,9 @@ import BackendSettings from '../../settings/Backend';
 import FrontendSettings from '../../settings/Frontend';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
+import { Link } from 'react-router-dom';
 
-export default function LoginForm({ setToken, toggleCantLogin, emailState }) {
+export default function LoginForm({ setToken, emailState }) {
 
   const front = FrontendSettings()
   const back = BackendSettings()
@@ -88,9 +89,6 @@ export default function LoginForm({ setToken, toggleCantLogin, emailState }) {
     }
   };
 
-
-  
-
   return(
     <div id="login-form" className="login-register-wrapper">
       <h2>Please Log In</h2>
@@ -107,7 +105,9 @@ export default function LoginForm({ setToken, toggleCantLogin, emailState }) {
 
         <button type="submit">LOGIN</button>
         {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>}
-        <a href={void(0)} onClick={toggleCantLogin} className="help-text">I can't get in.</a>
+        <Link to={`/login/help`} className="help-text">
+          I can't get in.
+        </Link>
       </form>
     </div>
   )
@@ -115,6 +115,5 @@ export default function LoginForm({ setToken, toggleCantLogin, emailState }) {
 
 LoginForm.propTypes = {
   setToken: PropTypes.func.isRequired,
-  toggleCantLogin: PropTypes.func.isRequired,
   emailState: PropTypes.array.isRequired
 }

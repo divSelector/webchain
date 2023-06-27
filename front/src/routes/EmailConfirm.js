@@ -3,19 +3,19 @@ import { useParams } from 'react-router-dom';
 import BackendSettings from '../settings/Backend';
 import AuthenticatedView from '../views/AuthenticatedView';
 import UnauthenticatedView from '../views/UnauthenticatedView';
-import useToken from '../hooks/useToken';
 
-export default function AccountVerification() {
+
+export default function AccountVerification(token, setToken) {
   const { verifyToken } = useParams();
   const [feedbackMsg, setFeedbackMsg] = useState('');
   const [isVerified, setIsVerified] = useState(false)
 
-  const { token, setToken } = useToken()  
+  // const { token, setToken } = useToken()  
 
   useEffect(() => {
     console.log(verifyToken)
     if (!verifyToken) {
-      setFeedbackMsg('Check your email to confirm your account.');
+      setFeedbackMsg('We sent you an email with instructions to get you logged in.');
       return;
     }
     const verifyAccount = async () => {
@@ -47,7 +47,7 @@ export default function AccountVerification() {
 
   return (
     <>
-      <h2>Account Verification</h2>
+      <h2>Check your email!</h2>
       {isVerified && <>
         <h3 id="verify-success-message">Account verified. You may now login.</h3>
         {token 

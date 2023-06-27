@@ -11,6 +11,8 @@ export default function BackendSettings () {
             register: "register/",
             verifyEmail: "register/verify-email/",
             resendEmail: "register/resend-email/",
+            resetPassword: "password/reset/",
+            resetPasswordConfirm: "password/reset/confirm/",
             getBaseUrl: () => host + api,
             errors: {
                 emailNotVerified: "E-mail is not verified."

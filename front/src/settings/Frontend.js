@@ -5,14 +5,15 @@ export default function FrontendSettings () {
     return (
         {
             host: host,
-            verifyEmail: "email/confirm",
+            login: "/login",
+            register: "/register",
+            loginHelp: "/login/help",
+            verifyEmail: "/email/confirm",
             verifyEmailToken: "/email/confirm/:verifyToken",
+            resetPassword: "/password-reset/confirm/:userId/:resetToken",
             getBaseUrl: () => host,
             storageKeyName: "MOTHERFUCKINGSESSIONKEY",
-            emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            errors: {
-                email_invalid: "FRONTEND NO CAN EMAIL"
-            }
+            emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         }
     )
 }
