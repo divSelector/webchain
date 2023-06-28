@@ -15,7 +15,6 @@ class ListOrAuthenticated(permissions.BasePermission):
 
 class WebringPagesViewSet(viewsets.ModelViewSet):
     queryset = Page.objects.all()
-    serializer_class = WebringSerializer
     permission_classes = [ListOrAuthenticated]
 
     def create(self, request):
@@ -36,7 +35,7 @@ class WebringPagesViewSet(viewsets.ModelViewSet):
         except Webring.DoesNotExist:
             return Response({'error': 'Webring not found'}, status=404)
 
-        query = Page.objects.filter(
+        pages = Page.objects.filter(
             # Include primary pages from all accounts marked as approved
             Q(
                 webrings=webring,
@@ -53,17 +52,18 @@ class WebringPagesViewSet(viewsets.ModelViewSet):
             )
         ).distinct()
 
-        serializer = self.get_serializer(query, many=True)
+        pages_serializer = PageSerializer(pages, many=True)
         webring_serializer = WebringSerializer(webring)
-        data = {'webring': webring_serializer.data, 
-                'pages': serializer.data}
+        data = {
+            'webring': webring_serializer.data, 
+            'pages': pages_serializer.data
+        }
 
         return Response(data)
 
 
 
 class PageViewSet(viewsets.ViewSet):
-    serializer_class = PageSerializer
     permission_classes = [ListOrAuthenticated]
 
 
@@ -88,9 +88,9 @@ class PageViewSet(viewsets.ViewSet):
                 webringpagelink__id=page.id, webringpagelink__approved=True
             )
 
-            serializer = self.serializer_class(page)
+            page_serializer = PageSerializer(page)
             data = {
-                'page': serializer.data,
+                'page': page_serializer.data,
                 'webrings': WebringSerializer(approved_webrings, many=True).data
             }
 
@@ -98,6 +98,7 @@ class PageViewSet(viewsets.ViewSet):
         except Page.DoesNotExist:
             return Response({'error': 'Page not found'}, status=404)
         
+
 
 class AccountViewSet(viewsets.ViewSet):
     serializer_class = AccountSerializer
