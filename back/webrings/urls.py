@@ -15,8 +15,13 @@ urlpatterns = [
 
     path('webring/<int:webring_id>/', 
         WebringPagesViewSet.as_view(
+            {'get': 'retrieve'}
+    ), name='retrieve-webring'),
+
+    path('webrings/', 
+        WebringPagesViewSet.as_view(
             {'get': 'list'}
-    ), name='list-webring'),
+        ), name='list-webrings'),
 
 
     path('page/', 
@@ -26,6 +31,11 @@ urlpatterns = [
 
     path('page/<int:page_id>/', 
         PageViewSet.as_view(
+            {'get': 'retrieve'}
+        ), name='retrieve-page'),
+
+    path('pages/', 
+        PageViewSet.as_view(
             {'get': 'list'}
         ), name='list-page'),
 
@@ -34,10 +44,10 @@ urlpatterns = [
     #         {'get': 'list'}
     #     ), name='list-account'),
 
-    path('user/<int:account_id>/',
+    path('user/<str:account_id>/',
         AccountViewSet.as_view(
-            {'get': 'list'}
-        ), name='list-account'),
+            {'get': 'retrieve'}
+        ), name='retrieve-account'),
     # # Webring URLs
     # path('webrings/', WebringListCreateView.as_view(
     #      permission_classes=[IsAuthenticated],

@@ -23,10 +23,10 @@ class Command(BaseCommand):
         webring = Webring.objects.create(account=webring_owner, title="Cool Webring")
         self.stdout.write(self.style.SUCCESS(f"{webring_owner} is owner of {webring}"))
         for user in users:
-            user.account.name = fake.name()
+            user.account.name = fake.user_name()
             user.account.save()
             for i in range(5):
-                page = Page.objects.create(account=user.account, title=f"user-{i}", url="www.poop.com")
+                page = Page.objects.create(account=user.account, title=fake.catch_phrase(), url=fake.domain_name())
                 page.save()
                 link = WebringPageLink(page=page, webring=webring)
                 if random.random() < 0.5:

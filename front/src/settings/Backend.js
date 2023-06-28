@@ -1,6 +1,7 @@
 export default function BackendSettings () {
     const host = "http://localhost:8000"
-    const api = "/api/auth/"
+    const api = "/api/"
+    const auth = "auth/"
 
     return (
         {
@@ -13,7 +14,9 @@ export default function BackendSettings () {
             resendEmail: "register/resend-email/",
             resetPassword: "password/reset/",
             resetPasswordConfirm: "password/reset/confirm/",
-            getBaseUrl: () => host + api,
+            getBaseUrl: () => host + api + auth,
+            getNonAuthBaseUrl: () => host + api,
+            
             errors: {
                 emailNotVerified: "E-mail is not verified."
             }

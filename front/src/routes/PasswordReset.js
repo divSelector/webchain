@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import BackendSettings from '../settings/Backend';
 import { handleSubmit } from '../utils/formsUtils';
 import LabeledInputField from '../components/Fields/LabeledInputField';
 import { renderErrorMessage } from '../utils/formsUtils';
 import FrontendSettings from '../settings/Frontend';
 
-export default function PasswordReset(token) {
+export default function PasswordReset({ token }) {
   const { userId, resetToken } = useParams();
   const [feedbackMsg, setFeedbackMsg] = useState('');
 
@@ -17,6 +17,12 @@ export default function PasswordReset(token) {
   const [password2FieldError, setPassword2FieldError] = useState('');
 
   const front = FrontendSettings()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (token) navigate('/')
+  }, [token])
 
   const resetPassword = async () => {
     if (password1 != password2) {

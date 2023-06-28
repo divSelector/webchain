@@ -6,20 +6,21 @@ from .serializers import PageSerializer, WebringSerializer, AccountSerializer
 from django.db.models import Q
 
 
-class ListOrAuthenticated(permissions.BasePermission):
+class RetrieveListOrAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
-        if view.action == 'list':
-            return True  # Allow unauthenticated access for list
+        for action in ['retrieve', 'list']:
+            if view.action == action:
+                return True  # Allow unauthenticated access
         return request.user and request.user.is_authenticated
 
 
 class WebringPagesViewSet(viewsets.ModelViewSet):
-    queryset = Page.objects.all()
-    permission_classes = [ListOrAuthenticated]
+    queryset = Webring.objects.all()
+    permission_classes = [RetrieveListOrAuthenticated]
 
     def create(self, request):
-        user_id = request.user.id
-        account = Account.objects.get(id=user_id)
+        user = request.user
+        account = Account.objects.get(user=user)
         data = request.data
         title = data.get('title')
         description = data.get('description')
@@ -27,7 +28,7 @@ class WebringPagesViewSet(viewsets.ModelViewSet):
 
         return Response({'message': 'Webring created', 'id': new_webring.id}, status=status.HTTP_201_CREATED)
 
-    def list(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         webring_id = kwargs.get('webring_id')
 
         try:
@@ -61,15 +62,19 @@ class WebringPagesViewSet(viewsets.ModelViewSet):
 
         return Response(data)
 
+    def list(self, request):
+        queryset = Webring.objects.all()
+        serializer = WebringSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 
 class PageViewSet(viewsets.ViewSet):
-    permission_classes = [ListOrAuthenticated]
-
+    permission_classes = [RetrieveListOrAuthenticated]
 
     def create(self, request):
-        user_id = request.user.id
-        account = Account.objects.get(id=user_id)
+        user = request.user
+        account = Account.objects.get(user=user)
         
         data = request.data
         title = data.get('title')
@@ -79,8 +84,7 @@ class PageViewSet(viewsets.ViewSet):
 
         return Response({'message': 'Page created', 'id': new_page.id}, status=status.HTTP_201_CREATED)
 
-
-    def list(self,  request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         page_id = kwargs.get('page_id')
         try:
             page = Page.objects.get(id=page_id)
@@ -98,18 +102,23 @@ class PageViewSet(viewsets.ViewSet):
         except Page.DoesNotExist:
             return Response({'error': 'Page not found'}, status=404)
         
+    def list(self, request):
+        queryset = Page.objects.all()
+        serializer = PageSerializer(queryset, many=True)
+        return Response(serializer.data)
 
+        
 
 class AccountViewSet(viewsets.ViewSet):
     serializer_class = AccountSerializer
     permission_classes = []
 
-    def list(self,  request, *args, **kwargs):
+    def retrieve(self,  request, *args, **kwargs):
         account_id = kwargs.get('account_id')
         try:
-            account = Account.objects.get(id=account_id)
-            owned_webrings = Webring.objects.filter(account=account_id)
-            owned_pages = Page.objects.filter(account=account_id)
+            account = Account.objects.get(name=account_id)
+            owned_webrings = Webring.objects.filter(account=account)
+            owned_pages = Page.objects.filter(account=account)
 
             serializer = self.serializer_class(account)
             data = {
@@ -121,3 +130,4 @@ class AccountViewSet(viewsets.ViewSet):
 
         except Account.DoesNotExist:
             return Response({'error': 'Account not found'}, status=404)
+        

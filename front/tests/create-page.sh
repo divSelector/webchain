@@ -3,5 +3,4 @@ curl -XPOST -H "Authorization: Token $1" \
       \"title\": \"$2\",
       \"description\": \"$4\",
       \"url\": \"$3\"
-  }" 'http://localhost:8000/api/page/' | jq
-
+  }" 'http://localhost:8000/api/page/'

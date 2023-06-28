@@ -1,0 +1,51 @@
+import { useState, useEffect } from "react";
+import BackendSettings from "../settings/Backend";
+
+export default function PageListView() {
+
+    const back = BackendSettings()
+    const [pages, setPages] = useState([]);
+
+    const getPages = async () => {
+   
+        const endpoint = back.getNonAuthBaseUrl() + 'pages/'
+        try {
+          const response = await fetch(endpoint, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+    
+          if (response.ok) {
+            const data = await response.json()
+            setPages(data)
+          } else {
+
+            console.log("Failure to Get Pages")
+          }
+        } catch (error) {
+          console.log("Error Communicating with Server")
+        }
+      };
+
+
+    useEffect(() => {
+        getPages();
+    }, []);
+
+    return (
+        <>
+            <h2>Pages</h2>
+            <ul>
+            {pages.map((page) => (
+                <li key={page.id}>
+                    <p>
+                        <a href={'../page/'+page.id}>{page.title}</a> by {page.account.name}
+                    </p>
+                </li>
+            ))}
+            </ul>
+        </>
+    )
+}

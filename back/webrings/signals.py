@@ -10,7 +10,7 @@ fake = Faker()
 @receiver(post_save, sender=User)
 def create_account(sender, instance, created, **kwargs):
     if created:
-        account = Account.objects.create(user=instance, name=fake.name())
+        account = Account.objects.create(user=instance, name=fake.user_name())
 
 
 def create_pre_save_signal(model_class):

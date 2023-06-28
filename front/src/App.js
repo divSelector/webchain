@@ -5,6 +5,10 @@ import useToken from './hooks/useToken';
 import EmailConfirm from './routes/EmailConfirm';
 import PasswordReset from './routes/PasswordReset';
 import LoginRegisterView from './routes/LoginRegisterView';
+import PageListView from './routes/PageListView';
+import WebringListView from './routes/WebringListView';
+import WebringDetailView from './routes/WebringDetailView';
+import PageDetailView from './routes/PageDetailView';
 
 export default function App() {
 
@@ -14,7 +18,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="app-wrapper">
-        <h1>Webrings</h1>
+        <h1>MOTHERFUCKINGRINGS</h1>
         <Routes>
           <Route path="/" element={
             <Dashboard token={token} setToken={setToken} />
@@ -42,6 +46,26 @@ export default function App() {
           <Route path={front.resetPassword} element={
             <PasswordReset token={token} setToken={setToken} />
           } />
+
+          <Route path="/pages" element={
+            <PageListView />
+          } />
+          <Route path="/webrings" element={
+            <WebringListView />
+          } />
+
+          <Route path="/webring/:webringId" element={
+            <WebringDetailView />
+          } />
+          <Route path="/page/:pageId" element={
+            <PageDetailView />
+          } />
+
+
+
+
+
+
         </Routes>
       </div>
     </BrowserRouter>
