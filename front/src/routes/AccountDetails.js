@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import BackendSettings from '../settings/Backend';
-import FrontendSettings from '../settings/Frontend';
+import UsernameUpdateForm from '../components/Forms/UsernameUpdateForm';
 
 export default function AccountDetails({ token }) {
   const back = BackendSettings();
-  const front = FrontendSettings();
 
-  const [account, setAccount] = useState(null);
-  const [user, setUser] = useState(null);
-  const [pages, setPages] = useState([]);
-  const [webrings, setWebrings] = useState([]);
+
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -28,10 +25,7 @@ export default function AccountDetails({ token }) {
         const data = await response.json();
         console.log(data)
 
-        setAccount(data.account);
-        setUser(data.account.user)
-        setPages(data.pages)
-        setWebrings(data.webrings)
+        setUsername(data.account.name)
 
       } catch (error) {
         console.error(error);
@@ -39,17 +33,18 @@ export default function AccountDetails({ token }) {
     };
 
     fetchAccountDetails();
-  }, []);
+  }, [username]);
 
-  if (!account) {
+  if (!username) {
     return <>Loading...</>;
   }
 
   return <>
-    Account Name: {account.name}
-    {console.log(user)}
-    {console.log(account)}
-    {console.log(pages)}
-    {console.log(webrings)}
+    <UsernameUpdateForm 
+      token={token} 
+      oldName={username}
+      onUsernameUpdate={(updatedName) => setUsername(updatedName)}
+    />
+
     </>; 
 }
