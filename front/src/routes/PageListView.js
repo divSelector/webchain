@@ -21,7 +21,6 @@ export default function PageListView() {
             const data = await response.json()
             setPages(data)
           } else {
-
             console.log("Failure to Get Pages")
           }
         } catch (error) {

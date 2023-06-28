@@ -1,8 +1,9 @@
 import { React } from "react";
 import LogoutButton from "../components/Buttons/LogoutButton";
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
 import FrontendSettings from "../settings/Frontend";
+import AccountDetails from "../routes/AccountDetails";
+
 
 export default function AuthenticatedView({ token, setToken }) {
 
@@ -12,6 +13,10 @@ export default function AuthenticatedView({ token, setToken }) {
         <>
         <h3>Hello, you are logged in.</h3>
         <LogoutButton token={token} setToken={setToken} />
+
+
+        <AccountDetails token={token} />
+
         </> 
     )
 }

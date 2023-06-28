@@ -36,7 +36,6 @@ export default function App() {
             <LoginRegisterView token={token} setToken={setToken} />
           } />
 
-
           <Route path={front.verifyEmail} element={
             <EmailConfirm token={token} setToken={setToken} />
           } />
@@ -60,11 +59,6 @@ export default function App() {
           <Route path="/page/:pageId" element={
             <PageDetailView />
           } />
-
-
-
-
-
 
         </Routes>
       </div>

@@ -1,12 +1,22 @@
 from rest_framework import serializers
 from .models import Webring, Page, Account, WebringPageLink
 
+from users.serializers import UserSerializer
+
 class AccountSerializer(serializers.ModelSerializer):
+
+    user = None
+
+    def get_fields(self):
+        fields = super().get_fields()
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            fields['user'] = UserSerializer()
+        return fields
 
     class Meta:
         model = Account
         fields = ['name']
-
 
 
 class PageSerializer(serializers.ModelSerializer):

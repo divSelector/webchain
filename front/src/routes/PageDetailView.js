@@ -34,7 +34,7 @@ export default function PageDetailView() {
         } catch (error) {
           console.log("Error Communicating with Server")
         }
-      };
+    };
 
 
     useEffect(() => {

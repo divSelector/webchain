@@ -4,7 +4,6 @@ from .views import (
     PageViewSet,
     AccountViewSet
 )
-from rest_framework.permissions import IsAuthenticated
 
 
 urlpatterns = [
@@ -44,10 +43,22 @@ urlpatterns = [
     #         {'get': 'list'}
     #     ), name='list-account'),
 
-    path('user/<str:account_id>/',
+
+    path('user/',
         AccountViewSet.as_view(
             {'get': 'retrieve'}
-        ), name='retrieve-account'),
+        ), name='retrieve-account-by-token'),
+
+    path('user/<str:account_name>/',
+        AccountViewSet.as_view(
+            {'get': 'retrieve',
+             'patch': 'partial_update'}
+        ), name='retrieve-update-account'),
+
+    # path('user/<str:account_id>/update/',
+    #     AccountViewSet.as_view(
+    #         {'put': 'update'}
+    #     ), name='update-account'),
     # # Webring URLs
     # path('webrings/', WebringListCreateView.as_view(
     #      permission_classes=[IsAuthenticated],
