@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BackendSettings from '../settings/Backend';
 import LoginRegisterView from './LoginRegisterView';
-import { Link } from 'react-router-dom';
 import FrontendSettings from '../settings/Frontend';
 
 export default function EmailConfirm({ token, setToken }) {
@@ -47,9 +46,9 @@ export default function EmailConfirm({ token, setToken }) {
 
   return (
     <>
-      <h2>Check your email!</h2>
+      {!isVerified && <h2>Check your email!</h2>}
       {isVerified && <>
-        <h3 id="verify-success-message">Account verified. You may now <Link to={front.login}>Login</Link>.</h3>
+        <h3 id="verify-success-message">Account verified. You may now login.</h3>
         <LoginRegisterView token={token} setToken={setToken} /> 
       </>}
      
