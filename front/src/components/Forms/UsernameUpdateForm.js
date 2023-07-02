@@ -41,8 +41,7 @@ export default function UsernameUpdateForm({ token, oldName, onUsernameUpdate })
     };
 
     return(
-        <>
-          <h2>Username</h2>
+        <div className="form-wrapper">
           <form onSubmit={handleSubmit}>
     
             <LabeledInputField 
@@ -55,7 +54,7 @@ export default function UsernameUpdateForm({ token, oldName, onUsernameUpdate })
     
             <button type="submit">UPDATE</button>
           </form>
-        </>
+        </div>
       )
 
 }

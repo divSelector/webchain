@@ -13,7 +13,10 @@ export default function FrontendSettings () {
             resetPassword: "/password-reset/confirm/:userId/:resetToken",
             getBaseUrl: () => host,
             storageKeyName: "MOTHERFUCKINGSESSIONKEY",
-            emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            pages: "/pages",
+            webrings: "/webrings",
+            account: "/account"
         }
     )
 }

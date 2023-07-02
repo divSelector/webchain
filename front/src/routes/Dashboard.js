@@ -16,12 +16,13 @@ export default function Dashboard({ token, setToken }) {
       }, [token]);
     
     return (
-        <>
-        <h2>Dashboard</h2>
-        {token && 
-            <AuthenticatedView token={token} setToken={setToken} /> 
-        }
-        </>
+        <div className="view-wrapper">
+            <div>
+                {token && 
+                    <AuthenticatedView token={token} setToken={setToken} /> 
+                }
+            </div>
+        </div>
     )
 }
 

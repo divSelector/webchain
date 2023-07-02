@@ -42,11 +42,13 @@ export default function PageDetailView() {
     }, [pageId]);
 
     return (
-        <>
+        <div className="view-wrapper">
+          <div className="page-details">
             <h2>{page.title}</h2>
             <h4>by {account.name}</h4>
             <p>{page.description}</p>
-            <ul>
+          </div>
+          <ul>
             {webrings.map((webring) => (
                 <li key={webring.id}>
                     <p>
@@ -54,7 +56,7 @@ export default function PageDetailView() {
                     </p>
                 </li>
             ))}
-            </ul>
-        </>
+          </ul>
+        </div>
     )
 }

@@ -68,7 +68,7 @@ export default function PasswordReset({ token }) {
 
   return (
     <> 
-      <div id="reset-form" className="login-register-wrapper">
+      <div id="reset-form" className="form-wrapper">
         <h2>Password Reset</h2>
         <form onSubmit={(e) => handleSubmit(e, resetPassword, {
           password1, password2

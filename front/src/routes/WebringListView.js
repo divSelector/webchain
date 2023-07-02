@@ -36,8 +36,8 @@ export default function WebringListView() {
     }, []);
 
     return (
-        <>
-            <h2>Webrings</h2>
+        <div className="view-wrapper">
+            <h2>Rings</h2>
             <ul>
             {webrings.map((webring) => (
                 <li key={webring.id}>
@@ -47,6 +47,6 @@ export default function WebringListView() {
                 </li>
             ))}
             </ul>
-        </>
+        </div>
     )
 }

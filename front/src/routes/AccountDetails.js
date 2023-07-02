@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import BackendSettings from '../settings/Backend';
 import UsernameUpdateForm from '../components/Forms/UsernameUpdateForm';
+import { Link } from 'react-router-dom';
+import PageListView from './PageListView';
 
 export default function AccountDetails({ token }) {
   const back = BackendSettings();
 
 
   const [username, setUsername] = useState(null);
+  const [pages, setPages] = useState([]);
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -26,6 +29,8 @@ export default function AccountDetails({ token }) {
         console.log(data)
 
         setUsername(data.account.name)
+        setPages(data.pages)
+        console.log(pages)
 
       } catch (error) {
         console.error(error);
@@ -36,15 +41,20 @@ export default function AccountDetails({ token }) {
   }, [username]);
 
   if (!username) {
-    return <>Loading...</>;
+    return <></>;
   }
 
-  return <>
-    <UsernameUpdateForm 
-      token={token} 
-      oldName={username}
-      onUsernameUpdate={(updatedName) => setUsername(updatedName)}
-    />
+  return <div className="view-wrapper">
+      <div>
+        <h2>Account Details</h2>
+        <UsernameUpdateForm 
+          token={token} 
+          oldName={username}
+          onUsernameUpdate={(updatedName) => setUsername(updatedName)}
+        />
 
-    </>; 
+        <PageListView pagesPassed={pages} />
+        
+      </div>
+    </div>; 
 }

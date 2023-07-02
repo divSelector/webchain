@@ -9,6 +9,9 @@ import PageListView from './routes/PageListView';
 import WebringListView from './routes/WebringListView';
 import WebringDetailView from './routes/WebringDetailView';
 import PageDetailView from './routes/PageDetailView';
+import Header from './components/Layout/Header';
+import AccountDetails from './routes/AccountDetails';
+import PageCreateView from './routes/PageCreateView';
 
 export default function App() {
 
@@ -18,7 +21,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="app-wrapper">
-        <h1>MOTHERFUCKINGRINGS</h1>
+        <Header token={token} setToken={setToken} />
         <Routes>
           <Route path="/" element={
             <Dashboard token={token} setToken={setToken} />
@@ -30,6 +33,10 @@ export default function App() {
 
           <Route path={front.register} element={
             <LoginRegisterView token={token} setToken={setToken} />
+          } />
+
+          <Route path={front.account} element={
+            <AccountDetails token={token} setToken={setToken} />
           } />
 
           <Route path={front.loginHelp} element={
@@ -46,10 +53,10 @@ export default function App() {
             <PasswordReset token={token} setToken={setToken} />
           } />
 
-          <Route path="/pages" element={
+          <Route path={front.pages} element={
             <PageListView />
           } />
-          <Route path="/webrings" element={
+          <Route path={front.webrings} element={
             <WebringListView />
           } />
 
@@ -59,6 +66,11 @@ export default function App() {
           <Route path="/page/:pageId" element={
             <PageDetailView />
           } />
+
+          <Route path="/page/add" element={
+            <PageCreateView token={token} />
+          } />
+
 
         </Routes>
       </div>

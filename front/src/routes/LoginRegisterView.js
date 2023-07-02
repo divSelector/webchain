@@ -48,7 +48,7 @@ export default function LoginRegisterView({ token, setToken }) {
     }
 
     return (
-        <div className="auth-form-group">
+        <div className="view-wrapper">
             {renderLeft()}
             {renderRight()}
         </div>

@@ -42,19 +42,21 @@ export default function WebringDetailView() {
     }, [webringId]);
 
     return (
-        <>
+        <div className="view-wrapper">
+          <div className="webring-details">
             <h2>{webring.title}</h2>
             <h4>by {account.name}</h4>
             <p>{webring.description}</p>
-            <ul>
-            {pages.map((page) => (
-                <li key={page.id}>
-                    <p>
-                        <a href={'../page/'+page.id}>{page.title}</a> by {page.account.name}
-                    </p>
-                </li>
-            ))}
-            </ul>
-        </>
+          </div>
+          <ul>
+          {pages.map((page) => (
+              <li key={page.id}>
+                  <p>
+                      <a href={'../page/'+page.id}>{page.title}</a> by {page.account.name}
+                  </p>
+              </li>
+          ))}
+          </ul>
+        </div>
     )
 }

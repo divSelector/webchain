@@ -45,7 +45,7 @@ export default function EmailConfirm({ token, setToken }) {
   }, [verifyToken]);
 
   return (
-    <>
+    <div className="view-wrapper">
       {!isVerified && <h2>Check your email!</h2>}
       {isVerified && <>
         <h3 id="verify-success-message">Account verified. You may now login.</h3>
@@ -53,6 +53,6 @@ export default function EmailConfirm({ token, setToken }) {
       </>}
      
       {feedbackMsg && <p id="verify-error-message">{feedbackMsg}</p>}
-    </>
+    </div>
   );
 }

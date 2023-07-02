@@ -90,7 +90,7 @@ export default function LoginForm({ setToken, emailState }) {
   };
 
   return(
-    <div id="login-form" className="login-register-wrapper">
+    <div id="login-form" className="form-wrapper">
       <h2>Please Log In</h2>
       <form onSubmit={(e) => handleSubmit(e, loginUser, {
         email, password

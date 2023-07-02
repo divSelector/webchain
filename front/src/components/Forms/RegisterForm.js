@@ -61,7 +61,7 @@ export default function RegisterForm() {
   };
 
   return(
-    <div id="register-form" className="login-register-wrapper">
+    <div id="register-form" className="form-wrapper">
       <h2>Register New Account</h2>
       <form onSubmit={(e) => handleSubmit(e, registerUser, {
         email, password1, password2

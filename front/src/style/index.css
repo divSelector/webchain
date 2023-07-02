@@ -16,13 +16,13 @@ code {
   padding: 20px;
 }
 
-.auth-form-group {
+.view-wrapper {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.login-register-wrapper {
+.form-wrapper {
   width: 300px;
   margin: 10px;
   margin-bottom: 30px;
@@ -31,22 +31,22 @@ code {
   align-items: flex-start;
 }
 
-.login-register-wrapper form {
+.form-wrapper form {
   display: flex;
   flex-direction: column;
 }
 
-.login-register-wrapper h2 {
+.form-wrapper h2 {
   margin-bottom: 30px;
 }
 
-.login-register-wrapper label,
-.login-register-wrapper input {
+.form-wrapper label,
+.form-wrapper input {
   display: block;
   margin-bottom: 10px;
 }
 
-.login-register-wrapper button {
+.form-wrapper button {
   display: block;
   margin-top: 25px;
   margin-right: 10px;
@@ -80,17 +80,48 @@ a, button {
   cursor: pointer;
 }
 
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  list-style: none;
+}
+
+nav ul {
+  display: flex;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+header {
+  text-align: center;
+}
+
+header h1 {
+  margin-bottom: 0;
+  letter-spacing: 0.2em;
+}
+
+
 @media (max-width: 690px) {
-  .auth-form-group {
+  .view-wrapper {
     flex-direction: column;
     align-items: center;
   }
 
-  .login-register-wrapper h2 {
+  .form-wrapper h2 {
     margin-bottom: 10px;
   }
 
-  .login-register-wrapper button {
+  .form-wrapper button {
     margin-top: 10px;
   }
 
@@ -100,12 +131,12 @@ a, button {
 
 
 @media (min-width: 766px) {
-  .auth-form-group {
+  .view-wrapper {
     justify-content: center;
     margin: 30px auto;
   }
 
-  .login-register-wrapper {
+  .form-wrapper {
     margin: 0 calc((100vw - 766px) / 6);
     margin-bottom: 30px;
   }

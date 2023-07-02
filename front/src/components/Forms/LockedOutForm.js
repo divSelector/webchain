@@ -86,7 +86,7 @@ export default function LockedOutForm({ emailState }) {
   }
 
   return(
-    <div id="locked-out-form" className="login-register-wrapper">
+    <div id="locked-out-form" className="form-wrapper">
       <h2>Hi, I'm a Locksmith.</h2>
       <form onSubmit={(e) => handleSubmit(e, resendConfirmEmail, {email})}>
 

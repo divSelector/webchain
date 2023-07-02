@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import BackendSettings from "../settings/Backend";
 
-export default function PageListView() {
+export default function PageListView({ pagesPassed }) {
 
     const back = BackendSettings()
     const [pages, setPages] = useState([]);
@@ -30,11 +30,12 @@ export default function PageListView() {
 
 
     useEffect(() => {
-        getPages();
+      if (!pagesPassed) getPages();
+      else setPages(pagesPassed)
     }, []);
 
     return (
-        <>
+        <div className="view-wrapper">
             <h2>Pages</h2>
             <ul>
             {pages.map((page) => (
@@ -45,6 +46,6 @@ export default function PageListView() {
                 </li>
             ))}
             </ul>
-        </>
+        </div>
     )
 }
