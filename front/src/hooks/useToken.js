@@ -6,9 +6,8 @@ export default function useToken() {
   const storageKey = FrontendSettings().storageKeyName
 
   const getToken = () => {
-    const tokenString = sessionStorage.getItem(storageKey);
-    const userToken = JSON.parse(tokenString);
-    return userToken
+    const t = sessionStorage.getItem(storageKey);
+    return JSON.parse(t);
   }
 
   const [token, setToken] = useState(getToken());

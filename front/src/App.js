@@ -79,9 +79,9 @@ export default function App() {
           } />
 
 
-          <Route path="/testing" element={
+          {/* <Route path="/testing" element={
             <AuthContextTestComponent />
-          } />
+          } /> */}
 
 
         </Routes>
