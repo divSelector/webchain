@@ -1,8 +1,11 @@
 import { useState } from "react";
 import BackendSettings from "../../settings/Backend";
 import LabeledInputField from "../Fields/LabeledInputField";
+import { useAuth } from "../../context/AuthContext";
 
-export default function UsernameUpdateForm({ token, oldName, onUsernameUpdate }) {
+export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
+
+    const { token } = useAuth()
     
     const back = BackendSettings()
 

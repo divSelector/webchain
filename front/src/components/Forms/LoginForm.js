@@ -5,8 +5,11 @@ import FrontendSettings from '../../settings/Frontend';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
-export default function LoginForm({ setToken, emailState }) {
+export default function LoginForm({ emailState }) {
+
+  const { setToken } = useAuth()
 
   const front = FrontendSettings()
   const back = BackendSettings()
@@ -114,6 +117,5 @@ export default function LoginForm({ setToken, emailState }) {
 }
 
 LoginForm.propTypes = {
-  setToken: PropTypes.func.isRequired,
   emailState: PropTypes.array.isRequired
 }

@@ -1,9 +1,11 @@
 import { React, useState } from 'react';
-import PropTypes from 'prop-types';
 import BackendSettings from '../../settings/Backend';
+import { useAuth } from '../../context/AuthContext';
 
 
-export default function LogoutButton({ token, setToken }) {
+export default function LogoutButton() {
+
+  const { token, setToken } = useAuth()
 
     async function logoutUser(credentials) {
       const settings = BackendSettings()
@@ -38,9 +40,4 @@ export default function LogoutButton({ token, setToken }) {
   return(
       <a href="#" onClick={handleClick}>Log Out</a>
   )
-}
-
-LogoutButton.propTypes = {
-  token: PropTypes.string.isRequired,
-  setToken: PropTypes.func.isRequired
 }

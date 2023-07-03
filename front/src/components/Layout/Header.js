@@ -1,10 +1,10 @@
 import Navbar from "./Navbar"
 
-export default function Header({ token, setToken }) {
+export default function Header() {
     return (
         <header>
           <h1>webchain</h1>
-          <Navbar token={token} setToken={setToken} />
+          <Navbar />
         </header>
     )
 }

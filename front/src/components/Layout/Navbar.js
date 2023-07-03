@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import FrontendSettings from '../../settings/Frontend';
 import LogoutButton from '../Buttons/LogoutButton';
+import { useAuth } from '../../context/AuthContext';
 
 const front = FrontendSettings()
 
-export default function Navbar({ token, setToken }) {
+export default function Navbar() {
+    const { token, setToken } = useAuth()
     return (
         <nav>
             <ul>
@@ -17,7 +19,7 @@ export default function Navbar({ token, setToken }) {
                 </> : <>
                     <li><Link to={front.account}>Account</Link></li>
                     <li><Link to="/page/add">Add Page</Link></li>
-                    <li><LogoutButton token={token} setToken={setToken} /></li>
+                    <li><LogoutButton /></li>
                 </>}
             </ul>
         </nav>

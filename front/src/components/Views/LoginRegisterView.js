@@ -3,13 +3,13 @@ import LoginForm from "../Forms/LoginForm";
 import RegisterForm from "../Forms/RegisterForm";
 import LoginRegisterText from "../Cards/LoginRegisterText";
 import LockedOutText from "../Cards/LockedOutText";
-import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LockedOutForm from "../Forms/LockedOutForm";
 import FrontendSettings from "../../settings/Frontend";
+import { useAuth } from "../../context/AuthContext";
 
-
-export default function LoginRegisterView({ token, setToken }) {
+export default function LoginRegisterView() {
+    const { token, setToken } = useAuth()
 
     const emailState = useState();
     const location = useLocation();
@@ -54,8 +54,3 @@ export default function LoginRegisterView({ token, setToken }) {
         </div>
     )
 }
-
-LoginRegisterView.propTypes = {
-    setToken: PropTypes.func.isRequired
-}
-  

@@ -22,43 +22,42 @@ function Testing123() {
 
 export default function App() {
 
-  const { token, setToken } = useToken()
   const front = FrontendSettings()
 
   return (
     <BrowserRouter>
     <AuthProvider>
       <div className="app-wrapper">
-        <Header token={token} setToken={setToken} />
+        <Header />
         <Routes>
           <Route path="/" element={
-            <Dashboard token={token} setToken={setToken} />
+            <Dashboard />
           } />
 
           <Route path={front.login} element={
-            <LoginRegisterView token={token} setToken={setToken} />
+            <LoginRegisterView />
           } />
 
           <Route path={front.register} element={
-            <LoginRegisterView token={token} setToken={setToken} />
+            <LoginRegisterView />
           } />
 
           <Route path={front.account} element={
-            <AccountDetails token={token} setToken={setToken} />
+            <AccountDetails />
           } />
 
           <Route path={front.loginHelp} element={
-            <LoginRegisterView token={token} setToken={setToken} />
+            <LoginRegisterView />
           } />
 
           <Route path={front.verifyEmail} element={
-            <EmailConfirm token={token} setToken={setToken} />
+            <EmailConfirm />
           } />
           <Route path={front.verifyEmailToken} element={
-            <EmailConfirm token={token} setToken={setToken} />
+            <EmailConfirm />
           } />
           <Route path={front.resetPassword} element={
-            <PasswordReset token={token} setToken={setToken} />
+            <PasswordReset />
           } />
 
           <Route path={front.pages} element={
@@ -76,7 +75,7 @@ export default function App() {
           } />
 
           <Route path="/page/add" element={
-            <PageCreateView token={token} />
+            <PageCreateView />
           } />
 
 

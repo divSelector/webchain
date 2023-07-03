@@ -5,8 +5,10 @@ import { handleSubmit } from '../../utils/formsUtils';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { renderErrorMessage } from '../../utils/formsUtils';
 import FrontendSettings from '../../settings/Frontend';
+import { useAuth } from '../../context/AuthContext';
 
-export default function PasswordReset({ token }) {
+export default function PasswordReset() {
+  const { token } = useAuth()
   const { userId, resetToken } = useParams();
   const [feedbackMsg, setFeedbackMsg] = useState('');
 

@@ -3,8 +3,11 @@ import { useParams } from 'react-router-dom';
 import BackendSettings from '../../settings/Backend';
 import LoginRegisterView from './LoginRegisterView';
 import FrontendSettings from '../../settings/Frontend';
+import { useAuth } from '../../context/AuthContext';
 
-export default function EmailConfirm({ token, setToken }) {
+export default function EmailConfirm() {
+
+  const { token, setToken } = useAuth()
   const front = FrontendSettings()
 
   const { verifyToken } = useParams();

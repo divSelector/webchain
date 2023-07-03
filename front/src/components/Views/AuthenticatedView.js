@@ -1,8 +1,7 @@
 import { React } from "react";
-import PropTypes from 'prop-types';
 import FrontendSettings from "../../settings/Frontend";
 
-export default function AuthenticatedView({ token, setToken }) {
+export default function AuthenticatedView() {
 
     const front = FrontendSettings()
 
@@ -12,8 +11,3 @@ export default function AuthenticatedView({ token, setToken }) {
         </> 
     )
 }
-
-AuthenticatedView.propTypes = {
-    setToken: PropTypes.func.isRequired
-  }
-  

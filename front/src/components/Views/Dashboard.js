@@ -1,10 +1,12 @@
 import { React, useEffect } from "react";
 import AuthenticatedView from "./AuthenticatedView";
-import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import FrontendSettings from "../../settings/Frontend";
+import { useAuth } from "../../context/AuthContext";
 
-export default function Dashboard({ token, setToken }) {
+export default function Dashboard() {
+
+    const { token, setToken } = useAuth()
 
     const navigate = useNavigate()
     const front = FrontendSettings()
@@ -24,8 +26,4 @@ export default function Dashboard({ token, setToken }) {
             </div>
         </div>
     )
-}
-
-Dashboard.propTypes = {
-    setToken: PropTypes.func.isRequired
 }

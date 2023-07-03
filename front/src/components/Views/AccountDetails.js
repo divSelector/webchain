@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import BackendSettings from '../../settings/Backend';
 import UsernameUpdateForm from '../Forms/UsernameUpdateForm';
 import PageListView from './PageListView';
+import { useAuth } from '../../context/AuthContext';
 
-export default function AccountDetails({ token }) {
+export default function AccountDetails() {
+
+  const { token } = useAuth()
 
   if (!token) {
     window.location.href = "/"
