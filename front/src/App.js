@@ -1,17 +1,17 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FrontendSettings from './settings/Frontend';
-import Dashboard from './components/routes/Dashboard';
+import Dashboard from './components/Views/Dashboard';
 import useToken from './hooks/useToken';
-import EmailConfirm from './components/routes/EmailConfirm';
-import PasswordReset from './components/routes/PasswordReset';
-import LoginRegisterView from './components/routes/LoginRegisterView';
-import PageListView from './components/routes/PageListView';
-import WebringListView from './components/routes/WebringListView';
-import WebringDetailView from './components/routes/WebringDetailView';
-import PageDetailView from './components/routes/PageDetailView';
+import EmailConfirm from './components/Views/EmailConfirm';
+import PasswordReset from './components/Views/PasswordReset';
+import LoginRegisterView from './components/Views/LoginRegisterView';
+import PageListView from './components/Views/PageListView';
+import WebringListView from './components/Views/WebringListView';
+import WebringDetailView from './components/Views/WebringDetailView';
+import PageDetailView from './components/Views/PageDetailView';
 import Header from './components/Layout/Header';
-import AccountDetails from './components/routes/AccountDetails';
-import PageCreateView from './components/routes/PageCreateView';
+import AccountDetails from './components/Views/AccountDetails';
+import PageCreateView from './components/Views/PageCreateView';
 
 
 function Testing123() {

@@ -1,5 +1,5 @@
 import { React, useEffect } from "react";
-import AuthenticatedView from "../../views/AuthenticatedView";
+import AuthenticatedView from "./AuthenticatedView";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import FrontendSettings from "../../settings/Frontend";
