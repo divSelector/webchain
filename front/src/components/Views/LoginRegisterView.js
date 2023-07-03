@@ -26,7 +26,9 @@ export default function LoginRegisterView() {
     }, [location]);
 
     useEffect(() => {
-        if (token && !location.pathname.startsWith(front.verifyEmail)) navigate('/')
+        if (token && !location.pathname.startsWith(front.verifyEmail)) {
+            navigate(location.state?.path || '/')
+        };
     }, [token])
 
     function renderLeft() {

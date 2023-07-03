@@ -12,7 +12,7 @@ import PageDetailView from './components/Views/PageDetailView';
 import Header from './components/Layout/Header';
 import AccountDetails from './components/Views/AccountDetails';
 import PageCreateView from './components/Views/PageCreateView';
-import { AuthProvider, AuthContextTestComponent } from './context/AuthContext';
+import { AuthProvider, RequireAuth } from './context/AuthContext';
 
 function Testing123() {
   return (
@@ -75,7 +75,7 @@ export default function App() {
           } />
 
           <Route path="/page/add" element={
-            <PageCreateView />
+            <RequireAuth><PageCreateView /></RequireAuth>
           } />
 
 
