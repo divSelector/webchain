@@ -5,13 +5,18 @@ import { Link } from 'react-router-dom';
 import PageListView from './PageListView';
 
 export default function AccountDetails({ token }) {
-  const back = BackendSettings();
 
+  if (!token) {
+    window.location.href = "/"
+  }
+
+  const back = BackendSettings();
 
   const [username, setUsername] = useState(null);
   const [pages, setPages] = useState([]);
 
   useEffect(() => {
+
     const fetchAccountDetails = async () => {
       try {
         const endpoint = back.getNonAuthBaseUrl() + 'user/';

@@ -5,12 +5,9 @@ import BackendSettings from '../../settings/Backend';
 
 export default function LogoutButton({ token, setToken }) {
 
-    console.log(token)
-
     async function logoutUser(credentials) {
       const settings = BackendSettings()
       const endpoint = settings.getBaseUrl() + settings.logout
-      console.log(endpoint)
       return fetch(endpoint, {
           method: 'POST',
           headers: {
@@ -21,11 +18,8 @@ export default function LogoutButton({ token, setToken }) {
       .then(response => response.json())
       .then(data => {
         if (data.detail.includes("Success")) {
-            console.log(data.detail);
             setToken(null)
             sessionStorage.clear()
-          } else {
-            console.log(data.detail);
           }
           
       })

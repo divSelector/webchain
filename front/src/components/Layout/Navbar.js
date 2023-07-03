@@ -5,7 +5,6 @@ import LogoutButton from '../Buttons/LogoutButton';
 const front = FrontendSettings()
 
 export default function Navbar({ token, setToken }) {
-    console.log(token)
     return (
         <nav>
             <ul>

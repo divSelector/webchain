@@ -13,6 +13,13 @@ import Header from './components/Layout/Header';
 import AccountDetails from './routes/AccountDetails';
 import PageCreateView from './routes/PageCreateView';
 
+
+function Testing123() {
+  return (
+  <></>
+  )
+}
+
 export default function App() {
 
   const { token, setToken } = useToken()
@@ -72,7 +79,13 @@ export default function App() {
           } />
 
 
+          <Route path="/testing" element={
+            <Testing123 />
+          } />
+
+
         </Routes>
+        {/* <MatrixRain /> */}
       </div>
     </BrowserRouter>
       

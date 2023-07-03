@@ -7,8 +7,6 @@ export default function PageCreateView({ token }) {
 
     const back = BackendSettings()
 
-    console.log(token)
-
     const [title, setTitle] = useState();
     const [url, setUrl] = useState();
     const [description, setDescription] = useState();
@@ -52,26 +50,25 @@ export default function PageCreateView({ token }) {
                 <h2>Add a Page</h2>
             </div>
             <div className="form-wrapper">
-            <form onSubmit={(e) => handleSubmit(e, createPage, {
-                title, url, description
-            })}>
+                <form onSubmit={(e) => handleSubmit(e, createPage, {
+                    title, url, description
+                })}>
 
-            <LabeledInputField type="text" id="new-page-title" name="Title" 
-                onChange={e => setTitle(e.target.value)} 
-            />
-            <LabeledInputField type="text" id="new-page-title" name="URL" 
-                onChange={e => setUrl(e.target.value)} 
-            />
-            <LabeledInputField type="text" id="new-page-title" name="Description" 
-                onChange={e => setDescription(e.target.value)} 
-            />
+                    <LabeledInputField type="text" id="new-page-title" name="Title" 
+                        onChange={e => setTitle(e.target.value)} 
+                    />
+                    <LabeledInputField type="text" id="new-page-title" name="URL" 
+                        onChange={e => setUrl(e.target.value)} 
+                    />
+                    <LabeledInputField type="text" id="new-page-title" name="Description" 
+                        onChange={e => setDescription(e.target.value)} 
+                    />
 
+                    <button type="submit">CREATE PAGE</button>
+                    {/* {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>} */}
 
-        <button type="submit">CREATE PAGE</button>
-        {/* {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>} */}
-
-        </form>
-        </div>
+                </form>
+            </div>
         </div>
     )
 }
