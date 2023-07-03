@@ -1,12 +1,12 @@
 import { React, useState, useEffect } from "react";
-import LoginForm from "../components/Forms/LoginForm";
-import RegisterForm from "../components/Forms/RegisterForm";
-import LoginRegisterText from "../components/Cards/LoginRegisterText";
-import LockedOutText from "../components/Cards/LockedOutText";
+import LoginForm from "../Forms/LoginForm";
+import RegisterForm from "../Forms/RegisterForm";
+import LoginRegisterText from "../Cards/LoginRegisterText";
+import LockedOutText from "../Cards/LockedOutText";
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import LockedOutForm from "../components/Forms/LockedOutForm";
-import FrontendSettings from "../settings/Frontend";
+import LockedOutForm from "../Forms/LockedOutForm";
+import FrontendSettings from "../../settings/Frontend";
 
 
 export default function LoginRegisterView({ token, setToken }) {

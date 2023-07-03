@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import BackendSettings from '../settings/Backend';
-import { handleSubmit } from '../utils/formsUtils';
-import LabeledInputField from '../components/Fields/LabeledInputField';
-import { renderErrorMessage } from '../utils/formsUtils';
-import FrontendSettings from '../settings/Frontend';
+import BackendSettings from '../../settings/Backend';
+import { handleSubmit } from '../../utils/formsUtils';
+import LabeledInputField from '../Fields/LabeledInputField';
+import { renderErrorMessage } from '../../utils/formsUtils';
+import FrontendSettings from '../../settings/Frontend';
 
 export default function PasswordReset({ token }) {
   const { userId, resetToken } = useParams();

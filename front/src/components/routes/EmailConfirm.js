@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import BackendSettings from '../settings/Backend';
+import BackendSettings from '../../settings/Backend';
 import LoginRegisterView from './LoginRegisterView';
-import FrontendSettings from '../settings/Frontend';
+import FrontendSettings from '../../settings/Frontend';
 
 export default function EmailConfirm({ token, setToken }) {
   const front = FrontendSettings()

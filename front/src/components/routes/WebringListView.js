@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import BackendSettings from "../settings/Backend";
+import BackendSettings from "../../settings/Backend";
 import { Link } from "react-router-dom";
 
 export default function WebringListView() {

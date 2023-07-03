@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import BackendSettings from "../settings/Backend";
+import BackendSettings from "../../settings/Backend";
 import { useParams } from "react-router-dom";
 
 

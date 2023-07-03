@@ -1,7 +1,7 @@
-import BackendSettings from "../settings/Backend";
-import { handleSubmit } from "../utils/formsUtils";
+import BackendSettings from "../../settings/Backend";
+import { handleSubmit } from "../../utils/formsUtils";
 import { useState } from "react";
-import LabeledInputField from "../components/Fields/LabeledInputField";
+import LabeledInputField from "../Fields/LabeledInputField";
 
 export default function PageCreateView({ token }) {
 

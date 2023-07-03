@@ -1,17 +1,17 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FrontendSettings from './settings/Frontend';
-import Dashboard from './routes/Dashboard';
+import Dashboard from './components/routes/Dashboard';
 import useToken from './hooks/useToken';
-import EmailConfirm from './routes/EmailConfirm';
-import PasswordReset from './routes/PasswordReset';
-import LoginRegisterView from './routes/LoginRegisterView';
-import PageListView from './routes/PageListView';
-import WebringListView from './routes/WebringListView';
-import WebringDetailView from './routes/WebringDetailView';
-import PageDetailView from './routes/PageDetailView';
+import EmailConfirm from './components/routes/EmailConfirm';
+import PasswordReset from './components/routes/PasswordReset';
+import LoginRegisterView from './components/routes/LoginRegisterView';
+import PageListView from './components/routes/PageListView';
+import WebringListView from './components/routes/WebringListView';
+import WebringDetailView from './components/routes/WebringDetailView';
+import PageDetailView from './components/routes/PageDetailView';
 import Header from './components/Layout/Header';
-import AccountDetails from './routes/AccountDetails';
-import PageCreateView from './routes/PageCreateView';
+import AccountDetails from './components/routes/AccountDetails';
+import PageCreateView from './components/routes/PageCreateView';
 
 
 function Testing123() {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import BackendSettings from '../settings/Backend';
-import UsernameUpdateForm from '../components/Forms/UsernameUpdateForm';
+import BackendSettings from '../../settings/Backend';
+import UsernameUpdateForm from '../Forms/UsernameUpdateForm';
 import { Link } from 'react-router-dom';
 import PageListView from './PageListView';
 
