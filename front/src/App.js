@@ -12,7 +12,7 @@ import PageDetailView from './components/Views/PageDetailView';
 import Header from './components/Layout/Header';
 import AccountDetails from './components/Views/AccountDetails';
 import PageCreateView from './components/Views/PageCreateView';
-
+import { AuthProvider, AuthContextTestComponent } from './context/AuthContext';
 
 function Testing123() {
   return (
@@ -27,6 +27,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+    <AuthProvider>
       <div className="app-wrapper">
         <Header token={token} setToken={setToken} />
         <Routes>
@@ -80,13 +81,14 @@ export default function App() {
 
 
           <Route path="/testing" element={
-            <Testing123 />
+            <AuthContextTestComponent />
           } />
 
 
         </Routes>
         {/* <MatrixRain /> */}
       </div>
+      </AuthProvider>
     </BrowserRouter>
       
  
