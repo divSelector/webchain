@@ -3,8 +3,6 @@ import front from '../settings/Frontend';
 import { Navigate, useLocation } from "react-router-dom";
 
 
-
-
 const AuthContext = React.createContext();
 export const useAuth = () => useContext(AuthContext);
 

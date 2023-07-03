@@ -3,6 +3,7 @@ import back from '../../settings/Backend';
 import UsernameUpdateForm from '../Forms/UsernameUpdateForm';
 import PageListView from './PageListView';
 import { useAuth } from '../../context/AuthContext';
+import WebringListView from './WebringListView';
 
 export default function AccountDetails() {
 
@@ -14,6 +15,7 @@ export default function AccountDetails() {
 
   const [username, setUsername] = useState(null);
   const [pages, setPages] = useState([]);
+  const [webrings, setWebrings] = useState([]);
 
   useEffect(() => {
 
@@ -35,7 +37,7 @@ export default function AccountDetails() {
 
         setUsername(data.account.name)
         setPages(data.pages)
-        console.log(pages)
+        setWebrings(data.webrings)
 
       } catch (error) {
         console.error(error);
@@ -57,7 +59,8 @@ export default function AccountDetails() {
           oldName={username}
           onUsernameUpdate={(updatedName) => setUsername(updatedName)}
         />
-
+        
+        <WebringListView ringsPassed={webrings} />
         <PageListView pagesPassed={pages} />
         
       </div>

@@ -34,7 +34,7 @@ export default function PageListView({ pagesPassed }) {
     }, []);
 
     return (
-        <div className="view-wrapper">
+        <div className="view-wrapper" style={{flexDirection: 'column'}}>
             <h2>Pages</h2>
             <ul>
             {pages.map((page) => (

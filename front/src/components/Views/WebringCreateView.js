@@ -4,16 +4,15 @@ import { useState } from "react";
 import LabeledInputField from "../Fields/LabeledInputField";
 import { useAuth } from "../../context/AuthContext";
 
-export default function PageCreateView() {
+export default function WebringCreateView() {
     const { token } = useAuth()
 
     const [title, setTitle] = useState();
-    const [url, setUrl] = useState();
     const [description, setDescription] = useState();
 
-    const createPage = async (input) => {
+    const createWebring = async (input) => {
    
-        const endpoint = back.getNonAuthBaseUrl(input) + 'page/'
+        const endpoint = back.getNonAuthBaseUrl(input) + 'webring/'
         try {
           const response = await fetch(endpoint, {
             method: 'POST',
@@ -23,7 +22,6 @@ export default function PageCreateView() {
             },
             body: JSON.stringify({ 
                 title: input.title,
-                url: input.url,
                 description: input.description
             })
           });
@@ -31,13 +29,13 @@ export default function PageCreateView() {
           if (response.ok) {
             const data = await response.json()
             if (data.hasOwnProperty('id')) {
-                const newPageId = data.id
-                window.location.href = `/page/${newPageId}`
+                const newRingId = data.id
+                window.location.href = `/webring/${newRingId}`
             }
 
           } else {
 
-            console.log("Failure to Create Page")
+            console.log("Failure to Create Webring")
           }
         } catch (error) {
           console.log("Error Communicating with Server")
@@ -47,24 +45,21 @@ export default function PageCreateView() {
     return (
         <div className="view-wrapper">
             <div>
-                <h2>Add a Page</h2>
+                <h2>Add a Webring</h2>
             </div>
             <div className="form-wrapper">
-                <form onSubmit={(e) => handleSubmit(e, createPage, {
-                    title, url, description
+                <form onSubmit={(e) => handleSubmit(e, createWebring, {
+                    title, description
                 })}>
 
                     <LabeledInputField type="text" id="new-page-title" name="Title" 
                         onChange={e => setTitle(e.target.value)} 
                     />
-                    <LabeledInputField type="text" id="new-page-title" name="URL" 
-                        onChange={e => setUrl(e.target.value)} 
-                    />
                     <LabeledInputField type="text" id="new-page-title" name="Description" 
                         onChange={e => setDescription(e.target.value)} textarea={true} 
                     />
 
-                    <button type="submit">CREATE PAGE</button>
+                    <button type="submit">CREATE WEBRING</button>
                     {/* {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>} */}
 
                 </form>

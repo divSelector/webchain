@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 import { Link } from "react-router-dom";
 
-export default function WebringListView() {
+export default function WebringListView({ ringsPassed }) {
 
     const [webrings, setWebrings] = useState([]);
 
@@ -31,11 +31,12 @@ export default function WebringListView() {
 
 
     useEffect(() => {
-        getWebrings();
+      if (!ringsPassed) getWebrings();
+      else setWebrings(ringsPassed)
     }, []);
 
     return (
-        <div className="view-wrapper">
+        <div className="view-wrapper"  style={{flexDirection: 'column'}}>
             <h2>Rings</h2>
             <ul>
             {webrings.map((webring) => (

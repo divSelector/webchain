@@ -19,6 +19,7 @@ export default function Navbar() {
                 </> : <>
                     <li><Link to={front.account}>Account</Link></li>
                     <li><Link to="/page/add">Add Page</Link></li>
+                    <li><Link to="/webring/add">Add Ring</Link></li>
                     <li><LogoutButton /></li>
                 </>}
             </ul>

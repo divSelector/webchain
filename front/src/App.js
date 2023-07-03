@@ -13,6 +13,7 @@ import AccountDetails from './components/Views/AccountDetails';
 import PageCreateView from './components/Views/PageCreateView';
 import { AuthProvider, ProtectedRoute } from './context/AuthContext';
 import MatrixRain from './components/Canvas/MatrixRain';
+import WebringCreateView from './components/Views/WebringCreateView';
 
 
 export default function App() {
@@ -91,6 +92,13 @@ export default function App() {
               <PageCreateView />
             </ProtectedRoute>
           } />
+
+          <Route path="/webring/add" element={
+            <ProtectedRoute requireAuth={true}>
+              <WebringCreateView />
+            </ProtectedRoute>
+          } />
+
 
 
           {/* <Route path="/testing" element={
