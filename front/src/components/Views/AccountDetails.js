@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import BackendSettings from '../../settings/Backend';
+import back from '../../settings/Backend';
 import UsernameUpdateForm from '../Forms/UsernameUpdateForm';
 import PageListView from './PageListView';
 import { useAuth } from '../../context/AuthContext';
@@ -11,8 +11,6 @@ export default function AccountDetails() {
   if (!token) {
     window.location.href = "/"
   }
-
-  const back = BackendSettings();
 
   const [username, setUsername] = useState(null);
   const [pages, setPages] = useState([]);

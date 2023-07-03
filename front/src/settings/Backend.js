@@ -1,4 +1,4 @@
-export default function BackendSettings () {
+function BackendSettings () {
     const host = "http://localhost:8000"
     const api = "/api/"
     const auth = "auth/"
@@ -23,3 +23,7 @@ export default function BackendSettings () {
         }
     )
 }
+
+const back = BackendSettings()
+
+export default back

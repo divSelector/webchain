@@ -5,7 +5,7 @@ import LoginRegisterText from "../Cards/LoginRegisterText";
 import LockedOutText from "../Cards/LockedOutText";
 import { useLocation, useNavigate } from 'react-router-dom';
 import LockedOutForm from "../Forms/LockedOutForm";
-import FrontendSettings from "../../settings/Frontend";
+import front from "../../settings/Frontend";
 import { useAuth } from "../../context/AuthContext";
 
 export default function LoginRegisterView() {
@@ -16,8 +16,7 @@ export default function LoginRegisterView() {
     const currentView = location.pathname
     const navigate = useNavigate();
 
-    const front = FrontendSettings()
-  
+
     useEffect(() => {
       if (location.pathname !== '/' && location.pathname.endsWith('/')) {
         const newPathname = location.pathname.slice(0, -1);

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import FrontendSettings from '../../settings/Frontend';
+import front from '../../settings/Frontend';
 import LogoutButton from '../Buttons/LogoutButton';
 import { useAuth } from '../../context/AuthContext';
 
-const front = FrontendSettings()
+
 
 export default function Navbar() {
     const { token, setToken } = useAuth()

@@ -1,9 +1,9 @@
 import { React } from "react";
-import FrontendSettings from "../../settings/Frontend";
+import front from "../../settings/Frontend";
 
 export default function AuthenticatedView() {
 
-    const front = FrontendSettings()
+    
 
     return (
         <>

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import BackendSettings from '../../settings/Backend';
+import back from '../../settings/Backend';
 import LoginRegisterView from './LoginRegisterView';
-import FrontendSettings from '../../settings/Frontend';
+import front from '../../settings/Frontend';
 import { useAuth } from '../../context/AuthContext';
 
 export default function EmailConfirm() {
 
   const { token, setToken } = useAuth()
-  const front = FrontendSettings()
+  
 
   const { verifyToken } = useParams();
   const [feedbackMsg, setFeedbackMsg] = useState('');
@@ -21,8 +21,7 @@ export default function EmailConfirm() {
       return;
     }
     const verifyAccount = async () => {
-      const settings = BackendSettings()
-      const endpoint = settings.getBaseUrl() + settings.verifyEmail
+      const endpoint = back.getBaseUrl() + back.verifyEmail
       try {
         const response = await fetch(endpoint, {
           method: 'POST',
@@ -48,7 +47,7 @@ export default function EmailConfirm() {
   }, [verifyToken]);
 
   return (
-    <div className="view-wrapper">
+    <div className="view-wrapper" style={{flexDirection: 'column'}}>
       {!isVerified && <h2>Check your email!</h2>}
       {isVerified && <>
         <h3 id="verify-success-message">Account verified. You may now login.</h3>

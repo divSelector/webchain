@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import FrontendSettings from '../settings/Frontend';
+import front from '../settings/Frontend';
 import { Navigate, useLocation } from "react-router-dom";
 
-const front = FrontendSettings()
+
 
 
 const AuthContext = React.createContext();
@@ -31,19 +31,27 @@ export function AuthProvider({ children }) {
   );
 }
 
-
-export function RequireAuth({ children }) {
-
+export function ProtectedRoute({ children, requireAuth }) {
     const { token } = useAuth();
-    const location = useLocation()
-
-    return token ? ( 
-        children 
-    ) : (
-        <Navigate 
-            to={front.login}
-            replace
-            state={{ path: location.pathname }}
+    const location = useLocation();
+  
+    if (requireAuth && !token) {
+      return (
+        <Navigate
+          to={front.login}
+          replace
+          state={{ path: location.pathname }}
         />
-    )
-}
+      );
+    } else if (!requireAuth && token) {
+      return (
+        <Navigate
+          to="/"
+          replace
+        />
+      );
+    }
+  
+    return children;
+  }
+  

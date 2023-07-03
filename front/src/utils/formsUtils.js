@@ -1,6 +1,6 @@
-import FrontendSettings from "../settings/Frontend"
+import front from "../settings/Frontend"
 
-const front = FrontendSettings()
+
 
 export const renderErrorMessage = (data, errors_prop, setErrorMsg) => {
   let errors = ""

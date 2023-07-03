@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import BackendSettings from '../../settings/Backend';
-import FrontendSettings from '../../settings/Frontend';
+import back from '../../settings/Backend';
+import front from '../../settings/Frontend';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
 
@@ -15,11 +15,8 @@ export default function RegisterForm() {
   const [password2FieldError, setPassword2FieldError] = useState('');
   const [feedbackMsg, setFeedbackMsg] = useState('');
 
-  const frontend = FrontendSettings()
-
   const registerUser = async (credentials) => {
-    const settings = BackendSettings()
-    const endpoint = settings.getBaseUrl() + settings.register
+    const endpoint = back.getBaseUrl() + back.register
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -36,7 +33,7 @@ export default function RegisterForm() {
         const data = await response.json()
         if (data.hasOwnProperty('detail') && 
           data.detail == "Verification e-mail sent.") {
-          window.location.replace(frontend.verifyEmail)
+          window.location.replace(front.verifyEmail)
         } else {
           console.log("Doesn't have detail key")
         }
@@ -67,7 +64,7 @@ export default function RegisterForm() {
         email, password1, password2
       })}>
 
-        <LabeledInputField type="text" id="register-email" name="Email" pattern={frontend.emailRegex}
+        <LabeledInputField type="text" id="register-email" name="Email" pattern={front.emailRegex}
           onChange={e => setEmail(e.target.value)} error={emailFieldError}
         />
         <LabeledInputField type="password" id="register-password1" name="Password" 

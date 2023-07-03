@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import BackendSettings from "../../settings/Backend";
+import back from "../../settings/Backend";
 
 export default function PageListView({ pagesPassed }) {
 
-    const back = BackendSettings()
     const [pages, setPages] = useState([]);
 
     const getPages = async () => {

@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import BackendSettings from "../../settings/Backend";
+import back from "../../settings/Backend";
 import { useParams } from "react-router-dom";
 
 
 export default function PageDetailView() {
 
-    const back = BackendSettings()
     const { pageId } = useParams();
     const [page, setPage] = useState({});
     const [webrings, setWebrings] = useState([]);

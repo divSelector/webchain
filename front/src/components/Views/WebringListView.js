@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import BackendSettings from "../../settings/Backend";
+import back from "../../settings/Backend";
 import { Link } from "react-router-dom";
 
 export default function WebringListView() {
 
-    const back = BackendSettings()
     const [webrings, setWebrings] = useState([]);
 
     const getWebrings = async () => {

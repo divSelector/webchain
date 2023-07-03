@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import FrontendSettings from './settings/Frontend';
+import front from './settings/Frontend';
 import Dashboard from './components/Views/Dashboard';
-import useToken from './hooks/useToken';
 import EmailConfirm from './components/Views/EmailConfirm';
 import PasswordReset from './components/Views/PasswordReset';
 import LoginRegisterView from './components/Views/LoginRegisterView';
@@ -12,17 +11,13 @@ import PageDetailView from './components/Views/PageDetailView';
 import Header from './components/Layout/Header';
 import AccountDetails from './components/Views/AccountDetails';
 import PageCreateView from './components/Views/PageCreateView';
-import { AuthProvider, RequireAuth } from './context/AuthContext';
+import { AuthProvider, ProtectedRoute } from './context/AuthContext';
+import MatrixRain from './components/Canvas/MatrixRain';
 
-function Testing123() {
-  return (
-  <></>
-  )
-}
 
 export default function App() {
 
-  const front = FrontendSettings()
+  
 
   return (
     <BrowserRouter>
@@ -31,33 +26,50 @@ export default function App() {
         <Header />
         <Routes>
           <Route path="/" element={
-            <Dashboard />
+            <ProtectedRoute requireAuth={true}>
+              <Dashboard />
+            </ProtectedRoute>
           } />
 
           <Route path={front.login} element={
-            <LoginRegisterView />
+            <ProtectedRoute requireAuth={false}>
+              <LoginRegisterView />
+            </ProtectedRoute>
+            
           } />
 
           <Route path={front.register} element={
-            <LoginRegisterView />
+            <ProtectedRoute requireAuth={false}>
+              <LoginRegisterView />
+            </ProtectedRoute>
           } />
 
           <Route path={front.account} element={
-            <AccountDetails />
+            <ProtectedRoute requireAuth={true}>
+              <AccountDetails />
+            </ProtectedRoute>
           } />
 
           <Route path={front.loginHelp} element={
-            <LoginRegisterView />
+            <ProtectedRoute requireAuth={false}>
+              <LoginRegisterView />
+            </ProtectedRoute>
           } />
 
           <Route path={front.verifyEmail} element={
-            <EmailConfirm />
+            <ProtectedRoute requireAuth={false}>
+              <EmailConfirm />
+            </ProtectedRoute>
           } />
           <Route path={front.verifyEmailToken} element={
-            <EmailConfirm />
+            <ProtectedRoute requireAuth={false}>
+              <EmailConfirm />
+            </ProtectedRoute>
           } />
           <Route path={front.resetPassword} element={
-            <PasswordReset />
+            <ProtectedRoute requireAuth={false}>
+              <PasswordReset />
+            </ProtectedRoute>
           } />
 
           <Route path={front.pages} element={
@@ -75,7 +87,9 @@ export default function App() {
           } />
 
           <Route path="/page/add" element={
-            <RequireAuth><PageCreateView /></RequireAuth>
+            <ProtectedRoute requireAuth={true}>
+              <PageCreateView />
+            </ProtectedRoute>
           } />
 
 
@@ -85,7 +99,7 @@ export default function App() {
 
 
         </Routes>
-        {/* <MatrixRain /> */}
+        <MatrixRain />
       </div>
       </AuthProvider>
     </BrowserRouter>

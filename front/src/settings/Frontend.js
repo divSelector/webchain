@@ -1,4 +1,4 @@
-export default function FrontendSettings () {
+function FrontendSettings () {
     
     const host = "http://localhost:3000"
 
@@ -20,3 +20,7 @@ export default function FrontendSettings () {
         }
     )
 }
+
+const front = FrontendSettings()
+
+export default front

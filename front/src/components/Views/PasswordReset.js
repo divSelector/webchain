@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import BackendSettings from '../../settings/Backend';
+import back from '../../settings/Backend';
 import { handleSubmit } from '../../utils/formsUtils';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { renderErrorMessage } from '../../utils/formsUtils';
-import FrontendSettings from '../../settings/Frontend';
+import front from '../../settings/Frontend';
 import { useAuth } from '../../context/AuthContext';
 
 export default function PasswordReset() {
@@ -18,7 +18,7 @@ export default function PasswordReset() {
   const [password1FieldError, setPassword1FieldError] = useState('');
   const [password2FieldError, setPassword2FieldError] = useState('');
 
-  const front = FrontendSettings()
+  
 
   const navigate = useNavigate()
 
@@ -31,8 +31,7 @@ export default function PasswordReset() {
       setFeedbackMsg("Passwords do not match")
       return
     }
-    const settings = BackendSettings()
-    const endpoint = settings.getBaseUrl() + settings.resetPasswordConfirm
+    const endpoint = back.getBaseUrl() + back.resetPasswordConfirm
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -70,7 +69,7 @@ export default function PasswordReset() {
 
   return (
     <> 
-      <div id="reset-form" className="form-wrapper">
+      <div id="reset-form" className="form-wrapper" style={{flexDirection: 'column'}}>
         <h2>Password Reset</h2>
         <form onSubmit={(e) => handleSubmit(e, resetPassword, {
           password1, password2

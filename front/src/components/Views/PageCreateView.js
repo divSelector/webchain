@@ -1,4 +1,4 @@
-import BackendSettings from "../../settings/Backend";
+import back from "../../settings/Backend";
 import { handleSubmit } from "../../utils/formsUtils";
 import { useState } from "react";
 import LabeledInputField from "../Fields/LabeledInputField";
@@ -6,8 +6,6 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function PageCreateView() {
     const { token } = useAuth()
-
-    const back = BackendSettings()
 
     const [title, setTitle] = useState();
     const [url, setUrl] = useState();

@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import BackendSettings from '../../settings/Backend';
+import back from '../../settings/Backend';
 import { useAuth } from '../../context/AuthContext';
 
 
@@ -8,8 +8,7 @@ export default function LogoutButton() {
   const { token, setToken } = useAuth()
 
     async function logoutUser(credentials) {
-      const settings = BackendSettings()
-      const endpoint = settings.getBaseUrl() + settings.logout
+      const endpoint = back.getBaseUrl() + back.logout
       return fetch(endpoint, {
           method: 'POST',
           headers: {

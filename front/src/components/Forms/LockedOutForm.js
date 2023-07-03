@@ -1,17 +1,14 @@
-import FrontendSettings from '../../settings/Frontend';
+import front from '../../settings/Frontend';
 import LabeledInputField from '../Fields/LabeledInputField';
 import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import BackendSettings from '../../settings/Backend';
+import back from '../../settings/Backend';
 
 export default function LockedOutForm({ emailState }) {
 
   const [email, setEmail] = emailState
   const [feedbackMsg, setFeedbackMsg] = useState('')
-
-  const front = FrontendSettings()
-  const back = BackendSettings()
 
   const resendConfirmEmail = async ( credentials ) => {
     const endpoint = back.getBaseUrl() + back.resendEmail
