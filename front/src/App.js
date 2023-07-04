@@ -14,7 +14,7 @@ import PageCreateView from './components/Views/PageCreateView';
 import { AuthProvider, ProtectedRoute } from './context/AuthContext';
 import MatrixRain from './components/Canvas/MatrixRain';
 import WebringCreateView from './components/Views/WebringCreateView';
-
+import PageUpdateView from './components/Views/PageUpdateView';
 
 export default function App() {
   return (
@@ -94,6 +94,17 @@ export default function App() {
               <WebringCreateView />
             </ProtectedRoute>
           } />
+
+          <Route path="/page/update/:pageId" element={
+            <ProtectedRoute 
+              requireAuth={true}
+              onlyResourcesOwnedByAuthUser={true}
+            >
+              <PageUpdateView />
+            </ProtectedRoute>
+          } />
+
+
 
         </Routes>
         <MatrixRain />

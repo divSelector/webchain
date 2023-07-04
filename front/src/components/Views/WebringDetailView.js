@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 
 export default function WebringDetailView() {
-  
+
     const { webringId } = useParams();
     const [webring, setWebring] = useState({});
     const [pages, setPages] = useState([]);
@@ -42,7 +42,7 @@ export default function WebringDetailView() {
 
     return (
         <div className="view-wrapper">
-          <div className="webring-details">
+          <div className="view-details">
             <h2>{webring.title}</h2>
             <h4>by {account.name}</h4>
             <p>{webring.description}</p>

@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Create Superuser
-        User.objects.create_superuser(email='admin@admin.com', password='admin')
+        User.objects.create_superuser(email='admin@example.com', password='admin')
         self.stdout.write(self.style.SUCCESS('Superuser created successfully.'))
 
         # Create Regular Users

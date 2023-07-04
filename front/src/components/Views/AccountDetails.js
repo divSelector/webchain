@@ -33,7 +33,6 @@ export default function AccountDetails() {
         }
 
         const data = await response.json();
-        console.log(data)
 
         setUsername(data.account.name)
         setPages(data.pages)

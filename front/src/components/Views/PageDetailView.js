@@ -42,7 +42,7 @@ export default function PageDetailView() {
 
     return (
         <div className="view-wrapper">
-          <div className="page-details">
+          <div className="view-details">
             <h2>{page.title}</h2>
             <h4>by {account.name}</h4>
             <p>{page.description}</p>

@@ -20,13 +20,22 @@ class Command(BaseCommand):
         subscribed_account.save()
         self.stdout.write(self.style.SUCCESS(f"{subscribed_account} is account_type='subscriber'"))
         webring_owner = users.first().account
-        webring = Webring.objects.create(account=webring_owner, title="Cool Webring")
+        webring = Webring.objects.create(
+            account=webring_owner, 
+            title="Cool Webring",
+            description=fake.paragraph(nb_sentences=5, variable_nb_sentences=False)
+        )
         self.stdout.write(self.style.SUCCESS(f"{webring_owner} is owner of {webring}"))
         for user in users:
             user.account.name = fake.user_name()
             user.account.save()
             for i in range(5):
-                page = Page.objects.create(account=user.account, title=fake.catch_phrase(), url=fake.domain_name())
+                page = Page.objects.create(
+                    account=user.account, 
+                    title=fake.catch_phrase(), 
+                    url="https://"+fake.domain_name(),
+                    description=fake.paragraph(nb_sentences=5, variable_nb_sentences=False)
+                )
                 page.save()
                 link = WebringPageLink(page=page, webring=webring)
                 if random.random() < 0.5:

@@ -31,6 +31,10 @@ canvas {
   width: 100%;
 }
 
+.view-details {
+  width: 30%;
+}
+
 .form-wrapper {
   width: 300px;
   margin: 10px;
@@ -124,6 +128,10 @@ header h1 {
   .view-wrapper {
     flex-direction: column;
     align-items: center;
+  }
+
+  .view-details {
+    width: 90%;
   }
 
   .form-wrapper h2 {
