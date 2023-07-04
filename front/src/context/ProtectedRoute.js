@@ -35,9 +35,10 @@ export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuth
       };
   
       const getResource = async () => {
+        // I have no excuse for this part.
         const endpoint = back.getNonAuthBaseUrl() 
           + location.pathname.replace(
-            '/'+location.pathname.split('/')[2]+'/', '/'
+            '/' + location.pathname.split('/')[2] + '/', '/'
           ).substring(1);
         try {
           const response = await fetch(endpoint, {
