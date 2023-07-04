@@ -1,39 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, cloneElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import back from "../settings/Backend";
 import front from "../settings/Frontend";
-import { useAuth } from "./AuthContext";
+import { useAuth, AuthContext } from "./AuthContext";
 
 export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuthUser }) {
-    const { token } = useAuth();
+    const { token, account } = useAuth();
     const location = useLocation();
   
-    const [account, setAccount] = useState();
     const [resource, setResource] = useState();
     const [resourceOwnedByUser, setResourceOwnedByUser] = useState(null);
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      const getUser = async () => {
-        try {
-          const endpoint = back.getNonAuthBaseUrl() + 'user/';
-          const response = await fetch(endpoint, {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          });
-  
-          if (!response.ok) {
-            throw new Error('Failed to fetch account details');
-          }
-  
-          const data = await response.json();
-          setAccount(data.account);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-  
       const getResource = async () => {
         // I have no excuse for this part.
         const endpoint = back.getNonAuthBaseUrl() 
@@ -61,7 +40,7 @@ export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuth
       };
   
       const fetchData = async () => {
-        await Promise.all([getUser(), getResource()]);
+        await Promise.all([getResource()]);
         setLoading(false);
       };
   
@@ -110,6 +89,5 @@ export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuth
       );
     }
   
-    return children;
-  }
-  
+  return children;
+}

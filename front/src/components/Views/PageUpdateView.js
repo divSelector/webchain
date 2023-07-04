@@ -12,8 +12,6 @@ export default function PageUpdateView() {
     const { token } = useAuth()
 
     const [page, setPage] = useState({});
-    const [webrings, setWebrings] = useState([]);
-    const [account, setAccount] = useState([]);
 
     const [title, setTitle] = useState();
     const [url, setUrl] = useState();
