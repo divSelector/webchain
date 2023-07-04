@@ -2,10 +2,10 @@ import { useEffect, useState, cloneElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import back from "../settings/Backend";
 import front from "../settings/Frontend";
-import { useAuth, AuthContext } from "./AuthContext";
+import { useAuth } from "./AuthContext";
 
 export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuthUser }) {
-    const { token, account } = useAuth();
+    const { token, authAccount } = useAuth();
     const location = useLocation();
   
     const [resource, setResource] = useState();
@@ -15,6 +15,8 @@ export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuth
     useEffect(() => {
       const getResource = async () => {
         // I have no excuse for this part.
+        // It is determining what view is loaded from the location,
+        // and what part it should remove from the url to get the details view.
         const endpoint = back.getNonAuthBaseUrl() 
           + location.pathname.replace(
             '/' + location.pathname.split('/')[2] + '/', '/'
@@ -52,14 +54,15 @@ export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuth
     }, [location.pathname, onlyResourcesOwnedByAuthUser, token]);
   
     useEffect(() => {
-      if (account && resource) {
-        if (account.name === resource.account.name) {
+      if (authAccount && resource) {
+        if (authAccount.name === resource.account.name) {
+            setLoading(false)
           setResourceOwnedByUser(true);
         } else {
           setResourceOwnedByUser(false);
         }
       }
-    }, [account, resource]);
+    }, [authAccount, resource]);
   
     if (loading) {
       return <></>
@@ -68,7 +71,7 @@ export function ProtectedRoute({ children, requireAuth, onlyResourcesOwnedByAuth
     if (onlyResourcesOwnedByAuthUser && resourceOwnedByUser === false) {
       return (
         <Navigate
-          to={location.pathname.replace('/update/', '/')}
+          to={location.pathname.replace('/' + location.pathname.split('/')[2] + '/', '/')}
           replace
         />
       );

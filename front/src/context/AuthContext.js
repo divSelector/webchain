@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   };
 
   const [token, setToken] = useState(getToken());
-  const [account, setAccount] = useState();
+  const [authAccount, setAuthAccount] = useState();
 
   const updateToken = (t) => {
     sessionStorage.setItem(storageKey, JSON.stringify(t));
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
       }
 
       const data = await response.json();
-      setAccount(data.account);
+      setAuthAccount(data.account);
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
   }, [token])
 
   return (
-    <AuthContext.Provider value={{ token, setToken: updateToken, account }}>
+    <AuthContext.Provider value={{ token, setToken: updateToken, authAccount }}>
       {children}
     </AuthContext.Provider>
   );
