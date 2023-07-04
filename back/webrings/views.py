@@ -15,7 +15,7 @@ class RetrieveListOrAuthenticated(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
 
-class WebringPagesViewSet(viewsets.ModelViewSet):
+class WebringViewSet(viewsets.ModelViewSet):
     queryset = Webring.objects.all()
     permission_classes = [RetrieveListOrAuthenticated]
 
@@ -107,6 +107,24 @@ class PageViewSet(viewsets.ViewSet):
         queryset = Page.objects.all()
         serializer = PageSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+    def partial_update(self, request, *args, **kwargs):
+        page_id = kwargs.get('page_id')
+        instance = Page.objects.filter(id=page_id).first()
+
+        if str(instance.account.user.id) != str(self.request.user.id):
+            return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        allowed_keys = ['title', 'url', 'description']
+
+        filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
+
+        serializer = PageSerializer(instance, data=filtered_data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
         
 
@@ -160,7 +178,11 @@ class AccountViewSet(viewsets.ViewSet):
         if str(instance.name) != self.request.user.account.name:
             return Response({'error': 'Wrong account name'}, status=status.HTTP_403_FORBIDDEN)
 
-        serializer = self.serializer_class(instance, data=request.data, partial=True)
+        allowed_keys = ['name']
+
+        filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
+
+        serializer = self.serializer_class(instance, data=filtered_data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

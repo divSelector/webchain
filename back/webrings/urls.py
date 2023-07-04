@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    WebringPagesViewSet,
+    WebringViewSet,
     PageViewSet,
     AccountViewSet
 )
@@ -8,17 +8,17 @@ from .views import (
 
 urlpatterns = [
     path('webring/', 
-        WebringPagesViewSet.as_view(
+        WebringViewSet.as_view(
             {'post': 'create'}
-    ), name='create-webring'),
+        ), name='create-webring'),
 
     path('webring/<int:webring_id>/', 
-        WebringPagesViewSet.as_view(
+        WebringViewSet.as_view(
             {'get': 'retrieve'}
-    ), name='retrieve-webring'),
+        ), name='retrieve-webring'),
 
     path('webrings/', 
-        WebringPagesViewSet.as_view(
+        WebringViewSet.as_view(
             {'get': 'list'}
         ), name='list-webrings'),
 
@@ -30,8 +30,9 @@ urlpatterns = [
 
     path('page/<int:page_id>/', 
         PageViewSet.as_view(
-            {'get': 'retrieve'}
-        ), name='retrieve-page'),
+            {'get': 'retrieve',
+             'patch': 'partial_update'}
+        ), name='retrieve-update-page'),
 
     path('pages/', 
         PageViewSet.as_view(

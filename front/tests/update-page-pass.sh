@@ -1,0 +1,1 @@
+curl -X PATCH -H "Authorization: Token 57180f30b740a5010045abcb3dc54141085b7ea6" -H "Content-Type: application/json" -d '{"description": "Hello from curl -X PATCH"}' "http://127.0.0.1:8000/api/page/1/"

@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.core.validators import URLValidator
 
-from .validators import validate_date_not_in_future
+from .validators import validate_date_not_in_future, validate_https_url
 from django.core.exceptions import ValidationError
 
 User = get_user_model()
@@ -18,6 +17,13 @@ class Account(models.Model):
     name = models.CharField(max_length=36, blank=False, null=False, unique=True)
     account_type = models.CharField(max_length=12, choices=ACCOUNT_TYPE_CHOICES, default='free')
     date_updated = models.DateTimeField(auto_now=True,  validators=[validate_date_not_in_future])
+
+    def clean(self):
+        validate_date_not_in_future(self.date_updated)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return self.user.email
@@ -35,6 +41,14 @@ class Webring(models.Model):
     automatic_approval = models.BooleanField(default=False)
     primary = models.BooleanField(default=False)
 
+    def clean(self):
+        for date in [self.date_updated, self.date_created]:
+            validate_date_not_in_future(date)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
@@ -47,11 +61,20 @@ class Page(models.Model):
     account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='account', related_query_name='account')
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    url = models.URLField(validators=[URLValidator()])
+    url = models.URLField(validators=[validate_https_url])
     date_created = models.DateTimeField(auto_now_add=True, validators=[validate_date_not_in_future])
     date_updated = models.DateTimeField(auto_now=True, validators=[validate_date_not_in_future])
     webrings = models.ManyToManyField('Webring', related_name='page_links', through="WebringPageLink", related_query_name='page_links', blank=True)
     primary = models.BooleanField(default=False)
+
+    def clean(self):
+        validate_https_url(self.url)
+        for date in [self.date_updated, self.date_created]:
+            validate_date_not_in_future(date)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

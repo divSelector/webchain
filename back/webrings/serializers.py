@@ -28,17 +28,18 @@ class PageSerializer(serializers.ModelSerializer):
 
 
 
-class WebringPageLinkSerializer(serializers.ModelSerializer):
-    page = PageSerializer()
-
-    class Meta:
-        model = WebringPageLink
-        fields = ['page', 'approved']
-
-
 class WebringSerializer(serializers.ModelSerializer):
     account = AccountSerializer()
 
     class Meta:
         model = Webring
         fields = ['id', 'account', 'title', 'description', 'date_created', 'date_updated']
+
+
+class WebringPageLinkSerializer(serializers.ModelSerializer):
+    page = PageSerializer()
+    webring = WebringSerializer()
+
+    class Meta:
+        model = WebringPageLink
+        fields = ['page', 'webring', 'approved']

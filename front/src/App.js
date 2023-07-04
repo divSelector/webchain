@@ -17,9 +17,6 @@ import WebringCreateView from './components/Views/WebringCreateView';
 
 
 export default function App() {
-
-  
-
   return (
     <BrowserRouter>
     <AuthProvider>
@@ -35,8 +32,7 @@ export default function App() {
           <Route path={front.login} element={
             <ProtectedRoute requireAuth={false}>
               <LoginRegisterView />
-            </ProtectedRoute>
-            
+            </ProtectedRoute> 
           } />
 
           <Route path={front.register} element={
@@ -98,13 +94,6 @@ export default function App() {
               <WebringCreateView />
             </ProtectedRoute>
           } />
-
-
-
-          {/* <Route path="/testing" element={
-            <AuthContextTestComponent />
-          } /> */}
-
 
         </Routes>
         <MatrixRain />
