@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 import { Link } from "react-router-dom";
 
-export default function WebringListView({ ringsPassed }) {
+export default function WebringListView({ ringsPassed, additionalContainerStyle }) {
 
     const [webrings, setWebrings] = useState([]);
 
@@ -36,7 +36,7 @@ export default function WebringListView({ ringsPassed }) {
     }, []);
 
     return (
-        <div className="view-wrapper"  style={{flexDirection: 'column'}}>
+        <div className="view-wrapper" style={additionalContainerStyle ? additionalContainerStyle : null}>
             <h2>Rings</h2>
             <ul>
             {webrings.map((webring) => (

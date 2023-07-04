@@ -2,12 +2,15 @@ import { useState } from "react";
 import back from "../../settings/Backend";
 import LabeledInputField from "../Fields/LabeledInputField";
 import { useAuth } from "../../context/AuthContext";
+import { renderErrorMessage } from "../../utils/formsUtils";
 
 export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
 
     const { token } = useAuth()
 
     const [name, setName] = useState(oldName);
+    const [nameError, setNameFieldError] = useState('');
+    const [feedbackMsg, setFeedbackMsg] = useState('');
 
     const handleInputChange = (event) => {
         setName(event.target.value);
@@ -28,15 +31,21 @@ export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
                     name: name
                 })
             });
-    
+            const data = await response.json()
             if (response.ok) {
-                const data = await response.json()
                 onUsernameUpdate()
             } else {
-                console.log("Failure to PATCH Username")
+                const errorMappings = [
+                    { key: "name", setter: setNameFieldError },
+                    { key: "non_field_errors", setter: setFeedbackMsg }
+                ];
+                  
+                errorMappings.forEach(({ key, setter }) => {
+                    renderErrorMessage(data, key, setter);
+                });
             }
         } catch (error) {
-            console.log("Error Communicating with Server")
+            setFeedbackMsg("Error Communicating with Server")
         }
 
     };
@@ -51,6 +60,7 @@ export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
                 name="Username" 
                 defaultValue={oldName}
                 onChange={handleInputChange}
+                error={nameError}
             />
     
             <button type="submit">UPDATE</button>

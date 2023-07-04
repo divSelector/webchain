@@ -59,9 +59,15 @@ export default function AccountDetails() {
           oldName={username}
           onUsernameUpdate={(updatedName) => setUsername(updatedName)}
         />
-        
-        <WebringListView ringsPassed={webrings} />
-        <PageListView pagesPassed={pages} />
+
+        <WebringListView 
+          ringsPassed={webrings} 
+          additionalContainerStyle={{flexDirection: 'column'}}
+        />
+        <PageListView 
+          pagesPassed={pages}
+          additionalContainerStyle={{flexDirection: 'column'}}
+        />
         
       </div>
     </div>; 

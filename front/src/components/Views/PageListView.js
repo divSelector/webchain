@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 
-export default function PageListView({ pagesPassed }) {
+export default function PageListView({ pagesPassed, additionalContainerStyle }) {
 
     const [pages, setPages] = useState([]);
 
@@ -34,7 +34,7 @@ export default function PageListView({ pagesPassed }) {
     }, []);
 
     return (
-        <div className="view-wrapper" style={{flexDirection: 'column'}}>
+        <div className="view-wrapper" style={additionalContainerStyle ? additionalContainerStyle : null}>
             <h2>Pages</h2>
             <ul>
             {pages.map((page) => (
