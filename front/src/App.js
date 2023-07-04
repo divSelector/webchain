@@ -11,10 +11,11 @@ import PageDetailView from './components/Views/PageDetailView';
 import Header from './components/Layout/Header';
 import AccountDetails from './components/Views/AccountDetails';
 import PageCreateView from './components/Views/PageCreateView';
-import { AuthProvider, ProtectedRoute } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import MatrixRain from './components/Canvas/MatrixRain';
 import WebringCreateView from './components/Views/WebringCreateView';
 import PageUpdateView from './components/Views/PageUpdateView';
+import { ProtectedRoute } from './context/ProtectedRoute';
 
 export default function App() {
   return (
