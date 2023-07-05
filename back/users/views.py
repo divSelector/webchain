@@ -40,9 +40,3 @@ def password_reset_confirm_redirect(request, uidb64, token):
     return HttpResponseRedirect(
         f"{settings.PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL}{uidb64}/{token}/"
     )
-
-# class TokenCheck(APIView):
-#     permission_classes = []
-
-#     def get(self, request):
-#         token = get_object_or_404(Token, key=request.data['key'])
