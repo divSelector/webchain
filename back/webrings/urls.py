@@ -14,13 +14,16 @@ urlpatterns = [
 
     path('webring/<int:webring_id>/', 
         WebringViewSet.as_view(
-            {'get': 'retrieve'}
-        ), name='retrieve-webring'),
+            {'get': 'retrieve',
+             'patch': 'partial_update'}
+        ), name='retrieve-update-webring'),
+
 
     path('webrings/', 
         WebringViewSet.as_view(
             {'get': 'list'}
         ), name='list-webrings'),
+
 
 
     path('page/', 
@@ -34,15 +37,12 @@ urlpatterns = [
              'patch': 'partial_update'}
         ), name='retrieve-update-page'),
 
+
     path('pages/', 
         PageViewSet.as_view(
             {'get': 'list'}
         ), name='list-page'),
 
-    # path('user/',
-    #     AccountViewSet.as_view(
-    #         {'get': 'list'}
-    #     ), name='list-account'),
 
 
     path('user/',
@@ -55,25 +55,4 @@ urlpatterns = [
             {'get': 'retrieve',
              'patch': 'partial_update'}
         ), name='retrieve-update-account'),
-
-    # path('user/<str:account_id>/update/',
-    #     AccountViewSet.as_view(
-    #         {'put': 'update'}
-    #     ), name='update-account'),
-    # # Webring URLs
-    # path('webrings/', WebringListCreateView.as_view(
-    #      permission_classes=[IsAuthenticated],
-    # ), name='webring-list-create'),
-    # path('webrings/<int:pk>/', WebringRetrieveUpdateDestroyView.as_view(
-    #     permission_classes=[IsAuthenticated],
-    # ), name='webring-retrieve-update-destroy'),
-
-    # # Page URLs
-    # path('pages/', PageListCreateView.as_view(
-    #      permission_classes=[IsAuthenticated],
-    # ), name='page-list-create'),
-    # path('pages/<int:pk>/', PageRetrieveUpdateDestroyView.as_view(
-    #      permission_classes=[IsAuthenticated],
-    # ), name='page-retrieve-update-destroy'),
-
 ]

@@ -1,14 +1,21 @@
 import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
-import { useParams } from "react-router-dom";
-
+import { useParams, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import NotFoundView from "./NotFound";
 
 export default function WebringDetailView() {
 
     const { webringId } = useParams();
     const [webring, setWebring] = useState({});
     const [pages, setPages] = useState([]);
-    const [account, setAccount] = useState([]);
+    const [ringAccount, setRingAccount] = useState([]);
+
+    const [isRingOwner, setIsRingOwner] = useState(false)
+
+    const [error, setError] = useState(false);
+
+    const { authAccount } = useAuth()
 
     const getWebring = async () => {
    
@@ -25,27 +32,43 @@ export default function WebringDetailView() {
             const data = await response.json()
             setWebring(data.webring)
             setPages(data.pages)
-            setAccount(data.webring.account)
+            setRingAccount(data.webring.account)
           } else {
-
-            console.log("Failure to Get Pages")
+            setError("Resource not Found")
           }
         } catch (error) {
-          console.log("Error Communicating with Server")
+          setError("Failure communicating with server")
         }
-      };
+    };
+
+    const checkRingOwnership = () => {
+      if (authAccount && ringAccount && authAccount.name === ringAccount.name) {
+        setIsRingOwner(true)
+      } else {
+        setIsRingOwner(false)
+      }
+    }
 
 
     useEffect(() => {
         getWebring();
     }, [webringId]);
 
+    useEffect(() => {
+      checkRingOwnership();
+    }, [ringAccount]);
+    
+    if (error) {
+      return <NotFoundView />
+    }
+
     return (
         <div className="view-wrapper">
           <div className="view-details">
             <h2>{webring.title}</h2>
-            <h4>by {account.name}</h4>
+            <h4>by {ringAccount.name}</h4>
             <p>{webring.description}</p>
+            {isRingOwner && <Link to={'/webring/update/'+webringId} >Update Webring</Link> }
           </div>
           <ul>
           {pages.map((page) => (

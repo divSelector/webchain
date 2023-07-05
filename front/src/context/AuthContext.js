@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    getUser()
+    if (token) getUser()
   }, [token])
 
   return (

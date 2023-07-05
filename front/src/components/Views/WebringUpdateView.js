@@ -7,27 +7,26 @@ import { renderErrorMessage } from "../../utils/formsUtils";
 import { useParams } from "react-router-dom";
 import NotFoundView from "./NotFound";
 
-export default function PageUpdateView() {
 
-    const { pageId } = useParams();
+export default function WebringUpdateView() {
+
+    const { webringId } = useParams();
     const { token } = useAuth()
 
-    const [page, setPage] = useState({});
+    const [webring, setWebring] = useState({});
 
     const [title, setTitle] = useState();
-    const [url, setUrl] = useState();
     const [description, setDescription] = useState();
 
     const [titleFieldError, setTitleFieldError] = useState('');
-    const [urlFieldError, setUrlFieldError] = useState('');
     const [descriptionError, setDescriptionFieldError] = useState('');
     const [feedbackMsg, setFeedbackMsg] = useState('');
 
     const [error, setError] = useState(false);
 
-    const getPage = async () => {
+    const getWebring = async () => {
    
-        const endpoint = back.getNonAuthBaseUrl() + 'page/' + pageId
+        const endpoint = back.getNonAuthBaseUrl() + 'webring/' + webringId
         try {
           const response = await fetch(endpoint, {
             method: 'GET',
@@ -38,19 +37,19 @@ export default function PageUpdateView() {
     
           if (response.ok) {
             const data = await response.json()
-            setPage(data.page)
+            setWebring(data.webring)
           } else {
 
-            setError("Failure to Get Pages")
+            setError("Failure to Get Webring")
           }
         } catch (error) {
           setError("Error Communicating with Server")
         }
     };
 
-    const updatePage = async (input) => {
+    const updateWebring = async (input) => {
    
-        const endpoint = back.getNonAuthBaseUrl(input) + 'page/' + pageId + '/'
+        const endpoint = back.getNonAuthBaseUrl(input) + 'webring/' + webringId + '/'
         try {
           const response = await fetch(endpoint, {
             method: 'PATCH',
@@ -60,7 +59,6 @@ export default function PageUpdateView() {
             },
             body: JSON.stringify({ 
                 title: input.title,
-                url: input.url,
                 description: input.description
             })
           });
@@ -68,14 +66,13 @@ export default function PageUpdateView() {
           if (response.ok) {
 
             if (data.hasOwnProperty('id')) {
-                const newPageId = data.id
-                window.location.href = `/page/${newPageId}`
+                const newRingId = data.id
+                window.location.href = `/webring/${newRingId}`
             }
 
           } else {
             const errorMappings = [
                 { key: "title", setter: setTitleFieldError },
-                { key: "url", setter: setUrlFieldError },
                 { key: "description", setter: setDescriptionFieldError },
                 { key: "__all__", setter: setFeedbackMsg }
             ]
@@ -84,39 +81,34 @@ export default function PageUpdateView() {
               });
           }
         } catch (error) {
-            setFeedbackMsg("Error Communicating with Server")
+          setFeedbackMsg("Error Communicating with Server")
         }
     };
 
     useEffect(() => {
-        getPage();
-    }, [pageId]);
+        getWebring();
+    }, [webringId]);
 
-    if (error) {
-      return <NotFoundView />
-    }
+    if (error) return <NotFoundView />
 
     return (
         <div className="view-wrapper">
             <div>
-                <h2>Update Page</h2>
+                <h2>Update Webrings</h2>
             </div>
             <div className="form-wrapper">
-                <form onSubmit={(e) => handleSubmit(e, updatePage, {
-                    title, url, description
+                <form onSubmit={(e) => handleSubmit(e, updateWebring, {
+                    title, description
                 })}>
 
-                    <LabeledInputField type="text" id="new-page-title" name="Title" defaultValue={page.title}
+                    <LabeledInputField type="text" id="new-webring-title" name="Title" defaultValue={webring.title}
                         onChange={e => setTitle(e.target.value)} error={titleFieldError} 
                     />
-                    <LabeledInputField type="text" id="new-page-title" name="URL" defaultValue={page.url}
-                        onChange={e => setUrl(e.target.value)} error={urlFieldError}
-                    />
-                    <LabeledInputField type="text" id="new-page-title" name="Description" defaultValue={page.description}
+                    <LabeledInputField type="text" id="new-webring-title" name="Description" defaultValue={webring.description}
                         onChange={e => setDescription(e.target.value)} textarea={true} error={descriptionError}
                     />
 
-                    <button type="submit">UPDATE PAGE</button>
+                    <button type="submit">UPDATE Webring</button>
                     {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>}
 
                 </form>

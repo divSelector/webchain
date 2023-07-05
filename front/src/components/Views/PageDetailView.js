@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-
+import NotFoundView from "./NotFound";
 export default function PageDetailView() {
 
     const { pageId } = useParams();
@@ -13,6 +13,8 @@ export default function PageDetailView() {
     const [isPageOwner, setIsPageOwner] = useState(false)
 
     const { authAccount } = useAuth()
+
+    const [error, setError] = useState(false);
 
     const getPage = async () => {
    
@@ -32,10 +34,10 @@ export default function PageDetailView() {
             setPageAccount(data.page.account)
           } else {
 
-            console.log("Failure to Get Pages")
+            setError("Failure to Get Pages")
           }
         } catch (error) {
-          console.log("Error Communicating with Server")
+          setError("Error Communicating with Server")
         }
     };
 
@@ -55,6 +57,10 @@ export default function PageDetailView() {
       checkPageOwnership();
     }, [pageAccount]);
     
+
+    if (error) {
+      return <NotFoundView />
+    }
 
     return (
         <div className="view-wrapper">

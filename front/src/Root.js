@@ -16,6 +16,8 @@ import MatrixRain from './components/Canvas/MatrixRain';
 import WebringCreateView from './components/Views/WebringCreateView';
 import PageUpdateView from './components/Views/PageUpdateView';
 import { ProtectedRoute } from './context/ProtectedRoute';
+import WebringUpdateView from './components/Views/WebringUpdateView';
+import NotFoundView from './components/Views/NotFound';
 
 export default function App() {
   return (
@@ -24,6 +26,8 @@ export default function App() {
       <div className="app-wrapper">
         <Header />
         <Routes>
+          <Route path="*" Component={NotFoundView}></Route>
+          
           <Route path="/" element={
             <ProtectedRoute requireAuth={true}>
               <Dashboard />
@@ -105,7 +109,14 @@ export default function App() {
             </ProtectedRoute>
           } />
 
-
+          <Route path="/webring/update/:webringId" element={
+            <ProtectedRoute 
+              requireAuth={true}
+              onlyResourcesOwnedByAuthUser={true}
+            >
+              <WebringUpdateView />
+            </ProtectedRoute>
+          } />
 
         </Routes>
         <MatrixRain />

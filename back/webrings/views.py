@@ -67,6 +67,27 @@ class WebringViewSet(viewsets.ModelViewSet):
         queryset = Webring.objects.all()
         serializer = WebringSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+    def partial_update(self, request, *args, **kwargs):
+        webring_id = kwargs.get('webring_id')
+        try:
+            instance = Webring.objects.filter(id=webring_id).first()
+
+            if str(instance.account.user.id) != str(self.request.user.id):
+                return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
+            
+            allowed_keys = ['title', 'description', 'automatic_approval']
+
+            filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
+
+            serializer = WebringSerializer(instance, data=filtered_data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except (Webring.DoesNotExist, AttributeError):
+            return Response({'error': 'Page not found'}, status=404)
+
 
 
 
@@ -110,20 +131,24 @@ class PageViewSet(viewsets.ViewSet):
     
     def partial_update(self, request, *args, **kwargs):
         page_id = kwargs.get('page_id')
-        instance = Page.objects.filter(id=page_id).first()
+        try:
+            instance = Page.objects.filter(id=page_id).first()
 
-        if str(instance.account.user.id) != str(self.request.user.id):
-            return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
+            if str(instance.account.user.id) != str(self.request.user.id):
+                return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
+            
+            allowed_keys = ['title', 'url', 'description']
+
+            filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
+
+            serializer = PageSerializer(instance, data=filtered_data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
         
-        allowed_keys = ['title', 'url', 'description']
-
-        filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
-
-        serializer = PageSerializer(instance, data=filtered_data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        except (Page.DoesNotExist, AttributeError):
+            return Response({'error': 'Page not found'}, status=404)
 
 
         
