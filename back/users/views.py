@@ -9,10 +9,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
-from dj_rest_auth.models import get_token_model
 
 User = get_user_model()
-Token = get_token_model()
 
 class NewEmailConfirmation(APIView):
     permission_classes = [AllowAny] 
