@@ -84,9 +84,16 @@ class Page(models.Model):
 
 
 class WebringPageLink(models.Model):
-    page = models.ForeignKey('Page', on_delete=models.CASCADE)
-    webring = models.ForeignKey('WebRing', on_delete=models.CASCADE)
+    page = models.ForeignKey('Page', on_delete=models.CASCADE, blank=False, null=False)
+    webring = models.ForeignKey('WebRing', on_delete=models.CASCADE, blank=False, null=False)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Page: {self.page.title} - WebRing: {self.webring.title}"
+    
+    def save(self, *args, **kwargs):
+        existing_link = WebringPageLink.objects.filter(page=self.page, webring=self.webring).exists()
+        if existing_link:
+            raise ValidationError("A link between this page and webring already exists.")
+
+        super().save(*args, **kwargs)

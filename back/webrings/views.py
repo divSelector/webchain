@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Webring, Page, WebringPageLink, Account
-from .serializers import PageSerializer, WebringSerializer, AccountSerializer
+from .serializers import PageSerializer, WebringSerializer, AccountSerializer, WebringPageLinkSerializer
 from django.db.models import Q
-
+from django.shortcuts import get_object_or_404
 
 class RetrieveListOrAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -16,7 +16,7 @@ class RetrieveListOrAuthenticated(permissions.BasePermission):
 
 
 class WebringViewSet(viewsets.ModelViewSet):
-    queryset = Webring.objects.all()
+
     permission_classes = [RetrieveListOrAuthenticated]
 
     def create(self, request):
@@ -157,7 +157,6 @@ class AccountViewSet(viewsets.ViewSet):
     serializer_class = AccountSerializer
     authentication_classes = [TokenAuthentication]
     
-
     def get_permissions(self):
         if self.action == 'retrieve':
             if self.kwargs.get('account_name') is not None:
@@ -212,3 +211,43 @@ class AccountViewSet(viewsets.ViewSet):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class WebringPageLinkViewSet(viewsets.ViewSet):
+    serializer_class = WebringPageLinkSerializer
+    authentication_classes = [TokenAuthentication]
+    queryset = WebringPageLink.objects.all()
+
+    def create(self, request, webring_id, page_id):
+        page = get_object_or_404(Page, pk=page_id)
+
+        if not request.user.account == page.account:
+            return Response({'message': 'Not authorized to handle resource'}, status=403) 
+        
+        webring = get_object_or_404(Webring, pk=webring_id)
+        link, created = WebringPageLink.objects.get_or_create(
+            page=page,
+            webring=webring,
+            approved=webring.automatic_approval
+        )
+
+        if created:
+            return Response({'message': 'WebringPageLink created', 'id': link.id}, status=201)
+        else:
+            return Response({'message': 'WebringPageLink already exists'}, status=409)
+
+    def list(self, request, webring_id):
+        webring = get_object_or_404(Webring, pk=webring_id)
+        if not request.user.account == webring.account:
+            return Response({'message': 'Not authorized to handle resource'}, status=403) 
+        # Filter WebringPageLink objects based on webring_id and approval status
+        approved_links = self.queryset.filter(webring__id=webring_id, approved=True)
+        not_approved_links = self.queryset.filter(webring__id=webring_id, approved=False)
+
+        # Serialize the queryset and return the response
+        return Response({
+            'approved': self.serializer_class(approved_links, many=True).data,
+            'not_approved':  self.serializer_class(not_approved_links, many=True).data
+        }, status=200)
+
+    def partial_update(self, request):
+        pass

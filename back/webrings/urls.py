@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (
     WebringViewSet,
     PageViewSet,
-    AccountViewSet
+    AccountViewSet,
+    WebringPageLinkViewSet
 )
 
 
@@ -55,4 +56,14 @@ urlpatterns = [
             {'get': 'retrieve',
              'patch': 'partial_update'}
         ), name='retrieve-update-account'),
+
+    path('link/<int:webring_id>/',
+        WebringPageLinkViewSet.as_view(
+            {'get': 'list'}
+        ), name='list-links-by-webring'),
+
+    path('link/<int:webring_id>/<int:page_id>/',
+        WebringPageLinkViewSet.as_view(
+            {'post': 'create'}
+        ), name='create-link'),
 ]
