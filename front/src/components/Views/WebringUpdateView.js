@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import { renderErrorMessage } from "../../utils/formsUtils";
 import { useParams } from "react-router-dom";
 import NotFoundView from "./NotFound";
-
+import LinkListView from "./LinkListView";
 
 export default function WebringUpdateView() {
 
@@ -14,6 +14,9 @@ export default function WebringUpdateView() {
     const { token } = useAuth()
 
     const [webring, setWebring] = useState({});
+
+    const [approvedLinks, setApprovedLinks] = useState()
+    const [unapprovedLinks, setUnapprovedLinks] = useState()
 
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
@@ -49,13 +52,13 @@ export default function WebringUpdateView() {
 
     const updateWebring = async (input) => {
    
-        const endpoint = back.getNonAuthBaseUrl(input) + 'webring/' + webringId + '/'
+        const endpoint = back.getNonAuthBaseUrl() + 'webring/' + webringId + '/'
         try {
           const response = await fetch(endpoint, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Token ${token}`,
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ 
                 title: input.title,
@@ -85,16 +88,67 @@ export default function WebringUpdateView() {
         }
     };
 
+    const getWebringPageLinks = async () => {
+      const endpoint = back.getNonAuthBaseUrl() + 'link/' + webringId + '/'
+      try {
+        const response = await fetch(endpoint, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        const data = await response.json()
+        if (response.ok) {
+          const { approved, not_approved } = data;
+          setApprovedLinks(approved)
+          setUnapprovedLinks(not_approved)
+        } else {
+          console.log(response)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const approveLink = async (link) => {
+      console.log(link)
+      const endpoint = back.getNonAuthBaseUrl() + 'link/update/' + link.id + '/'
+      try {
+        const response = await fetch(endpoint, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            approved: true
+          })
+        })
+        const data = await response.json()
+        if (response.ok) {
+          await getWebringPageLinks()
+          console.log(data)
+        } else {
+          console.log(response)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     useEffect(() => {
         getWebring();
+        getWebringPageLinks()
     }, [webringId]);
+
 
     if (error) return <NotFoundView />
 
     return (
         <div className="view-wrapper">
             <div>
-                <h2>Update Webrings</h2>
+                <h2>Manage Webring</h2>
             </div>
             <div className="form-wrapper">
                 <form onSubmit={(e) => handleSubmit(e, updateWebring, {
@@ -112,6 +166,30 @@ export default function WebringUpdateView() {
                     {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>}
 
                 </form>
+            </div>
+
+
+            <div>
+                {unapprovedLinks && unapprovedLinks.length > 0 && <>
+                  <h3>Unapproved Links</h3>
+                  <LinkListView 
+                    linksPassed={unapprovedLinks}
+                    action={{
+                      func: approveLink,
+                      text: "Approve"
+                    }}
+                  />
+                </>}
+                {approvedLinks && approvedLinks.length > 0 && <>
+                  <h3>Approved Links</h3>
+                  <LinkListView 
+                    linksPassed={approvedLinks}
+                    action={{
+                      func: () => console.log("Delete"),
+                      text: "Delete"
+                    }}
+                  />
+                </>}
             </div>
         </div>
     )

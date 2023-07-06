@@ -92,8 +92,9 @@ class WebringPageLink(models.Model):
         return f"Page: {self.page.title} - WebRing: {self.webring.title}"
     
     def save(self, *args, **kwargs):
-        existing_link = WebringPageLink.objects.filter(page=self.page, webring=self.webring).exists()
-        if existing_link:
-            raise ValidationError("A link between this page and webring already exists.")
+        if self.pk is None:  # New instance
+            existing_link = WebringPageLink.objects.filter(page=self.page, webring=self.webring).exists()
+            if existing_link:
+                raise ValidationError("A link between this page and webring already exists.")
 
         super().save(*args, **kwargs)

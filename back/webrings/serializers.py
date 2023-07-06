@@ -42,4 +42,4 @@ class WebringPageLinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WebringPageLink
-        fields = ['page', 'webring', 'approved']
+        fields = ['id', 'page', 'webring', 'approved']

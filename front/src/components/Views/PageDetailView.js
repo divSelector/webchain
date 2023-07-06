@@ -29,6 +29,7 @@ export default function PageDetailView() {
     
           if (response.ok) {
             const data = await response.json()
+            console.log(data)
             setWebrings(data.webrings)
             setPage(data.page)
             setPageAccount(data.page.account)

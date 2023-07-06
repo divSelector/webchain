@@ -6,6 +6,7 @@ from .models import Webring, Page, WebringPageLink, Account
 from .serializers import PageSerializer, WebringSerializer, AccountSerializer, WebringPageLinkSerializer
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
 
 class RetrieveListOrAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -16,7 +17,7 @@ class RetrieveListOrAuthenticated(permissions.BasePermission):
 
 
 class WebringViewSet(viewsets.ModelViewSet):
-
+    queryset = Webring.objects.all()
     permission_classes = [RetrieveListOrAuthenticated]
 
     def create(self, request):
@@ -93,6 +94,7 @@ class WebringViewSet(viewsets.ModelViewSet):
 
 class PageViewSet(viewsets.ViewSet):
     permission_classes = [RetrieveListOrAuthenticated]
+    queryset = Page.objects.all()
 
     def create(self, request):
         user = request.user
@@ -110,10 +112,7 @@ class PageViewSet(viewsets.ViewSet):
         page_id = kwargs.get('page_id')
         try:
             page = Page.objects.get(id=page_id)
-            approved_webrings = Webring.objects.filter(
-                webringpagelink__id=page.id, webringpagelink__approved=True
-            )
-
+            approved_webrings = page.webrings.filter(webringpagelink__approved=True)
             page_serializer = PageSerializer(page)
             data = {
                 'page': page_serializer.data,
@@ -212,6 +211,8 @@ class AccountViewSet(viewsets.ViewSet):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+
 class WebringPageLinkViewSet(viewsets.ViewSet):
     serializer_class = WebringPageLinkSerializer
     authentication_classes = [TokenAuthentication]
@@ -249,5 +250,19 @@ class WebringPageLinkViewSet(viewsets.ViewSet):
             'not_approved':  self.serializer_class(not_approved_links, many=True).data
         }, status=200)
 
-    def partial_update(self, request):
-        pass
+    def partial_update(self, request, link_id):
+        link = get_object_or_404(WebringPageLink, pk=link_id)
+        if not request.user.account == link.webring.account:
+            return Response({'message': 'Not authorized to handle resource'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        allowed_keys = ['approved']
+        filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
+
+        serializer = self.serializer_class(link, data=filtered_data, partial=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except ValidationError as e:
+            return Response({'message': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

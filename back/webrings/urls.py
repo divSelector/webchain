@@ -57,6 +57,8 @@ urlpatterns = [
              'patch': 'partial_update'}
         ), name='retrieve-update-account'),
 
+
+
     path('link/<int:webring_id>/',
         WebringPageLinkViewSet.as_view(
             {'get': 'list'}
@@ -66,4 +68,10 @@ urlpatterns = [
         WebringPageLinkViewSet.as_view(
             {'post': 'create'}
         ), name='create-link'),
+
+    path('link/update/<int:link_id>/',
+        WebringPageLinkViewSet.as_view(
+            {'patch': 'partial_update'}
+        ), name='update-link-by-webring'),
+
 ]

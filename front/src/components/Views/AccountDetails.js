@@ -58,7 +58,7 @@ export default function AccountDetails() {
           oldName={username}
           onUsernameUpdate={(updatedName) => setUsername(updatedName)}
         />
-
+        {console.log(pages)}
         <WebringListView 
           ringsPassed={webrings} 
           additionalContainerStyle={{flexDirection: 'column'}}

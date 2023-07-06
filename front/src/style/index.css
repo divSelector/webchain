@@ -123,6 +123,9 @@ header h1 {
   letter-spacing: 0.2em;
 }
 
+.webring-page-link-button-group > * {
+  margin-right: 8px;
+}
 
 @media (max-width: 690px) {
   .view-wrapper {
