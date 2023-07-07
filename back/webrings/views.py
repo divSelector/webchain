@@ -266,3 +266,12 @@ class WebringPageLinkViewSet(viewsets.ViewSet):
 
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def destroy(self, request, link_id):
+        link = get_object_or_404(WebringPageLink, pk=link_id)
+        if not (request.user.account == link.webring.account or request.user.account == link.page.account):
+            return Response({'message': 'Not authorized to handle resource'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        link.delete()
+
+        return Response({'message': 'Link deleted.'}, status=status.HTTP_204_NO_CONTENT)

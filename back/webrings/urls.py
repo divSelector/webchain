@@ -72,6 +72,12 @@ urlpatterns = [
     path('link/update/<int:link_id>/',
         WebringPageLinkViewSet.as_view(
             {'patch': 'partial_update'}
-        ), name='update-link-by-webring'),
+        ), name='update-link'),
+
+
+    path('link/delete/<int:link_id>/',
+        WebringPageLinkViewSet.as_view(
+            {'delete': 'destroy'}
+        ), name='destroy-link'),
 
 ]

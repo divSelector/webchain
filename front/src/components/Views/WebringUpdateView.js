@@ -112,7 +112,6 @@ export default function WebringUpdateView() {
     }
 
     const approveLink = async (link) => {
-      console.log(link)
       const endpoint = back.getNonAuthBaseUrl() + 'link/update/' + link.id + '/'
       try {
         const response = await fetch(endpoint, {
@@ -128,7 +127,26 @@ export default function WebringUpdateView() {
         const data = await response.json()
         if (response.ok) {
           await getWebringPageLinks()
-          console.log(data)
+        } else {
+          console.log(response)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const deleteLink = async (link) => {
+      const endpoint = back.getNonAuthBaseUrl() + 'link/delete/' + link.id + '/'
+      try {
+        const response = await fetch(endpoint, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        if (response.ok) {
+          await getWebringPageLinks()
         } else {
           console.log(response)
         }
@@ -170,6 +188,7 @@ export default function WebringUpdateView() {
 
 
             <div>
+
                 {unapprovedLinks && unapprovedLinks.length > 0 && <>
                   <h3>Unapproved Links</h3>
                   <LinkListView 
@@ -180,16 +199,18 @@ export default function WebringUpdateView() {
                     }}
                   />
                 </>}
+
                 {approvedLinks && approvedLinks.length > 0 && <>
                   <h3>Approved Links</h3>
                   <LinkListView 
                     linksPassed={approvedLinks}
                     action={{
-                      func: () => console.log("Delete"),
+                      func: deleteLink,
                       text: "Delete"
                     }}
                   />
                 </>}
+
             </div>
         </div>
     )

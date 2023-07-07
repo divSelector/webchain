@@ -3,6 +3,7 @@ import back from "../../settings/Backend";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NotFoundView from "./NotFound";
+import AddLinkToWebringForm from "../Forms/AddLinkToWebringForm";
 
 export default function WebringDetailView() {
 
@@ -68,7 +69,8 @@ export default function WebringDetailView() {
             <h2>{webring.title}</h2>
             <h4>by {ringAccount.name}</h4>
             <p>{webring.description}</p>
-            {isRingOwner && <Link to={'/webring/update/'+webringId} >Update Webring</Link> }
+            {isRingOwner && <p><Link to={'/webring/update/'+webringId} >Manage Your Webring</Link></p>}
+            {authAccount && <><AddLinkToWebringForm webring={webring} pagesInRing={pages} /></> }
           </div>
           <ul>
           {pages.map((page) => (

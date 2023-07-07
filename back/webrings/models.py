@@ -85,7 +85,7 @@ class Page(models.Model):
 
 class WebringPageLink(models.Model):
     page = models.ForeignKey('Page', on_delete=models.CASCADE, blank=False, null=False)
-    webring = models.ForeignKey('WebRing', on_delete=models.CASCADE, blank=False, null=False)
+    webring = models.ForeignKey('Webring', on_delete=models.CASCADE, blank=False, null=False)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
