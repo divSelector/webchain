@@ -55,12 +55,18 @@ class WebringViewSet(viewsets.ModelViewSet):
             )
         ).distinct()
 
+        links = WebringPageLink.objects.filter(webring=webring)
+
         pages_serializer = PageSerializer(pages, many=True)
         webring_serializer = WebringSerializer(webring)
+        links_serializer = WebringPageLinkSerializer(links, many=True)
         data = {
             'webring': webring_serializer.data, 
             'pages': pages_serializer.data
         }
+
+        if hasattr(request.user, 'account') and request.user.account == webring.account:
+            data['links'] = links_serializer.data
 
         return Response(data)
 
@@ -112,12 +118,16 @@ class PageViewSet(viewsets.ViewSet):
         page_id = kwargs.get('page_id')
         try:
             page = Page.objects.get(id=page_id)
+            links = WebringPageLink.objects.filter(page=page)
             approved_webrings = page.webrings.filter(webringpagelink__approved=True)
             page_serializer = PageSerializer(page)
+            links_serializer = WebringPageLinkSerializer(links, many=True)
             data = {
                 'page': page_serializer.data,
                 'webrings': WebringSerializer(approved_webrings, many=True).data
             }
+            if hasattr(request.user, 'account') and request.user.account == page.account:
+                data['links'] = links_serializer.data
 
             return Response(data)
         except Page.DoesNotExist:

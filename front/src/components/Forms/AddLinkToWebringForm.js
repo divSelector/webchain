@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import back from '../../settings/Backend';
 import { useAuth } from '../../context/AuthContext';
 
-export default function AddLinkToWebringForm({ webring, pagesInRing }) {
+export default function AddLinkToWebringForm({ webring, pagesInRing, linksToRing }) {
 
   const [selectedPage, setSelectedPage] = useState('');
   const [feedbackMsg, setFeedbackMsg] = useState('')
@@ -27,7 +27,9 @@ export default function AddLinkToWebringForm({ webring, pagesInRing }) {
 
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
+        setUserPagesNotOnRing(
+            prevPages => prevPages.filter(page => page.id !== parseInt(selectedPage))
+        );
       } else {
         const data = await response.json()
         
@@ -47,8 +49,6 @@ export default function AddLinkToWebringForm({ webring, pagesInRing }) {
 
   const handleSelectChange = (event) => {
     setSelectedPage(event.target.value);
-    console.log(userPages)
-    console.log(pagesInRing)
   };
 
   useEffect(() => {
@@ -75,11 +75,15 @@ export default function AddLinkToWebringForm({ webring, pagesInRing }) {
   }, [token]);
   
   useEffect(() => {
-    setUserPagesNotOnRing(
-      userPages.filter(
+    let filteredPages = userPages.filter(
         (page) => !pagesInRing.some((webringPage) => webringPage.title === page.title)
+    )
+    if (linksToRing) {
+        filteredPages = filteredPages.filter(page =>
+        !linksToRing.some(link => link.page.id === page.id)
       )
-    );
+    }
+    setUserPagesNotOnRing(filteredPages);
   }, [userPages, pagesInRing]);
   
 
