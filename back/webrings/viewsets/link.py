@@ -34,17 +34,21 @@ class WebringPageLinkViewSet(viewsets.ViewSet):
 
     def list(self, request, webring_id):
         webring = get_object_or_404(Webring, pk=webring_id)
-        if not request.user.account == webring.account:
-            return Response({'message': 'Not authorized to handle resource'}, status=403) 
         # Filter WebringPageLink objects based on webring_id and approval status
         approved_links = self.queryset.filter(webring__id=webring_id, approved=True)
         not_approved_links = self.queryset.filter(webring__id=webring_id, approved=False)
-
-        # Serialize the queryset and return the response
-        return Response({
-            'approved': self.serializer_class(approved_links, many=True).data,
-            'not_approved':  self.serializer_class(not_approved_links, many=True).data
-        }, status=200)
+        try:
+            if not request.user.account == webring.account:
+                approved_links = approved_links.filter(page__account=request.user.account)
+                not_approved_links = not_approved_links.filter(page__account=request.user.account)
+                
+            # Serialize the queryset and return the response
+            return Response({
+                'approved': self.serializer_class(approved_links, many=True).data,
+                'not_approved':  self.serializer_class(not_approved_links, many=True).data
+            }, status=200)
+        except AttributeError:
+            return Response({'message': 'Not authorized to handle resource'}, status=403) 
 
     def partial_update(self, request, link_id):
         link = get_object_or_404(WebringPageLink, pk=link_id)

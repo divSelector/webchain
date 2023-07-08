@@ -19,6 +19,32 @@ export default function WebringDetailView() {
 
     const { token, authAccount } = useAuth()
 
+
+    const getLinks = async () => {
+      const endpoint = back.getNonAuthBaseUrl() + 'link/' + webringId
+      try {
+        let headers = {
+          'Content-Type': 'application/json'
+        }
+        if (token) {
+          headers['Authorization'] = `Token ${token}`
+        }
+        const response = await fetch(endpoint, {
+          method: 'GET',
+          headers: headers
+        });
+  
+        if (response.ok) {
+          const data = await response.json()
+          setLinks([...data.approved, ...data.not_approved])
+        } else {
+          console.log(error)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     const getWebring = async () => {
    
         const endpoint = back.getNonAuthBaseUrl() + 'webring/' + webringId
@@ -41,7 +67,8 @@ export default function WebringDetailView() {
             console.log(data)
             if (data.hasOwnProperty('links')) {
               setLinks(data.links)
-              console.log(links)
+            } else {
+              getLinks()
             }
             setRingAccount(data.webring.account)
           } else {
@@ -80,7 +107,12 @@ export default function WebringDetailView() {
             <h4>by {ringAccount.name}</h4>
             <p>{webring.description}</p>
             {token && isRingOwner && <p><Link to={'/webring/update/'+webringId} >Manage Your Webring</Link></p>}
-            {token && <><AddLinkToWebringForm webring={webring} pagesInRing={pages} linksToRing={links} /></> }
+            {token && <>
+              <AddLinkToWebringForm 
+                webring={webring} 
+                pagesInRing={pages} 
+                linksToRing={links} />
+            </>}
           </div>
           <ul>
           {pages.map((page) => (
