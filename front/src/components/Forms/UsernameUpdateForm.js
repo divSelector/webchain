@@ -1,71 +1,73 @@
-import { useState } from "react";
-import back from "../../settings/Backend";
-import LabeledInputField from "../Fields/LabeledInputField";
-import { useAuth } from "../../context/AuthContext";
-import { renderErrorMessage } from "../../utils/formsUtils";
+import { useState } from 'react';
+import back from '../../settings/Backend';
+import LabeledInputField from '../Fields/LabeledInputField';
+import { useAuth } from '../../context/AuthContext';
+import { renderErrorMessage } from '../../utils/formsUtils';
 
 export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
+  const { token } = useAuth();
+  const [name, setName] = useState(oldName);
+  const [nameError, setNameFieldError] = useState('');
+  const [feedbackMsg, setFeedbackMsg] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-    const { token } = useAuth()
+  const handleInputChange = (event) => {
+    setName(event.target.value);
+  };
 
-    const [name, setName] = useState(oldName);
-    const [nameError, setNameFieldError] = useState('');
-    const [feedbackMsg, setFeedbackMsg] = useState('');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    const handleInputChange = (event) => {
-        setName(event.target.value);
-    };
+    const endpoint = back.getNonAuthBaseUrl() + 'user/' + oldName + '/';
+    try {
+      const response = await fetch(endpoint, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        body: JSON.stringify({
+          name: name,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setIsButtonDisabled(true);
+        onUsernameUpdate(name);
+        setFeedbackMsg('Username successfully updated');
+      } else {
+        const errorMappings = [
+          { key: 'name', setter: setNameFieldError },
+          { key: 'non_field_errors', setter: setFeedbackMsg },
+        ];
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        
-        const endpoint = back.getNonAuthBaseUrl() + 'user/' + oldName + "/"
-        try {
-            const response = await fetch(endpoint, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${token}`
-                },
-                body: JSON.stringify({
-                    name: name
-                })
-            });
-            const data = await response.json()
-            if (response.ok) {
-                onUsernameUpdate()
-            } else {
-                const errorMappings = [
-                    { key: "name", setter: setNameFieldError },
-                    { key: "non_field_errors", setter: setFeedbackMsg }
-                ];
-                  
-                errorMappings.forEach(({ key, setter }) => {
-                    renderErrorMessage(data, key, setter);
-                });
-            }
-        } catch (error) {
-            setFeedbackMsg("Error Communicating with Server")
-        }
+        errorMappings.forEach(({ key, setter }) => {
+          renderErrorMessage(data, key, setter);
+        });
+      }
+    } catch (error) {
+      setFeedbackMsg('Error Communicating with Server');
+    }
+  };
 
-    };
+  return (
+    <div className="form-wrapper">
+      <form onSubmit={handleSubmit}>
+        <LabeledInputField
+          type="text"
+          id="account-name"
+          name="Username"
+          defaultValue={oldName}
+          onChange={handleInputChange}
+          error={nameError}
+        />
 
-    return(
-        <div className="form-wrapper">
-          <form onSubmit={handleSubmit}>
-    
-            <LabeledInputField 
-                type="text" 
-                id="account-name" 
-                name="Username" 
-                defaultValue={oldName}
-                onChange={handleInputChange}
-                error={nameError}
-            />
-    
-            <button type="submit">UPDATE</button>
-          </form>
-        </div>
-      )
+        <button type="submit" disabled={isButtonDisabled}>
+          {isButtonDisabled ? 'Updated.' : 'UPDATE'}
+        </button>
 
+        <p className="success-text">{feedbackMsg ? feedbackMsg : ''}</p>
+      </form>
+    </div>
+  );
 }
