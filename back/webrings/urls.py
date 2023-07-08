@@ -1,11 +1,8 @@
 from django.urls import path
-from .views import (
-    WebringViewSet,
-    PageViewSet,
-    AccountViewSet,
-    WebringPageLinkViewSet
-)
-
+from .viewsets.ring import WebringViewSet
+from .viewsets.page import PageViewSet
+from .viewsets.link import WebringPageLinkViewSet
+from .viewsets.account import AccountViewSet
 
 urlpatterns = [
     path('webring/', 
@@ -18,6 +15,12 @@ urlpatterns = [
             {'get': 'retrieve',
              'patch': 'partial_update'}
         ), name='retrieve-update-webring'),
+
+
+    path('webring/<int:webring_id>/next', 
+        WebringViewSet.as_view(
+            {'get': 'next'}
+        ), name='next-from-webring'),
 
 
     path('webrings/', 

@@ -67,6 +67,7 @@ export default function PageDetailView() {
         <div className="view-wrapper">
           <div className="view-details">
             <h2>{page.title}</h2>
+            <h3>{page.url}</h3>
             <h4>by {pageAccount.name}</h4>
             <p>{page.description}</p>
             {isPageOwner && <Link to={'/page/update/'+pageId} >Update Page</Link> }
