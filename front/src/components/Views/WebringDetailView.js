@@ -26,7 +26,7 @@ export default function WebringDetailView() {
           let headers = {
             'Content-Type': 'application/json'
           }
-          if And so it does become "our"(token) {
+          if (token) {
             headers['Authorization'] = `Token ${token}`
           }
           const response = await fetch(endpoint, {
