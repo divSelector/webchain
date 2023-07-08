@@ -34,7 +34,6 @@ class WebringPageLinkViewSet(viewsets.ViewSet):
 
     def list(self, request, webring_id):
         webring = get_object_or_404(Webring, pk=webring_id)
-        # Filter WebringPageLink objects based on webring_id and approval status
         approved_links = self.queryset.filter(webring__id=webring_id, approved=True)
         not_approved_links = self.queryset.filter(webring__id=webring_id, approved=False)
         try:

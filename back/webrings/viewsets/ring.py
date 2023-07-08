@@ -6,7 +6,8 @@ from ..permissions import WebringViewPermissions
 from django.db.models import Q
 from rest_framework.decorators import action
 import urllib.parse
-
+from django.views.generic import RedirectView
+from random import choice
 
 class WebringViewSet(viewsets.ModelViewSet):
     queryset = Webring.objects.all()
@@ -102,10 +103,33 @@ class WebringViewSet(viewsets.ModelViewSet):
         get_next = lambda current_index, total_items: (current_index + 1) % total_items
         next_page = pages[get_next(current_page.id, len(pages))]
 
-        response_data = {
-            'next': next_page.url,
-            'via': via,
-        }
+        redirect = RedirectView.as_view(url=next_page.url)
 
-        return Response(response_data)
+        return redirect(request)
+    
+    @action(detail=True, methods=['get'])
+    def previous(self, request, webring_id):
+        webring = Webring.objects.get(pk=webring_id)
+        pages = self.get_approved_pages(webring)
+
+        via = urllib.parse.unquote(request.GET.get('via', ''))
+        current_page = pages.filter(url=via).first()
+
+        get_previous = lambda current_index, total_items: (current_index - 1) % total_items
+        previous_page = pages[get_previous(current_page.id, len(pages))]
+
+        redirect_url = previous_page.url
+
+        redirect_view = RedirectView.as_view(url=redirect_url)
+
+        return redirect_view(request)
+
+    @action(detail=True, methods=['get'])
+    def random(self, request, webring_id):
+        webring = Webring.objects.get(pk=webring_id)
+        pages = self.get_approved_pages(webring)
+        redirect_url = choice(pages).url
+        redirect_view = RedirectView.as_view(url=redirect_url)
+        return redirect_view(request)
+
     

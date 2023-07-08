@@ -23,12 +23,22 @@ urlpatterns = [
         ), name='next-from-webring'),
 
 
+    path('webring/<int:webring_id>/previous', 
+        WebringViewSet.as_view(
+            {'get': 'previous'}
+        ), name='previous-from-webring'),
+
+
+    path('webring/<int:webring_id>/random', 
+        WebringViewSet.as_view(
+            {'get': 'random'}
+        ), name='random-from-webring'),
+
+
     path('webrings/', 
         WebringViewSet.as_view(
             {'get': 'list'}
         ), name='list-webrings'),
-
-
 
     path('page/', 
         PageViewSet.as_view(
@@ -46,7 +56,6 @@ urlpatterns = [
         PageViewSet.as_view(
             {'get': 'list'}
         ), name='list-page'),
-
 
 
     path('user/',

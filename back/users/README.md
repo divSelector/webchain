@@ -60,10 +60,7 @@ INSTALLED_APPS = [
         'allauth.account.auth_backends.AuthenticationBackend',
     ]
 
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
 
-    STATIC_ROOT = BASE_DIR / 'static'
-    STATIC_URL = '/static/'
     STATICFILES_DIRS = []
 
     SITE_ID = 1  # Required by Django-allauth
