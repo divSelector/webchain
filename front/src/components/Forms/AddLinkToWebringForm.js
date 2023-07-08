@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import back from '../../settings/Backend';
 import { useAuth } from '../../context/AuthContext';
 
-export default function AddLinkToWebringForm({ webring, pagesInRing, linksToRing }) {
+export default function AddLinkToWebringForm({ webring, pagesInRing, linksToRing, onPageAdded }) {
 
   const [selectedPage, setSelectedPage] = useState('');
   const [feedbackMsg, setFeedbackMsg] = useState('')
@@ -30,6 +30,8 @@ export default function AddLinkToWebringForm({ webring, pagesInRing, linksToRing
         setUserPagesNotOnRing(
             prevPages => prevPages.filter(page => page.id !== parseInt(selectedPage))
         );
+        onPageAdded()
+        setSelectedPage('')
       } else {
         const data = await response.json()
         

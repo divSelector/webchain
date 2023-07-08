@@ -81,9 +81,9 @@ class WebringViewSet(viewsets.ModelViewSet):
                 return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
             
             allowed_keys = ['title', 'description', 'automatic_approval']
-
+            print(request.data.get('automatic_approval'))
             filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
-
+            print(filtered_data)
             serializer = WebringSerializer(instance, data=filtered_data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -92,37 +92,30 @@ class WebringViewSet(viewsets.ModelViewSet):
         except (Webring.DoesNotExist, AttributeError):
             return Response({'error': 'Page not found'}, status=404)
 
-    @action(detail=True, methods=['get'])
-    def next(self, request, webring_id):
+    def get_next_or_previous(self, request, webring_id, increment):
+        
+        def pivot(current_index, total_items):
+            return (current_index + increment) % total_items
+            
         webring = Webring.objects.get(pk=webring_id)
         pages = self.get_approved_pages(webring)
 
         via = urllib.parse.unquote(request.GET.get('via', ''))
         current_page = pages.filter(url=via).first()
 
-        get_next = lambda current_index, total_items: (current_index + 1) % total_items
-        next_page = pages[get_next(current_page.id, len(pages))]
+        redirect_to = pages[pivot(current_page.id, len(pages))]
 
-        redirect = RedirectView.as_view(url=next_page.url)
+        redirect = RedirectView.as_view(url=redirect_to.url)
 
         return redirect(request)
+
+    @action(detail=True, methods=['get'])
+    def next(self, request, webring_id):
+        return self.get_next_or_previous(request, webring_id, 1)
     
     @action(detail=True, methods=['get'])
     def previous(self, request, webring_id):
-        webring = Webring.objects.get(pk=webring_id)
-        pages = self.get_approved_pages(webring)
-
-        via = urllib.parse.unquote(request.GET.get('via', ''))
-        current_page = pages.filter(url=via).first()
-
-        get_previous = lambda current_index, total_items: (current_index - 1) % total_items
-        previous_page = pages[get_previous(current_page.id, len(pages))]
-
-        redirect_url = previous_page.url
-
-        redirect_view = RedirectView.as_view(url=redirect_url)
-
-        return redirect_view(request)
+        return self.get_next_or_previous(request, webring_id, -1)
 
     @action(detail=True, methods=['get'])
     def random(self, request, webring_id):

@@ -33,7 +33,7 @@ class WebringSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Webring
-        fields = ['id', 'account', 'title', 'description', 'date_created', 'date_updated']
+        fields = ['id', 'account', 'title', 'description', 'date_created', 'date_updated', 'automatic_approval']
 
 
 class WebringPageLinkSerializer(serializers.ModelSerializer):

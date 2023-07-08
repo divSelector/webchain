@@ -20,6 +20,7 @@ export default function WebringUpdateView() {
 
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
+    const [automatic_approval, setAutoApproval] = useState(false)
 
     const [titleFieldError, setTitleFieldError] = useState('');
     const [descriptionError, setDescriptionFieldError] = useState('');
@@ -62,7 +63,8 @@ export default function WebringUpdateView() {
             },
             body: JSON.stringify({ 
                 title: input.title,
-                description: input.description
+                description: input.description,
+                automatic_approval: input.automatic_approval
             })
           });
           const data = await response.json()
@@ -160,6 +162,10 @@ export default function WebringUpdateView() {
         getWebringPageLinks()
     }, [webringId]);
 
+    useEffect(() => {
+      setAutoApproval(webring.automatic_approval)
+    }, [webring]);
+
 
     if (error) return <NotFoundView />
 
@@ -170,7 +176,7 @@ export default function WebringUpdateView() {
             </div>
             <div className="form-wrapper">
                 <form onSubmit={(e) => handleSubmit(e, updateWebring, {
-                    title, description
+                    title, description, automatic_approval
                 })}>
 
                     <LabeledInputField type="text" id="new-webring-title" name="Title" defaultValue={webring.title}
@@ -179,6 +185,16 @@ export default function WebringUpdateView() {
                     <LabeledInputField type="text" id="new-webring-title" name="Description" defaultValue={webring.description}
                         onChange={e => setDescription(e.target.value)} textarea={true} error={descriptionError}
                     />
+                    <input
+                      type="checkbox"
+                      id="new-webring-auto-approval"
+                      name="Automatic Approval"
+                      value="automatic-approval"
+                      checked={automatic_approval}
+                      defaultValue={webring.automatic_approval}
+                      onChange={(e) => setAutoApproval(e.target.checked)}
+                    />
+                    <label htmlFor="new-webring-auto-approval">Automatic Approval</label>
 
                     <button type="submit">UPDATE Webring</button>
                     {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>}

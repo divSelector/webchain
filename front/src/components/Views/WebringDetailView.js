@@ -12,6 +12,7 @@ export default function WebringDetailView() {
     const [pages, setPages] = useState([]);
     const [links, setLinks] = useState();
     const [ringAccount, setRingAccount] = useState([]);
+    const [pagesInRing, setPagesInRing] = useState([]);
 
     const [isRingOwner, setIsRingOwner] = useState(false)
 
@@ -87,6 +88,9 @@ export default function WebringDetailView() {
       }
     }
 
+    const handlePageAdded = () => {
+      getWebring();
+    };
 
     useEffect(() => {
         getWebring();
@@ -111,7 +115,9 @@ export default function WebringDetailView() {
               <AddLinkToWebringForm 
                 webring={webring} 
                 pagesInRing={pages} 
-                linksToRing={links} />
+                linksToRing={links}
+                onPageAdded={handlePageAdded}
+              />
             </>}
           </div>
           <ul>
