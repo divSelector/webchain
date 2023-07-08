@@ -20,7 +20,7 @@ export default function WebringUpdateView() {
 
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
-    const [automatic_approval, setAutoApproval] = useState(false)
+    const [automatic_approval, setAutoApproval] = useState(webring.automatic_approval || false)
 
     const [titleFieldError, setTitleFieldError] = useState('');
     const [descriptionError, setDescriptionFieldError] = useState('');
@@ -163,7 +163,7 @@ export default function WebringUpdateView() {
     }, [webringId]);
 
     useEffect(() => {
-      setAutoApproval(webring.automatic_approval)
+      setAutoApproval(webring.automatic_approval || false)
     }, [webring]);
 
 

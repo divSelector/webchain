@@ -35,6 +35,7 @@ export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
         setIsButtonDisabled(true);
         onUsernameUpdate(name);
         setFeedbackMsg('Username successfully updated');
+        setNameFieldError('')
       } else {
         const errorMappings = [
           { key: 'name', setter: setNameFieldError },
@@ -59,6 +60,7 @@ export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
           name="Username"
           defaultValue={oldName}
           onChange={handleInputChange}
+          isDisabled={isButtonDisabled}
           error={nameError}
         />
 

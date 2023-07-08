@@ -170,6 +170,11 @@ header h1 {
   color: crimson;
 }
 
+.success-text {
+  font-size: 0.6em;
+  color: forestgreen;
+}
+
 .help-text {
   font-size: 0.8em;
   color: rgb(82, 70, 16);
