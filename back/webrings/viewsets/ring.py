@@ -81,9 +81,9 @@ class WebringViewSet(viewsets.ModelViewSet):
                 return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
             
             allowed_keys = ['title', 'description', 'automatic_approval']
-            print(request.data.get('automatic_approval'))
+            
             filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
-            print(filtered_data)
+
             serializer = WebringSerializer(instance, data=filtered_data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -92,22 +92,25 @@ class WebringViewSet(viewsets.ModelViewSet):
         except (Webring.DoesNotExist, AttributeError):
             return Response({'error': 'Page not found'}, status=404)
 
+
     def get_next_or_previous(self, request, webring_id, increment):
-        
-        def pivot(current_index, total_items):
-            return (current_index + increment) % total_items
-            
         webring = Webring.objects.get(pk=webring_id)
         pages = self.get_approved_pages(webring)
 
         via = urllib.parse.unquote(request.GET.get('via', ''))
         current_page = pages.filter(url=via).first()
 
-        redirect_to = pages[pivot(current_page.id, len(pages))]
+        page_ids = list(pages.values_list('id', flat=True))
+        total_pages = len(page_ids)
+        current_index = page_ids.index(current_page.id)
+        next_index = (current_index + increment) % total_pages
 
+        next_page_id = page_ids[next_index]
+        redirect_to = pages.get(id=next_page_id)
         redirect = RedirectView.as_view(url=redirect_to.url)
 
         return redirect(request)
+
 
     @action(detail=True, methods=['get'])
     def next(self, request, webring_id):

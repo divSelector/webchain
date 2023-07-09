@@ -12,14 +12,29 @@ import Header from './components/Layout/Header';
 import AccountDetails from './components/Views/AccountDetails';
 import PageCreateView from './components/Views/PageCreateView';
 import { AuthProvider } from './context/AuthContext';
-import MatrixRain from './components/Canvas/MatrixRain';
+import MatrixRain from './components/Overlays/MatrixRain';
 import WebringCreateView from './components/Views/WebringCreateView';
 import PageUpdateView from './components/Views/PageUpdateView';
 import { ProtectedRoute } from './context/ProtectedRoute';
 import WebringUpdateView from './components/Views/WebringUpdateView';
 import NotFoundView from './components/Views/NotFound';
+import ModalDialogue from './components/Overlays/ModalDialogue';
+import { useState } from 'react';
 
 export default function App() {
+
+
+  const [showModal, setShowModal] = useState(true);
+
+  const handleAction = () => {
+    // Perform the action here
+    console.log('Action performed!');
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <BrowserRouter>
     <AuthProvider>
@@ -119,6 +134,7 @@ export default function App() {
           } />
 
         </Routes>
+
         <MatrixRain />
       </div>
       </AuthProvider>

@@ -12,7 +12,6 @@ export default function WebringDetailView() {
     const [pages, setPages] = useState([]);
     const [links, setLinks] = useState();
     const [ringAccount, setRingAccount] = useState([]);
-    const [pagesInRing, setPagesInRing] = useState([]);
 
     const [isRingOwner, setIsRingOwner] = useState(false)
 
@@ -37,7 +36,7 @@ export default function WebringDetailView() {
   
         if (response.ok) {
           const data = await response.json()
-          setLinks([...data.approved, ...data.not_approved])
+          await setLinks([...data.approved, ...data.not_approved])
         } else {
           console.log(error)
         }
@@ -67,9 +66,10 @@ export default function WebringDetailView() {
             setPages(data.pages)
             console.log(data)
             if (data.hasOwnProperty('links')) {
-              setLinks(data.links)
+              // This is why its always correct.
+              await setLinks(data.links)
             } else {
-              getLinks()
+              await getLinks()
             }
             setRingAccount(data.webring.account)
           } else {

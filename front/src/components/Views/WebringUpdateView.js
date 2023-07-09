@@ -185,16 +185,21 @@ export default function WebringUpdateView() {
                     <LabeledInputField type="text" id="new-webring-title" name="Description" defaultValue={webring.description}
                         onChange={e => setDescription(e.target.value)} textarea={true} error={descriptionError}
                     />
-                    <input
-                      type="checkbox"
-                      id="new-webring-auto-approval"
-                      name="Automatic Approval"
-                      value="automatic-approval"
-                      checked={automatic_approval}
-                      defaultValue={webring.automatic_approval}
-                      onChange={(e) => setAutoApproval(e.target.checked)}
-                    />
-                    <label htmlFor="new-webring-auto-approval">Automatic Approval</label>
+
+                    <div className="checkbox-field labeled-input">
+                      <input
+                        type="checkbox"
+                        id="new-webring-auto-approval"
+                        name="Automatic Approval"
+                        value="automatic-approval"
+                        checked={automatic_approval}
+                        defaultValue={webring.automatic_approval}
+                        onChange={(e) => setAutoApproval(e.target.checked)}
+                      />
+                      <label htmlFor="new-webring-auto-approval">
+                        Automatic Approval
+                      </label>
+                    </div>
 
                     <button type="submit">UPDATE Webring</button>
                     {feedbackMsg && <p className="error-text" id="login-form-error">{feedbackMsg}</p>}
