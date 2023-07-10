@@ -1,10 +1,18 @@
 from pathlib import Path
+import environ
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+environ.Env.read_env('.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-hi0o56h^l%m-5agl&r$7wne!v!0ty25r!2gtkwww3*spzkqjws'
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = []
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG')
+
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'corsheaders',
