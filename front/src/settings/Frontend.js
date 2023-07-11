@@ -1,6 +1,6 @@
 function FrontendSettings () {
     
-    const host = "http://localhost:3000"
+    const host = "http://localhost/app"
 
     return (
         {

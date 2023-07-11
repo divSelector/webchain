@@ -11,6 +11,7 @@ django-cors-headers==4.0.0
 django-environ==0.10.0
 djangorestframework==3.14.0
 Faker==18.10.1
+gunicorn==20.1.0
 idna==3.4
 oauthlib==3.2.2
 psycopg2-binary==2.9.6

@@ -6,18 +6,16 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN pip install --upgrade pip
-
 COPY ./back/requirements.txt /src/requirements.txt
-RUN pip install -r /src/requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r /src/requirements.txt
+
+RUN adduser -D notroot
+USER notroot
 
 COPY ./back /src/back/
 COPY ./.env /src/back/core/.env
-EXPOSE 8000
+
 WORKDIR /src/back
-#  python manage.py makemigrations && \
-    # python manage.py migrate && \
-    # python manage.py createusers && \
-    # python manage.py creategroups && \
-    # python manage.py createpages && \ 
-CMD python manage.py runserver 0.0.0.0:8000
+EXPOSE 8000
+CMD gunicorn core.wsgi:application --bind 0.0.0.0:8000
