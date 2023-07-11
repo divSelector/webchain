@@ -9,7 +9,7 @@ services:
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - static_files:/usr/share/nginx/html/
-      - ./nginx/build:/usr/share/nginx/html/app/
+      - ./nginx/build:/usr/share/nginx/react
     depends_on:
       - api
 

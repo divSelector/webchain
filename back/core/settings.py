@@ -116,7 +116,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For developm
 
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_URL = '/static/'
+STATIC_URL = '/static/django/'
 STATICFILES_DIRS = []
 
 
@@ -143,11 +143,12 @@ REST_FRAMEWORK = {
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
-FRONTEND_HOST = 'http://127.0.0.1:3000'
+FRONTEND_HOST = 'http://0.0.0.0'
 
 CORS_ALLOWED_ORIGINS = [
     FRONTEND_HOST,  # 'http://127.0.0.1:3000'
-    "http://localhost:3000"
+    "http://localhost",
+    'http://127.0.0.1'
 ]
 
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
