@@ -187,4 +187,4 @@ back/cython_debug/
 
 .env
 staticfiles
-nginx/build
+nginx/build/*

@@ -3,7 +3,8 @@ services:
 
   nginx:
     container_name: nginx
-    build: ./nginx/
+    build:
+      dockerfile: ./nginx/Dockerfile
     ports:
       - 80:80
     volumes:

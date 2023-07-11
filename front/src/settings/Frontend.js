@@ -1,6 +1,6 @@
 function FrontendSettings () {
     
-    const host = "http://localhost/app"
+    const host = process.env.REACT_APP_FRONTEND_HOST
 
     return (
         {

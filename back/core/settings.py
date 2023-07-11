@@ -143,12 +143,20 @@ REST_FRAMEWORK = {
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
-FRONTEND_HOST = 'http://0.0.0.0'
+if DEBUG:
+    FRONTEND_HOST = 'http://127.0.0.1:3000'
+else:
+    FRONTEND_HOST = 'http://0.0.0.0'
 
 CORS_ALLOWED_ORIGINS = [
     FRONTEND_HOST,  # 'http://127.0.0.1:3000'
     "http://localhost",
-    'http://127.0.0.1'
+    'http://localhost:3000',
+    'http://127.0.0.1',
+    'http://127.0.0.1:3000',
+    'http://0.0.0.0',
+    'http://0.0.0.0:3000'
+
 ]
 
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

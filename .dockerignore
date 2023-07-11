@@ -1,0 +1,6 @@
+dockerclear.sh
+.git
+__pycache__
+node_modules
+venv
+back/restartdb.sh

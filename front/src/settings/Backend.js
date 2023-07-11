@@ -1,5 +1,5 @@
 function BackendSettings () {
-    const host = "http://localhost"
+    const host = process.env.REACT_APP_BACKEND_HOST;
     const api = "/api/"
     const auth = "auth/"
 
