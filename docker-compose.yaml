@@ -1,0 +1,44 @@
+version: '3'
+services:
+
+  nginx:
+    container_name: nginx
+    build: ./nginx/
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - static_files:/usr/share/nginx/html/
+    depends_on:
+      - api
+
+
+  db:
+    container_name: db
+    image: postgres:latest
+    ports:
+      - "5431:5432"
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+    volumes:
+      - ~/srv/docker/template-postgres/data:/var/lib/postgresql/data:rw
+
+  api:
+    build:
+      # context: .
+      dockerfile: ./back/Dockerfile
+    container_name: api
+    volumes:
+      - ./back:/src/back/
+      - static_files:/src/back/staticfiles/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    # command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
+
+volumes:
+  static_files:
