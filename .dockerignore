@@ -1,6 +1,6 @@
 dockerclear.sh
 .git
 __pycache__
-node_modules
-venv
+front/node_modules
+back/venv
 back/restartdb.sh
