@@ -1,6 +1,4 @@
-dockerclear.sh
-.git
-__pycache__
-front/node_modules
 back/venv
 back/restartdb.sh
+back/Dockerfile
+back/db.sqlite3
