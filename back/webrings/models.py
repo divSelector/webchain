@@ -15,7 +15,7 @@ class Account(models.Model):
     
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=36, blank=False, null=False, unique=True)
-    account_type = models.CharField(max_length=12, choices=ACCOUNT_TYPE_CHOICES, default='free')
+    account_type = models.CharField(max_length=12, choices=ACCOUNT_TYPE_CHOICES, default='subscriber')
     date_updated = models.DateTimeField(auto_now=True,  validators=[validate_date_not_in_future])
 
     def clean(self):

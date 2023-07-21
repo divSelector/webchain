@@ -9,6 +9,8 @@ env = environ.Env(
 
 environ.Env.read_env(BASE_DIR.parent / '.env')
 
+print(f"Environment: {env('ENVIRONMENT')}")
+
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
@@ -71,14 +73,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-if DEBUG:
+if env('ENVIRONMENT') == 'development':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-else:
+if env('ENVIRONMENT') == 'staging':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -108,8 +110,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
 
 
 
@@ -143,13 +143,12 @@ REST_FRAMEWORK = {
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
-if DEBUG:
+if env('ENVIRONMENT') == 'development':
     FRONTEND_HOST = 'http://127.0.0.1:3000'
-else:
+if env('ENVIRONMENT') == 'staging':
     FRONTEND_HOST = 'http://0.0.0.0'
 
 CORS_ALLOWED_ORIGINS = [
-    FRONTEND_HOST,  # 'http://127.0.0.1:3000'
     "http://localhost",
     'http://localhost:3000',
     'http://127.0.0.1',
@@ -159,13 +158,14 @@ CORS_ALLOWED_ORIGINS = [
 
 ]
 
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "<your email host>"                    # smtp-relay.sendinblue.com
-# EMAIL_USE_TLS = False                               # False
-# EMAIL_PORT = "<your email port>"                    # 587
-# EMAIL_HOST_USER = "<your email user>"               # your email address
-# EMAIL_HOST_PASSWORD = "<your email password>"       # your password
-# DEFAULT_FROM_EMAIL = "<your default from email>"    # email ending with @sendinblue.com
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_PORT =  env('EMAIL_PORT')
+EMAIL_HOST_USER =  env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
 
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
 EMAIL_CONFIRM_REDIRECT_BASE_URL = \
@@ -175,7 +175,7 @@ EMAIL_CONFIRM_REDIRECT_BASE_URL = \
 PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = \
     FRONTEND_HOST + "/password-reset/confirm/"
 
-if not DEBUG:
+if env('ENVIRONMENT') == 'staging':
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,

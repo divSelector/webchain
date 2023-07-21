@@ -24,8 +24,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
-    volumes:
-      - ~/srv/docker/template-postgres/data:/var/lib/postgresql/data:rw
+    # volumes:
+    #   - ~/srv/docker/template-postgres/data:/var/lib/postgresql/data:rw
 
   api:
     build:
