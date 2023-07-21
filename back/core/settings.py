@@ -9,8 +9,6 @@ env = environ.Env(
 
 environ.Env.read_env(BASE_DIR.parent / '.env')
 
-print(f"Environment: {env('ENVIRONMENT')}")
-
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
@@ -80,7 +78,8 @@ if env('ENVIRONMENT') == 'development':
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-if env('ENVIRONMENT') == 'staging':
+
+elif env('ENVIRONMENT') == 'staging':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -111,17 +110,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-
-
-
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/django/'
 STATICFILES_DIRS = []
-
-
-
-
 
 SITE_ID = 1  # Required by Django-allauth
 
@@ -129,6 +120,8 @@ AUTH_USER_MODEL = 'users.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -140,12 +133,11 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "core.exceptions.django_error_handler"
 }
 
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 if env('ENVIRONMENT') == 'development':
     FRONTEND_HOST = 'http://127.0.0.1:3000'
-if env('ENVIRONMENT') == 'staging':
+
+elif env('ENVIRONMENT') == 'staging':
     FRONTEND_HOST = 'http://0.0.0.0'
 
 CORS_ALLOWED_ORIGINS = [
@@ -155,17 +147,20 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://0.0.0.0',
     'http://0.0.0.0:3000'
-
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-EMAIL_PORT =  env('EMAIL_PORT')
-EMAIL_HOST_USER =  env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
+if env('ENVIRONMENT') == 'development':
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+elif env('ENVIRONMENT') == 'staging':
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_USE_TLS = False
+    EMAIL_USE_SSL = True
+    EMAIL_PORT =  env('EMAIL_PORT')
+    EMAIL_HOST_USER =  env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
 
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
 EMAIL_CONFIRM_REDIRECT_BASE_URL = \
