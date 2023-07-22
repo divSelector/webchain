@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import NotFoundView from "./NotFound";
 import AddLinkToWebringForm from "../Forms/AddLinkToWebringForm";
 
+
 export default function WebringDetailView() {
 
     const { webringId } = useParams();
@@ -62,9 +63,9 @@ export default function WebringDetailView() {
     
           if (response.ok) {
             const data = await response.json()
+            console.log(data)
             setWebring(data.webring)
             setPages(data.pages)
-            console.log(data)
             if (data.hasOwnProperty('links')) {
               // This is why its always correct.
               await setLinks(data.links)
@@ -124,7 +125,7 @@ export default function WebringDetailView() {
           {pages.map((page) => (
               <li key={page.id}>
                   <p>
-                      <a href={'../page/'+page.id}>{page.title}</a> by {page.account.name}
+                      <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
                   </p>
               </li>
           ))}

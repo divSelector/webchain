@@ -36,11 +36,14 @@ export default function MatrixRain() {
     const drops = new Array(columns).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+      
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas on each frame
+      ctx.fillStyle = 'transparent';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.fillStyle = '#efefef';
-    //   ctx.fillStyle = '#ff0000';
+      // ctx.fillStyle = '#cc78b5';
       ctx.font = `${font_size}px arial`;
 
       for (let i = 0; i < drops.length; i++) {

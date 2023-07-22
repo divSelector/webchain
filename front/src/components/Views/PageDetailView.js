@@ -3,6 +3,7 @@ import back from "../../settings/Backend";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NotFoundView from "./NotFound";
+
 export default function PageDetailView() {
 
     const { pageId } = useParams();
@@ -29,7 +30,6 @@ export default function PageDetailView() {
     
           if (response.ok) {
             const data = await response.json()
-            console.log(data)
             setWebrings(data.webrings)
             setPage(data.page)
             setPageAccount(data.page.account)
@@ -76,7 +76,7 @@ export default function PageDetailView() {
             {webrings.map((webring) => (
                 <li key={webring.id}>
                     <p>
-                        <a href={'../webring/'+webring.id}>{webring.title}</a>
+                        <Link to={'../webring/'+webring.id}>{webring.title}</Link>
                     </p>
                 </li>
             ))}

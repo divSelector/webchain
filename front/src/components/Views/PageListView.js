@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
+import { Link } from "react-router-dom";
 
 export default function PageListView({ pagesPassed, additionalContainerStyle }) {
 
@@ -40,7 +41,7 @@ export default function PageListView({ pagesPassed, additionalContainerStyle }) 
             {pages.map((page) => (
                 <li key={page.id}>
                     <p>
-                        <a href={'../page/'+page.id}>{page.title}</a> by {page.account.name}
+                        <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
                     </p>
                 </li>
             ))}
