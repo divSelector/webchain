@@ -4,12 +4,28 @@
   --hover-color: #4aa0d5;
   --link-color: #3d7aad;
   --heading-color: #3d7aad;
+  --card-bg-primary: #eaf5e1;
 }
 
 
 html {
   height: 100%;
 }
+
+.ring {
+  fill: none;
+  stroke: var(--bg-primary-color);
+  stroke-width: 10;
+}
+.inner-circle {
+  fill: transparent;
+  stroke: var(--bg-secondary-color);
+  stroke-width: 8;
+}
+.ring:hover, .inner-circle:hover {
+  stroke: var(--hover-color);
+}
+
 
 body {
   margin: 0;
@@ -57,6 +73,8 @@ canvas {
   border: 1px solid var(--bg-secondary-color);
   padding: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* max-height: 300px;
+  overflow: auto; */
 }
 
 .form-wrapper {
@@ -66,14 +84,18 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* background-color: #f9f9f9; */
   /* background: linear-gradient(135deg, #a1d990, #cc78b5); */
   border: 1px solid var(--bg-primary-color);
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
+#add-link-to-webring-form {
+  width: unset;
+  /* border: 1px solid var(--bg-primary-color); */
+  background-color: var(--card-bg-primary);
+  margin-top: 40px;
+}
 
 .form-wrapper form {
   display: flex;
@@ -159,6 +181,7 @@ a:hover {
 nav {
   display: flex;
   justify-content: center;
+  margin-top: -35px;
 }
 
 ul {
@@ -186,14 +209,35 @@ header {
   text-align: center;
 }
 
+#heading-title {
+  display: flex; /* Use flexbox to arrange children in a row */
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+}
+
 header h1 {
-  margin-bottom: 0;
+  font-size: 2em;
+  /* margin-bottom: 0; */
   letter-spacing: 0.2em;
   color: var(--heading-color);;
 }
 
+.svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  height: 0.8em; /* Match the height of the heading text */
+}
+
+svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .webring-page-link-button-group > * {
   margin-right: 8px;
+  margin-left: 8px;
 }
 
 .modal-overlay {
@@ -257,10 +301,6 @@ header h1 {
   .form-wrapper button {
     margin-top: 10px;
   }
-}
-
-#add-link-to-webring-form {
-  margin-top: 40px;
 }
 
 @media (min-width: 766px) {

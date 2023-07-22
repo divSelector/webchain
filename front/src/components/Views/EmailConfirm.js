@@ -52,11 +52,10 @@ export default function EmailConfirm() {
       {!isVerified && <h2>Check your email!</h2>}
       {isVerified && <>
         <h3 id="verify-success-message">Account verified. You may now login.</h3>
-        <LoginRegisterView token={token} setToken={setToken} /> 
       </>}
-     
       {feedbackMsg && <p id="verify-error-message">{feedbackMsg}</p>}
       </div>
+      {isVerified && <LoginRegisterView token={token} setToken={setToken} />}
     </div>
   );
 }

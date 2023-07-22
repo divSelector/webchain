@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import front from '../../settings/Frontend';
 import LogoutButton from '../Buttons/LogoutButton';
 import { useAuth } from '../../context/AuthContext';
-
+import ChainSVG from '../Brand/ChainSVG';
 
 
 export default function Navbar() {

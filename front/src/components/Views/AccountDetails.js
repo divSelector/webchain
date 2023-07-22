@@ -47,14 +47,13 @@ export default function AccountDetails() {
 
   return (
     <div className="view-wrapper">
-      <div className="view-details">
-        <h2>Account Details</h2>
-        <UsernameUpdateForm
-          token={token}
-          oldName={username}
-          onUsernameUpdate={updateUsername}
-        />
-      </div>
+
+      <h2>Account Details</h2>
+      <UsernameUpdateForm
+        token={token}
+        oldName={username}
+        onUsernameUpdate={updateUsername}
+      />
       <div>
         <WebringListView
           ringsPassed={webrings}
