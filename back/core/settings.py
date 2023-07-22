@@ -1,6 +1,10 @@
 from pathlib import Path
 import environ
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
@@ -10,7 +14,11 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR.parent / '.env')
 
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+
+if env('ENVIRONMENT') == 'development':
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
@@ -184,3 +192,19 @@ if env('ENVIRONMENT') == 'staging':
             'level': 'INFO',
         },
     }
+
+
+if env('ENVIRONMENT') == 'staging':
+    sentry_sdk.init(
+        dsn=env('SENTRY_STAGE_DSN'),
+        integrations=[DjangoIntegration()],
+
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )

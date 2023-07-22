@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+def trigger_error(request):
+  division_by_zero = 1 / 0
 
 urlpatterns = [
     path('api/', include('webrings.urls')),
     path('api/auth/', include('users.urls')),
     path('admin/', admin.site.urls),
+    path('api/sentry-debug/', trigger_error),
 ]

@@ -42,8 +42,8 @@ export default function MatrixRain() {
       ctx.fillStyle = 'transparent';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#efefef';
-      // ctx.fillStyle = '#cc78b5';
+      // ctx.fillStyle = '#efefef';
+      ctx.fillStyle = '#a1d990';
       ctx.font = `${font_size}px arial`;
 
       for (let i = 0; i < drops.length; i++) {
