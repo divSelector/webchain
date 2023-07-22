@@ -35,19 +35,16 @@ export default function WebringDetailView() {
       const encodedPageUrl = encodeURIComponent(pageUrl);
 
       const jsx = [
-        <a key="back" href={`${hostUrl}api/webring/${webringId}/previous?via=${encodedPageUrl}`}>← Back</a>,
-        <a key="random" href={`${hostUrl}api/webring/${webringId}/random`}>↑ Random</a>,
-        <a key="home" href={`${hostUrl}api/webring/${webringId}/`}>↓ Ring Home</a>,
-        <a key="next" href={`${hostUrl}api/webring/${webringId}/next?via=${encodedPageUrl}`}>→ Next</a>
+        <a href={`${hostUrl}api/webring/${webringId}/previous?via=${encodedPageUrl}`}>← Back</a>,
+        <a href={`${hostUrl}api/webring/${webringId}/random`}>↑ Random</a>,
+        <a href={`${hostUrl}api/webring/${webringId}/`}>↓ Ring Home</a>,
+        <a href={`${hostUrl}api/webring/${webringId}/next?via=${encodedPageUrl}`}>→ Next</a>
       ];
 
-      const htmlString = jsx.map((element) => ReactDOMServer.renderToStaticMarkup(element)).join('\n');
-      console.log(htmlString)
+      return jsx.map((element) => ReactDOMServer.renderToStaticMarkup(element)).join('\n');
 
-      return htmlString
 
     }
-
 
     const action = {
       text: "Show HTML",
@@ -158,7 +155,8 @@ export default function WebringDetailView() {
           {pages.map((page) => (
               <li key={page.id}>
                   <p className="webring-page-link-button-group">
-                      <button onClick={() => handleClick(page)}>{action.text}</button>
+                    {console.log(authAccount)}
+                      {token && authAccount.name === page.account.name && <button onClick={() => handleClick(page)}>{action.text}</button>}
                       <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
                   </p>
               </li>

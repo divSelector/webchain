@@ -47,7 +47,8 @@ export default function EmailConfirm() {
   }, [verifyToken]);
 
   return (
-    <div className="view-wrapper" style={{flexDirection: 'column'}}>
+    <div className="view-wrapper">
+      <div className='view-details'>
       {!isVerified && <h2>Check your email!</h2>}
       {isVerified && <>
         <h3 id="verify-success-message">Account verified. You may now login.</h3>
@@ -55,6 +56,7 @@ export default function EmailConfirm() {
       </>}
      
       {feedbackMsg && <p id="verify-error-message">{feedbackMsg}</p>}
+      </div>
     </div>
   );
 }
