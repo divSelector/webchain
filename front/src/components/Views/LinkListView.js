@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ModalDialogue from "../Overlays/ModalDialogue";
-
+import { Link } from "react-router-dom";
 
 export default function LinkListView({ linksPassed, action }) {
 
@@ -26,7 +26,7 @@ export default function LinkListView({ linksPassed, action }) {
                 <li key={link.id}>
                     <p className="webring-page-link-button-group">
                         <button onClick={() => handleClick(link)}>{action.text}</button>
-                        <a href={'../../page/'+link.page.id}>{link.page.title}</a> by {link.page.account.name}
+                        <Link to={'../../page/'+link.page.id}>{link.page.title}</Link> by {link.page.account.name}
                     </p>
                 </li>
             ))}

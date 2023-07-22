@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-export default function ModalDialogue ({ isOpen, title, message, onConfirm, onCancel }) {
+export default function ModalDialogue ({ isOpen, title, message, onConfirm, onCancel, confirmText, cancelText }) {
   const [isVisible, setIsVisible] = useState(isOpen);
+
+  const [confirm, setConfirm] = useState(!confirmText ? "Confirm" : confirmText)
+  const [cancel, setCancel] = useState(!cancelText ? "Cancel" : cancelText)
 
   const handleConfirm = () => {
     onConfirm();
@@ -12,6 +15,12 @@ export default function ModalDialogue ({ isOpen, title, message, onConfirm, onCa
     onCancel();
     setIsVisible(false);
   };
+
+
+  const handleDismiss = () => {
+    setIsVisible(false);
+  };
+
 
   useEffect(() => {
     setIsVisible(isOpen);
@@ -27,8 +36,8 @@ export default function ModalDialogue ({ isOpen, title, message, onConfirm, onCa
         <h2>{title}</h2>
         <p>{message}</p>
         <div className="modal-buttons">
-          <button onClick={handleConfirm}>Confirm</button>
-          <button onClick={handleCancel}>Cancel</button>
+          {onConfirm && <button onClick={handleConfirm}>{confirm}</button>}
+          {onCancel && <button onClick={handleCancel}>{cancel}</button>}
         </div>
       </div>
     </div>

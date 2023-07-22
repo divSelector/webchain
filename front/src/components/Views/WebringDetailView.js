@@ -4,7 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NotFoundView from "./NotFound";
 import AddLinkToWebringForm from "../Forms/AddLinkToWebringForm";
-
+import ModalDialogue from "../Overlays/ModalDialogue";
+import ReactDOMServer from 'react-dom/server';
 
 export default function WebringDetailView() {
 
@@ -20,6 +21,38 @@ export default function WebringDetailView() {
 
     const { token, authAccount } = useAuth()
 
+    const [showModal, setShowModal] = useState(false);
+    const [markup, setMarkup] = useState(null);
+    const toggleModal = () => setShowModal(!showModal);;
+
+    const handleClick = (page) => {
+      setMarkup(generateMarkup(page.url))
+      toggleModal();
+    };
+
+    function generateMarkup(pageUrl) {
+      const hostUrl = back.host + '/'
+      const encodedPageUrl = encodeURIComponent(pageUrl);
+
+      const jsx = [
+        <a key="back" href={`${hostUrl}api/webring/${webringId}/previous?via=${encodedPageUrl}`}>← Back</a>,
+        <a key="random" href={`${hostUrl}api/webring/${webringId}/random`}>↑ Random</a>,
+        <a key="home" href={`${hostUrl}api/webring/${webringId}/`}>↓ Ring Home</a>,
+        <a key="next" href={`${hostUrl}api/webring/${webringId}/next?via=${encodedPageUrl}`}>→ Next</a>
+      ];
+
+      const htmlString = jsx.map((element) => ReactDOMServer.renderToStaticMarkup(element)).join('\n');
+      console.log(htmlString)
+
+      return htmlString
+
+    }
+
+
+    const action = {
+      text: "Show HTML",
+      func: () => { return }
+    }
 
     const getLinks = async () => {
       const endpoint = back.getNonAuthBaseUrl() + 'link/' + webringId
@@ -124,12 +157,21 @@ export default function WebringDetailView() {
           <ul>
           {pages.map((page) => (
               <li key={page.id}>
-                  <p>
+                  <p className="webring-page-link-button-group">
+                      <button onClick={() => handleClick(page)}>{action.text}</button>
                       <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
                   </p>
               </li>
           ))}
           </ul>
+          <ModalDialogue 
+                isOpen={showModal}
+                title="Copy This HTML To Your Page"
+                message={markup}
+                onCancel={toggleModal}
+                cancelText="Ok"
+            />
+       
         </div>
     )
 }
