@@ -35,15 +35,14 @@ export default function MatrixRain() {
     const columns = Math.floor(canvas.width / font_size);
     const drops = new Array(columns).fill(1);
 
-    function draw() {
-      
+    const rainColor = getComputedStyle(document.documentElement).getPropertyValue('--matrix-rain-color')
 
+    function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas on each frame
       ctx.fillStyle = 'transparent';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // ctx.fillStyle = '#efefef';
-      ctx.fillStyle = '#a1d990';
+      ctx.fillStyle = rainColor;
       ctx.font = `${font_size}px arial`;
 
       for (let i = 0; i < drops.length; i++) {

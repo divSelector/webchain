@@ -1,20 +1,38 @@
 export default function ChainSVG() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" width="300" height="120">
-        <circle class="ring" cx="50" cy="60" r="30" />
-        <circle class="inner-circle" cx="50" cy="60" r="15" />
 
-        <circle class="ring" cx="100" cy="60" r="30" />
-        <circle class="inner-circle" cx="100" cy="60" r="15" />
+    const ring = {
+      xIncrement: 40,
+      yCenter: 60,
+      radius: 30,
+      total: 6
+    };
 
-        <circle class="ring" cx="150" cy="60" r="30" />
-        <circle class="inner-circle" cx="150" cy="60" r="15" />
+    const viewWidth = (ring.total * ring.xIncrement) + ring.xIncrement
+    const viewHeight = ring.yCenter * 2
 
-        <circle class="ring" cx="200" cy="60" r="30" />
-        <circle class="inner-circle" cx="200" cy="60" r="15" />
+    function generateCircles(className, radius) {
+        const circleData = Array.from({ length: ring.total });
+        return circleData.map((_, index) => {
+          const cx = (index + 1) * ring.xIncrement;
+          return <circle 
+                    key={`${className}-${index}`} 
+                    className={className} 
+                    cx={cx} 
+                    cy={ring.yCenter} 
+                    r={radius}
+                />;
+        });
+      }
 
-        <circle class="ring" cx="250" cy="60" r="30" />
-        <circle class="inner-circle" cx="250" cy="60" r="15" />
-    </svg>
-  );
-}
+    return (
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox={`0 0 ${viewWidth} ${viewHeight}`} 
+        width={viewWidth} 
+        height={viewHeight}
+      >
+        {generateCircles("outer-circle", ring.radius)}
+        {generateCircles("inner-circle", ring.radius/2)}
+      </svg>
+    );
+  }

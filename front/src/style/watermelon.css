@@ -3,27 +3,14 @@
   --bg-secondary-color: #cc78b5;
   --hover-color: #4aa0d5;
   --link-color: #3d7aad;
-  --heading-color: #3d7aad;
+  --heading-color: var(--bg-primary-color);
+  --form-heading-color: var(--link-color);
   --card-bg-primary: #eaf5e1;
+  --matrix-rain-color: var(--bg-primary-color);
 }
-
 
 html {
   height: 100%;
-}
-
-.ring {
-  fill: none;
-  stroke: var(--bg-primary-color);
-  stroke-width: 10;
-}
-.inner-circle {
-  fill: transparent;
-  stroke: var(--bg-secondary-color);
-  stroke-width: 8;
-}
-.ring:hover, .inner-circle:hover {
-  stroke: var(--hover-color);
 }
 
 
@@ -104,7 +91,7 @@ canvas {
 
 .form-wrapper h2 {
   margin-bottom: 30px;
-  color: var(--heading-color);
+  color: var(--form-heading-color);
 }
 
 .form-wrapper label,
@@ -140,7 +127,7 @@ canvas {
   font-size: 0.8em;
   margin-left: 2px;
   font-weight: bold;
-  color: var(--heading-color);
+  color: var(--form-heading-color);
 }
 
 .labeled-input input {
@@ -198,18 +185,18 @@ nav li {
 
 nav a {
   text-decoration: none;
-  color: var(--hover-color)
+  color: var(--link-color)
 }
 
 nav a:hover {
-  color: var(--link-color)
+  color: var(--hover-color)
 }
 
 header {
   text-align: center;
 }
 
-#heading-title {
+#heading-title-wrapper {
   display: flex; /* Use flexbox to arrange children in a row */
   justify-content: center; /* Center the content horizontally */
   align-items: center; /* Center the content vertically */
@@ -217,9 +204,21 @@ header {
 
 header h1 {
   font-size: 2em;
-  /* margin-bottom: 0; */
   letter-spacing: 0.2em;
-  color: var(--heading-color);;
+  color: var(--heading-color);
+  -webkit-text-fill-color: var(--heading-color); /* Will override color (regardless of order) */
+  /* -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: var(--bg-primary-color); */  
+  text-shadow:
+    -2px -2px 0 var(--hover-color),
+    0   -2px 0 var(--hover-color),
+    2px -2px 0 var(--hover-color),
+    2px  0   0 var(--hover-color),
+    2px  2px 0 var(--hover-color),
+    0    2px 0 var(--hover-color),
+   -2px  2px 0 var(--hover-color),
+   -2px  0   0 var(--hover-color)
+
 }
 
 .svg-container {
@@ -230,9 +229,25 @@ header h1 {
   height: 0.8em; /* Match the height of the heading text */
 }
 
+/* SVG */
 svg {
   max-width: 100%;
   max-height: 100%;
+  margin-right: 10px;
+}
+
+.outer-circle {
+  fill: none;
+  stroke: var(--bg-primary-color);
+  stroke-width: 8;
+}
+.inner-circle {
+  fill:  none;
+  stroke: var(--bg-secondary-color);
+  stroke-width: 8;
+}
+.outer-circle:hover, .inner-circle:hover {
+  stroke: var(--hover-color);
 }
 
 .webring-page-link-button-group > * {
