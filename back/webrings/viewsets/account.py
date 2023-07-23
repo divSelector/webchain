@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
+from users.authentication import ExpiringTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from ..models import Webring, Page, Account
 from ..serializers import PageSerializer, WebringSerializer, AccountSerializer
@@ -9,7 +10,7 @@ from ..permissions import RetrieveListOrAuthenticated
 
 class AccountViewSet(viewsets.ViewSet):
     serializer_class = AccountSerializer
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [ExpiringTokenAuthentication]
     
     def get_permissions(self):
         if self.action == 'retrieve':

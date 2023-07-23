@@ -1,9 +1,11 @@
 import back from "../../settings/Backend";
 import { handleSubmit } from "../../utils/formsUtils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LabeledInputField from "../Fields/LabeledInputField";
 import { useAuth } from "../../context/AuthContext";
 import { renderErrorMessage } from "../../utils/formsUtils";
+import { useNavigate } from "react-router-dom";
+
 
 export default function PageCreateView() {
 
@@ -17,6 +19,10 @@ export default function PageCreateView() {
     const [urlFieldError, setUrlFieldError] = useState('');
     const [descriptionError, setDescriptionFieldError] = useState('');
     const [feedbackMsg, setFeedbackMsg] = useState('');
+
+
+    const [pageUrl, setPageUrl] = useState(null)
+    const navigate = useNavigate()
 
     const createPage = async (input) => {
    
@@ -39,7 +45,8 @@ export default function PageCreateView() {
 
             if (data.hasOwnProperty('id')) {
                 const newPageId = data.id
-                window.location.href = `/page/${newPageId}`
+                // window.location.href = `/page/${newPageId}`
+                setPageUrl(`/page/${newPageId}`)
             }
 
           } else {
@@ -57,6 +64,13 @@ export default function PageCreateView() {
             setFeedbackMsg("Error Communicating with Server")
         }
     };
+
+    useEffect(() => {
+        if (pageUrl) {
+          navigate(pageUrl)
+          setPageUrl(null)
+        }
+      }, [pageUrl]);
 
     return (
         <div className="view-wrapper">

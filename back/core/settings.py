@@ -1,9 +1,8 @@
 from pathlib import Path
 import environ
-
+import datetime
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -12,6 +11,8 @@ env = environ.Env(
 )
 
 environ.Env.read_env(BASE_DIR.parent / '.env')
+
+TOKEN_EXPIRE_TIME = datetime.timedelta(hours=10)
 
 SECRET_KEY = env('SECRET_KEY')
 
@@ -133,7 +134,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
+        "users.authentication.ExpiringTokenAuthentication",
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',

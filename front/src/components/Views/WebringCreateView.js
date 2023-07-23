@@ -1,14 +1,18 @@
 import back from "../../settings/Backend";
 import { handleSubmit } from "../../utils/formsUtils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LabeledInputField from "../Fields/LabeledInputField";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function WebringCreateView() {
     const { token } = useAuth()
 
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
+
+    const [webringUrl, setWebringUrl] = useState(null);
+    const navigate = useNavigate()
 
     const createWebring = async (input) => {
    
@@ -30,7 +34,8 @@ export default function WebringCreateView() {
             const data = await response.json()
             if (data.hasOwnProperty('id')) {
                 const newRingId = data.id
-                window.location.href = `/webring/${newRingId}`
+                // window.location.href = `/webring/${newRingId}`
+                setWebringUrl(`/webring/${newRingId}`)
             }
 
           } else {
@@ -41,6 +46,13 @@ export default function WebringCreateView() {
           console.log("Error Communicating with Server")
         }
     };
+
+    useEffect(() => {
+        if (webringUrl) {
+          navigate(webringUrl)
+          setWebringUrl(null)
+        }
+      }, [webringUrl]);
 
     return (
         <div className="view-wrapper">

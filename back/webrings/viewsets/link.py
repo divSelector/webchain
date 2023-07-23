@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
+from users.authentication import ExpiringTokenAuthentication
 from ..models import Webring, Page, WebringPageLink
 from ..serializers import WebringPageLinkSerializer
 from django.db.models import Q
@@ -10,7 +11,7 @@ from django.core.exceptions import ValidationError
 
 class WebringPageLinkViewSet(viewsets.ViewSet):
     serializer_class = WebringPageLinkSerializer
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [ExpiringTokenAuthentication]
     permission_classes = []
     queryset = WebringPageLink.objects.all()
 

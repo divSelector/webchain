@@ -9,8 +9,34 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
+from dj_rest_auth.views import LoginView
+from dj_rest_auth.models import get_token_model
+from dj_rest_auth.app_settings import api_settings as dj_rest_auth_api_settings
+from datetime import datetime
+import pytz
+from django.conf import settings
 
 User = get_user_model()
+
+
+class CustomLoginView(LoginView):
+    def login(self):
+        self.user = self.serializer.validated_data['user']
+        self.token_model = get_token_model()
+
+        if self.token_model:
+            utc_now = datetime.utcnow()
+            utc_now = utc_now.replace(tzinfo=pytz.utc)
+            expire_time = utc_now - settings.TOKEN_EXPIRE_TIME
+
+            self.token_model.objects.filter(user=self.user, created__lt=expire_time).delete()
+            self.token = dj_rest_auth_api_settings.TOKEN_CREATOR(self.token_model, self.user, self.serializer)
+
+    # def create_token(self):
+    #     token, _ = self.token_model.objects.get_or_create(user=self.user)
+    #     return token
+
+
 
 class NewEmailConfirmation(APIView):
     permission_classes = [AllowAny] 

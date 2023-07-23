@@ -1,24 +1,47 @@
 import React, { useContext, useState, useEffect } from "react";
 import front from '../settings/Frontend';
 import back from "../settings/Backend";
+import { useNavigate } from "react-router-dom";
+
 export const AuthContext = React.createContext();
+
 export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
   const storageKey = front.storageKeyName;
+  const expiresIn = 35100 * 1000; // 9.5 hours
+
+  const navigate = useNavigate()
+
+  const expireToken = () => {
+    sessionStorage.removeItem(storageKey);
+    window.location.href = front.host
+
+  }
 
   const getToken = () => {
-    const t = sessionStorage.getItem(storageKey);
-    return JSON.parse(t);
+    const tokenData = JSON.parse(sessionStorage.getItem(storageKey));
+    if (!tokenData) return null;
+
+    const { t, e } = tokenData;
+    if (Date.now() >= e) {
+      expireToken()
+      return null;
+    }
+    return t;
   };
 
   const [token, setToken] = useState(getToken());
   const [authAccount, setAuthAccount] = useState();
 
+
   const updateToken = (t) => {
-    sessionStorage.setItem(storageKey, JSON.stringify(t));
+    const e = Date.now() + expiresIn;
+    const tokenData = { t, e };
+    sessionStorage.setItem(storageKey, JSON.stringify(tokenData));
     setToken(t);
   };
+
 
   const getUser = async () => {
     try {
@@ -30,19 +53,32 @@ export function AuthProvider({ children }) {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch account details');
+        expireToken()
       }
 
       const data = await response.json();
       setAuthAccount(data.account);
     } catch (error) {
-      console.error(error);
+      throw new Error(error);
     }
   };
 
   useEffect(() => {
     if (token) getUser()
   }, [token])
+
+  // Monitor the tokenExpired state and run expireToken if needed
+  useEffect(() => {
+    if (token) {
+      const tokenData = JSON.parse(sessionStorage.getItem(storageKey));
+      if (tokenData) {
+        const { e } = tokenData;
+        if (Date.now() >= e) {
+          expireToken();
+        }
+      }
+    }
+  }, [navigate]);
 
   return (
     <AuthContext.Provider value={{ token, setToken: updateToken, authAccount }}>
