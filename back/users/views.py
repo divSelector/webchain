@@ -23,18 +23,16 @@ class CustomLoginView(LoginView):
     def login(self):
         self.user = self.serializer.validated_data['user']
         self.token_model = get_token_model()
-
         if self.token_model:
             utc_now = datetime.utcnow()
             utc_now = utc_now.replace(tzinfo=pytz.utc)
             expire_time = utc_now - settings.TOKEN_EXPIRE_TIME
 
             self.token_model.objects.filter(user=self.user, created__lt=expire_time).delete()
-            self.token = dj_rest_auth_api_settings.TOKEN_CREATOR(self.token_model, self.user, self.serializer)
+            self.token = dj_rest_auth_api_settings.TOKEN_CREATOR(
+                self.token_model, self.user, self.serializer
+            )
 
-    # def create_token(self):
-    #     token, _ = self.token_model.objects.get_or_create(user=self.user)
-    #     return token
 
 
 

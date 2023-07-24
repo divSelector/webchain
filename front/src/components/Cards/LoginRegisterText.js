@@ -4,6 +4,11 @@ import { capitalize, stripLeadingSlash } from '../../utils/stringUtils';
 export default function LoginRegisterText({ currentView }) {
   const oppositeView = currentView === '/login' ? '/register' : '/login';
 
+  const handleToggleLoginRegister = () => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  };
+
+
   return (
     <div className="form-wrapper">
       <h2>Discover, Connect, Grow with Webchain!</h2>
@@ -13,7 +18,10 @@ export default function LoginRegisterText({ currentView }) {
       <p>Register or log in to Webchain now. Connect, flourish online.</p>
 
       <p>
-        <Link to={`${oppositeView}`} className="help-text">
+        <Link 
+          to={`${oppositeView}`} 
+          className="help-text"
+          onClick={handleToggleLoginRegister}>
             {capitalize(stripLeadingSlash(oppositeView))}
         </Link>
       </p>

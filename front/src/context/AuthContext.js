@@ -67,7 +67,6 @@ export function AuthProvider({ children }) {
     if (token) getUser()
   }, [token])
 
-  // Monitor the tokenExpired state and run expireToken if needed
   useEffect(() => {
     if (token) {
       const tokenData = JSON.parse(sessionStorage.getItem(storageKey));

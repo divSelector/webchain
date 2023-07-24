@@ -9,7 +9,7 @@ class ExpiringTokenAuthentication(TokenAuthentication):
     def authenticate_credentials(self, key):
         model = self.get_model()
         try:
-            token = token = model.objects.select_related('user').get(key=key)
+            token = model.objects.select_related('user').get(key=key)
         except model.DoesNotExist:
             raise AuthenticationFailed('Invalid token')
 
@@ -23,5 +23,4 @@ class ExpiringTokenAuthentication(TokenAuthentication):
             raise AuthenticationFailed('Token has expired')
 
         return token.user, token
-    
     

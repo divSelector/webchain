@@ -70,7 +70,7 @@ canvas {
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   /* background: linear-gradient(135deg, #a1d990, #cc78b5); */
   border: 1px solid var(--bg-primary-color);
   padding: 15px;
@@ -104,7 +104,7 @@ canvas {
   display: block;
   margin-top: 25px;
   margin-right: 10px;
-  align-self: flex-end;
+  align-self: flex-start;
   background-color: var(--bg-secondary-color);
   color: #fff;
   border: none;
@@ -299,6 +299,8 @@ svg {
   cursor: pointer;
 }
 
+
+
 @media (max-width: 690px) {
   .view-wrapper {
     flex-direction: column;
@@ -316,6 +318,21 @@ svg {
   .form-wrapper button {
     margin-top: 10px;
   }
+
+  #login-form, #register-form {
+    /* flex: 1; */
+    order: -1;
+  }
+}
+
+@media (max-width: 877px) {
+  .view-wrapper {
+    justify-content: center;
+    margin: 30px auto;
+  }
+  .view-details {
+    width: 70%;
+  }
 }
 
 @media (min-width: 766px) {
@@ -328,6 +345,7 @@ svg {
     margin: 0 calc((100vw - 766px) / 6);
     margin-bottom: 30px;
   }
+
 }
 
 .error-text {
@@ -345,6 +363,63 @@ svg {
   color: rgb(82, 70, 16);
   text-decoration: none;
   margin-top: 50px;
+}
+
+#menu-toggle-button {
+  display: none;
+}
+
+@media screen and (max-width: 550px) {
+  nav ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  nav ul li {
+    margin-bottom: 10px;
+  }
+
+
+}
+
+@media screen and (max-width: 300px) {
+  nav ul {
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .seperator {
+    visibility: hidden;
+  }
+
+  #menu-toggle-button {
+    display: block;
+    position: absolute;
+    top: 10px; /* Adjust the top distance as needed */
+    right: 10px; /* Adjust the right distance as needed */
+    z-index: 9999; /* Ensure it's on top of other elements */
+  }
+
+  nav ul {
+    display: none; /* Hide the menu by default */
+  }
+
+  .menu {
+    display: none;
+  }
+  
+  .menu.open {
+    display: block;
+  }
+
+  .form-wrapper {
+    width: unset;
+  }
+
+  div.view-wrapper div ul {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 @media screen and (min-width: 1500px) {
