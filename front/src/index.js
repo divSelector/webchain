@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import Root from './Root';
+import './style/base.css'
 import './style/watermelon.css'
 
 import reportWebVitals from './reportWebVitals';

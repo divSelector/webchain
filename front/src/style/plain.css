@@ -3,114 +3,44 @@
   --bg-secondary-color: #fff;
   --hover-color: #551A8B;
   --link-color: #0000EE;
-  --heading-color: #000;
+  --heading-color: #fff;
   --form-heading-color: #000;
   --card-bg-primary: #fff;
   --matrix-rain-color: #efefef;
 }
 
-html {
-  height: 100%;
-}
-
-
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(135deg, var(--bg-primary-color), var(--bg-secondary-color));
-  background-attachment: fixed; /* Keep the background fixed when scrolling */
-}
-
-.app-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-.view-wrapper {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
+  background: linear-gradient(135deg,
+      var(--bg-primary-color),
+      var(--bg-secondary-color));
 }
 
 .view-details {
-  width: 36%;
   background-color: #fff;
   border: 1px solid var(--bg-secondary-color);
-  padding: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  /* max-height: 300px;
-  overflow: auto; */
 }
 
 .form-wrapper {
-  width: 300px;
-  margin: 10px;
-  margin-bottom: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  /* background: linear-gradient(135deg, #a1d990, #cc78b5); */
   border: 1px solid var(--bg-primary-color);
-  padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #add-link-to-webring-form {
-  width: unset;
-  /* border: 1px solid var(--bg-primary-color); */
   background-color: var(--card-bg-primary);
-  margin-top: 40px;
 }
 
-.form-wrapper form {
-  display: flex;
-  flex-direction: column;
-}
+
 
 .form-wrapper h2 {
-  margin-bottom: 30px;
   color: var(--form-heading-color);
 }
 
-.form-wrapper label,
-.form-wrapper input {
-  display: block;
-  margin-bottom: 10px;
-}
 
 .form-wrapper button {
-  display: block;
-  margin-top: 25px;
-  margin-right: 10px;
-  align-self: flex-end;
   background-color: var(--bg-secondary-color);
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 #register-form button {
@@ -118,46 +48,15 @@ canvas {
   background-color: var(--bg-primary-color);
 }
 
-.labeled-input {
-  margin-bottom: 15px;
-}
+
 
 .labeled-input label {
-  margin-bottom: 5px;
-  font-size: 0.8em;
-  margin-left: 2px;
-  font-weight: bold;
   color: var(--form-heading-color);
 }
 
-.labeled-input input {
-  margin-top: -4px;
-}
-
-.checkbox-field {
-  display: flex;
-  align-items: center;
-}
-
-.checkbox-field input[type="checkbox"] {
-  margin-right: 5px;
-}
-
-.checkbox-field label {
-  margin-right: 5px;
-}
-
-form .labeled-input:last-of-type {
-  margin-bottom: 0;
-}
-
-a, button {
-  font-weight: bold;
-  cursor: pointer;
-  /* color: #cc78b5; */
+a,
+button {
   color: var(--link-color);
-  
-  text-decoration: none;
 }
 
 
@@ -165,26 +64,8 @@ a:hover {
   color: var(--hover-color);
 }
 
-nav {
-  display: flex;
-  justify-content: center;
-  margin-top: -35px;
-}
-
-ul {
-  list-style: none;
-}
-
-nav ul {
-  display: flex;
-}
-
-nav li {
-  margin-right: 20px;
-}
 
 nav a {
-  text-decoration: none;
   color: var(--link-color)
 }
 
@@ -192,152 +73,72 @@ nav a:hover {
   color: var(--hover-color)
 }
 
-header {
-  text-align: center;
-}
-
-#heading-title-wrapper {
-  display: flex; /* Use flexbox to arrange children in a row */
-  justify-content: center; /* Center the content horizontally */
-  align-items: center; /* Center the content vertically */
-}
-
 header h1 {
-  font-size: 2em;
-  letter-spacing: 0.2em;
   color: var(--heading-color);
-  -webkit-text-fill-color: var(--heading-color); /* Will override color (regardless of order) */
+  -webkit-text-fill-color: var(--heading-color);
+  text-shadow:
+    -2px -2px 0 #000,
+    0 -2px 0 #000,
+    2px -2px 0 #000,
+    2px 0 0 #000,
+    2px 2px 0 #000,
+    0 2px 0 #000,
+    -2px 2px 0 #000,
+    -2px 0 0 #000
 }
 
 .svg-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #f0f0f0;
-  height: 0.8em; /* Match the height of the heading text */
 }
 
-/* SVG */
-svg {
-  max-width: 100%;
-  max-height: 100%;
-  margin-right: 10px;
-}
 
 .outer-circle {
   fill: none;
   stroke: #000;
   stroke-width: 8;
 }
+
 .inner-circle {
-  fill:  none;
+  fill: none;
   stroke: #000;
   stroke-width: 8;
 }
-.outer-circle:hover, .inner-circle:hover {
+
+.outer-circle:hover,
+.inner-circle:hover {
   stroke: var(--link-color);
 }
 
-.webring-page-link-button-group > * {
-  margin-right: 8px;
-  margin-left: 8px;
-}
+
 
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Shaded background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  white-space: pre-line;
 }
 
 .modal h2 {
-  margin-top: 0;
   color: var(--heading-color);
 }
 
-.modal p {
-  margin-bottom: 20px;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: flex-end;
-}
 
 .modal-buttons button {
-  margin-left: 10px;
   background-color: var(--bg-secondary-color);
   color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
-@media (max-width: 690px) {
-  .view-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .view-details {
-    width: 90%;
-  }
-
-  .form-wrapper h2 {
-    margin-bottom: 10px;
-  }
-
-  .form-wrapper button {
-    margin-top: 10px;
-  }
-}
-
-@media (min-width: 766px) {
-  .view-wrapper {
-    justify-content: center;
-    margin: 30px auto;
-  }
-
-  .form-wrapper {
-    margin: 0 calc((100vw - 766px) / 6);
-    margin-bottom: 30px;
-  }
-}
 
 .error-text {
-  font-size: 0.6em;
   color: crimson;
 }
 
 .success-text {
-  font-size: 0.6em;
   color: forestgreen;
 }
 
 .help-text {
-  font-size: 0.8em;
   color: rgb(82, 70, 16);
-  text-decoration: none;
-  margin-top: 50px;
-}
-
-@media screen and (min-width: 1500px) {
-  /* CSS rules for viewport width over 1500px */
-  body, input, label {
-    font-size: 105%;
-  }
 }
