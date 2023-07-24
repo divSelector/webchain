@@ -14,6 +14,7 @@ body {
   background: linear-gradient(135deg, 
               var(--bg-primary-color), 
               var(--bg-secondary-color));
+  background-attachment: fixed;
 }
 
 .view-details {
