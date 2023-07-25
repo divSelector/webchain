@@ -139,9 +139,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    "EXCEPTION_HANDLER": "core.exceptions.django_error_handler"
+    "EXCEPTION_HANDLER": "core.exceptions.django_error_handler",
+    'DEFAULT_RENDERER_CLASSES': (
+         'rest_framework.renderers.JSONRenderer',
+     )
 }
-
 
 if env('ENVIRONMENT') == 'development':
     FRONTEND_HOST = 'http://127.0.0.1:3000'

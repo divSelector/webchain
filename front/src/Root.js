@@ -18,6 +18,7 @@ import PageUpdateView from './components/Views/PageUpdateView';
 import { ProtectedRoute } from './context/ProtectedRoute';
 import WebringUpdateView from './components/Views/WebringUpdateView';
 import NotFoundView from './components/Views/NotFound';
+import ExampleRingMarkup from './components/Views/ExampleRingMarkup';
 
 export default function App() {
 
@@ -117,6 +118,10 @@ export default function App() {
             >
               <WebringUpdateView />
             </ProtectedRoute>
+          } />
+
+          <Route path="/test/markup" element={
+            <ExampleRingMarkup />
           } />
 
         </Routes>

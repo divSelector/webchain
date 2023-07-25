@@ -244,6 +244,13 @@ svg {
     display: none;
 }
 
+#example-ring-markup {
+    display: flex;
+    justify-content: center;
+    gap: 1.9em;
+    margin-bottom: 2.4em;
+}
+
 @media (max-width: 690px) {
     .view-wrapper {
         flex-direction: column;
@@ -266,6 +273,10 @@ svg {
     #register-form {
         /* flex: 1; */
         order: -1;
+    }
+
+    #example-ring-markup {
+        gap: 0.8em;
     }
 }
 
@@ -317,6 +328,11 @@ svg {
 
     .seperator {
         visibility: hidden;
+    }
+
+    #example-ring-markup {
+        gap: unset;
+        flex-direction: column;
     }
 
     #menu-toggle-button {

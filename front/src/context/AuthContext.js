@@ -13,6 +13,8 @@ export function AuthProvider({ children }) {
 
   const navigate = useNavigate()
 
+  const [authAccount, setAuthAccount] = useState();
+
   const expireToken = () => {
     sessionStorage.removeItem(storageKey);
     window.location.href = front.host
@@ -32,8 +34,6 @@ export function AuthProvider({ children }) {
   };
 
   const [token, setToken] = useState(getToken());
-  const [authAccount, setAuthAccount] = useState();
-
 
   const updateToken = (t) => {
     const e = Date.now() + expiresIn;
@@ -41,7 +41,6 @@ export function AuthProvider({ children }) {
     sessionStorage.setItem(storageKey, JSON.stringify(tokenData));
     setToken(t);
   };
-
 
   const getUser = async () => {
     try {

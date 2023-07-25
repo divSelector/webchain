@@ -24,7 +24,7 @@ export default function Navbar() {
                 <ul className={isMenuOpen ? 'menu open' : 'menu'}>
                     <li><Link to={front.webrings}>Rings</Link></li>
                     <li><Link to={front.pages}>Pages</Link></li>
-                    <li class="seperator"><span> | </span></li>
+                    <li className="seperator"><span> | </span></li>
                     { !token ? <>
                         <li><Link to={front.login}>Login</Link></li>
                         <li><Link to={front.register}>Register</Link></li>
