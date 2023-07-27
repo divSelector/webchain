@@ -251,6 +251,11 @@ svg {
     margin-bottom: 2.4em;
 }
 
+.is-primary {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
 @media (max-width: 690px) {
     .view-wrapper {
         flex-direction: column;

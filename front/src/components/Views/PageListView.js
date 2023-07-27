@@ -1,10 +1,23 @@
 import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 import { Link } from "react-router-dom";
+import ModalDialogue from "../Overlays/ModalDialogue";
 
-export default function PageListView({ pagesPassed, additionalContainerStyle }) {
+import { useAuth } from "../../context/AuthContext";
+
+export default function PageListView({ pagesPassed, additionalContainerStyle, canModifyPrimary }) {
 
     const [pages, setPages] = useState([]);
+
+    const [showModal, setShowModal] = useState(false);
+    const [selectedPage, setSelectedPage] = useState(null);
+    const { token } = useAuth()
+    const toggleModal = () => setShowModal(!showModal);
+
+    const handleClick = (page) => {
+      setSelectedPage(page)
+      toggleModal();
+    };
 
     const getPages = async () => {
    
@@ -26,8 +39,40 @@ export default function PageListView({ pagesPassed, additionalContainerStyle }) 
         } catch (error) {
           console.log("Error Communicating with Server")
         }
-      };
+    };
 
+    const updatePrimaryPage = async (page) => {
+      if (page.primary) return;
+      
+      const endpoint = back.getNonAuthBaseUrl() + 'page/' + page.id + '/'
+      try {
+        const response = await fetch(endpoint, {
+          method: 'PATCH',
+          headers: {
+              'Authorization': `Token ${token}`,
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            primary: true
+          })
+        });
+        const data = await response.json()
+      const previousPrimary = pages.find((p) => p.primary);
+      if (previousPrimary) {
+        setPages((prevPages) =>
+          prevPages.map((p) => (p.id === previousPrimary.id ? { ...p, primary: false } : p))
+        );
+      }
+
+      // Update the new primary page to be primary
+      const updatedPage = { ...page, primary: true };
+      setPages((prevPages) =>
+        prevPages.map((p) => (p.id === page.id ? updatedPage : p))
+      );
+      } catch (error) {
+          throw error
+      }
+  };
 
     useEffect(() => {
       if (!pagesPassed) getPages();
@@ -41,11 +86,25 @@ export default function PageListView({ pagesPassed, additionalContainerStyle }) 
             {pages.map((page) => (
                 <li key={page.id}>
                     <p>
-                        <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
+                      <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
+                      {canModifyPrimary && page.primary && <span className="is-primary">PRIMARY</span>}
+                      {canModifyPrimary && !page.primary && (
+                        <button className="is-primary" onClick={() => handleClick(page)}>Make Primary</button>
+                      )}
                     </p>
                 </li>
             ))}
             </ul>
+            <ModalDialogue 
+                isOpen={showModal}
+                title="Change Primary Page?"
+                message="Are you sure you want to perform this action?"
+                onConfirm={() => {
+                    updatePrimaryPage(selectedPage)
+                    toggleModal()
+                }}
+                onCancel={toggleModal}
+            />
         </div>
     )
 }

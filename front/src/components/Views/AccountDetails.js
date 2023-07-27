@@ -62,6 +62,7 @@ export default function AccountDetails() {
         <PageListView
           pagesPassed={pages}
           additionalContainerStyle={{ flexDirection: 'column' }}
+          canModifyPrimary={true}
         />
       </div>
     </div>

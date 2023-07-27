@@ -21,7 +21,7 @@ class WebringViewSet(viewsets.ModelViewSet):
             webrings=webring,
             primary=True,
             webringpagelink__approved=True
-        ) |
+        ) and
         # Include non-primary pages of subscriber accounts marked as approved
         Q(
             id__in=WebringPageLink.objects.filter(

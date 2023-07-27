@@ -53,7 +53,7 @@ class PageViewSet(viewsets.ViewSet):
             if str(instance.account.user.id) != str(self.request.user.id):
                 return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
             
-            allowed_keys = ['title', 'url', 'description']
+            allowed_keys = ['title', 'url', 'description', 'primary']
 
             filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
 

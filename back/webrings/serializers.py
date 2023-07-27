@@ -24,7 +24,7 @@ class PageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Page
-        fields = ['id', 'account', 'title', 'description', 'date_created', 'date_updated', 'url']
+        fields = ['id', 'account', 'title', 'description', 'date_created', 'date_updated', 'url', 'primary']
 
 
 

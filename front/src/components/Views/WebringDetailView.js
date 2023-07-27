@@ -25,7 +25,7 @@ export default function WebringDetailView() {
 
     const [showModal, setShowModal] = useState(false);
     const [markup, setMarkup] = useState(null);
-    const toggleModal = () => setShowModal(!showModal);;
+    const toggleModal = () => setShowModal(!showModal);
 
     const handleClick = (page) => {
       setMarkup(stringifyMarkup(generateMarkup(page.url)))
