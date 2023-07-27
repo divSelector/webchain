@@ -58,6 +58,7 @@ export default function AccountDetails() {
         <WebringListView
           ringsPassed={webrings}
           additionalContainerStyle={{ flexDirection: 'column' }}
+          canModifyPrimary={true}
         />
         <PageListView
           pagesPassed={pages}

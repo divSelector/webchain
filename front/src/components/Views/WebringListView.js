@@ -1,10 +1,23 @@
 import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 import { Link } from "react-router-dom";
+import ModalDialogue from "../Overlays/ModalDialogue";
+import { useAuth } from "../../context/AuthContext";
 
-export default function WebringListView({ ringsPassed, additionalContainerStyle }) {
+export default function WebringListView({ ringsPassed, additionalContainerStyle, canModifyPrimary }) {
 
     const [webrings, setWebrings] = useState([]);
+
+    const [showModal, setShowModal] = useState(false);
+    const [selectedRing, setSelectedRing] = useState(null);
+    const { token } = useAuth()
+    const toggleModal = () => setShowModal(!showModal);
+
+    const handleClick = (ring) => {
+      setSelectedRing(ring)
+      toggleModal();
+    };
+
 
     const getWebrings = async () => {
    
@@ -26,8 +39,42 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle 
           }
         } catch (error) {
           console.log("Error Communicating with Server")
+          throw error
         }
       };
+
+      const updatePrimaryRing = async (ring) => {
+        if (ring.primary) return;
+        
+        const endpoint = back.getNonAuthBaseUrl() + 'webring/' + ring.id + '/'
+        try {
+          const response = await fetch(endpoint, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              primary: true
+            })
+          });
+          const data = await response.json()
+        const previousPrimary = webrings.find((r) => r.primary);
+        if (previousPrimary) {
+          setWebrings((prevRings) =>
+            prevRings.map((r) => (r.id === previousPrimary.id ? { ...r, primary: false } : r))
+          );
+        }
+  
+        // Update the new primary page to be primary
+        const updatedRing = { ...ring, primary: true };
+        setWebrings((prevRings) =>
+          prevRings.map((r) => (r.id === ring.id ? updatedRing : r))
+        );
+        } catch (error) {
+            throw error
+        }
+    };
 
 
     useEffect(() => {
@@ -43,10 +90,24 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle 
                 <li key={webring.id}>
                     <p>
                         <Link to={'/webring/'+webring.id}>{webring.title}</Link> by {webring.account.name}
+                        {canModifyPrimary && webring.primary && <span className="is-primary">PRIMARY</span>}
+                        {canModifyPrimary && !webring.primary && (
+                        <button className="is-primary" onClick={() => handleClick(webring)}>Make Primary</button>
+                      )}
                     </p>
                 </li>
             ))}
             </ul>
+            <ModalDialogue 
+                isOpen={showModal}
+                title="Change Primary Webring?"
+                message="Are you sure you want to perform this action?"
+                onConfirm={() => {
+                    updatePrimaryRing(selectedRing)
+                    toggleModal()
+                }}
+                onCancel={toggleModal}
+            />
         </div>
     )
 }
