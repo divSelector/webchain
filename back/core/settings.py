@@ -7,10 +7,13 @@ from sentry_sdk.integrations.django import DjangoIntegration
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    ENVIRONMENT=(str, "staging")
 )
 
 environ.Env.read_env(BASE_DIR.parent / '.env')
+
+print(env('ENVIRONMENT'))
 
 TOKEN_EXPIRE_TIME = datetime.timedelta(hours=10)
 

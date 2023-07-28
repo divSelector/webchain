@@ -11,7 +11,7 @@ export default function PageListView({ pagesPassed, additionalContainerStyle, ca
 
     const [showModal, setShowModal] = useState(false);
     const [selectedPage, setSelectedPage] = useState(null);
-    const { token } = useAuth()
+    const { token, authAccount } = useAuth()
     const toggleModal = () => setShowModal(!showModal);
 
     const handleClick = (page) => {
@@ -74,6 +74,17 @@ export default function PageListView({ pagesPassed, additionalContainerStyle, ca
       }
   };
 
+  const renderIcon = (entry) => {
+    let icon
+    if (canModifyPrimary && authAccount) {
+      if (entry.primary) icon = '🔘'
+      else if (authAccount.account_type == 'free') icon = '❌'
+      else if (authAccount.account_type == 'subscriber') icon = '✅'
+
+      return <span className="is-primary">{icon}</span>
+    }
+  }
+
     useEffect(() => {
       if (!pagesPassed) getPages();
       else setPages(pagesPassed)
@@ -86,8 +97,8 @@ export default function PageListView({ pagesPassed, additionalContainerStyle, ca
             {pages.map((page) => (
                 <li key={page.id}>
                     <p>
+                      {renderIcon(page)}
                       <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
-                      {canModifyPrimary && page.primary && <span className="is-primary">PRIMARY</span>}
                       {canModifyPrimary && !page.primary && (
                         <button className="is-primary" onClick={() => handleClick(page)}>Make Primary</button>
                       )}

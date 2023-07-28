@@ -16,7 +16,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ['name']
+        fields = ['name', 'account_type']
 
 
 class PageSerializer(serializers.ModelSerializer):

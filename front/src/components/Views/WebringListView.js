@@ -10,7 +10,7 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
 
     const [showModal, setShowModal] = useState(false);
     const [selectedRing, setSelectedRing] = useState(null);
-    const { token } = useAuth()
+    const { token, authAccount } = useAuth()
     const toggleModal = () => setShowModal(!showModal);
 
     const handleClick = (ring) => {
@@ -76,6 +76,17 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
         }
     };
 
+    
+  const renderIcon = (entry) => {
+    let icon
+    if (canModifyPrimary && authAccount) {
+      if (entry.primary) icon = '🔘'
+      else if (authAccount.account_type == 'free') icon = '❌'
+      else if (authAccount.account_type == 'subscriber') icon = '✅'
+
+      return <span className="is-primary">{icon}</span>
+    }
+  }
 
     useEffect(() => {
       if (!ringsPassed) getWebrings();
@@ -89,8 +100,9 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
             {webrings.map((webring) => (
                 <li key={webring.id}>
                     <p>
+                        {renderIcon(webring)}
                         <Link to={'/webring/'+webring.id}>{webring.title}</Link> by {webring.account.name}
-                        {canModifyPrimary && webring.primary && <span className="is-primary">PRIMARY</span>}
+                        
                         {canModifyPrimary && !webring.primary && (
                         <button className="is-primary" onClick={() => handleClick(webring)}>Make Primary</button>
                       )}

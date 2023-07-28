@@ -15,13 +15,14 @@ def create_account(sender, instance, created, **kwargs):
 
 def create_pre_save_signal(model_class):
     
-    @receiver(pre_save, sender=model_class)
+    @receiver(pre_save, sender=model_class, weak=False)
     def update_primary(sender, instance, **kwargs):
         if not model_class.objects.filter(account=instance.account, primary=True).exists():
             instance.primary = True
 
         if instance.primary:
             # Mark all other pages/webrings of the same account as not primary
+            print(instance)
             model_class.objects.filter(account=instance.account).exclude(id=instance.id).update(primary=False)
 
     return update_primary

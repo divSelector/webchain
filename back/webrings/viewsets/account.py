@@ -57,7 +57,7 @@ class AccountViewSet(viewsets.ViewSet):
         if str(instance.name) != self.request.user.account.name:
             return Response({'error': 'Wrong account name'}, status=status.HTTP_403_FORBIDDEN)
 
-        allowed_keys = ['name']
+        allowed_keys = ['name', 'account_type']
 
         filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
 

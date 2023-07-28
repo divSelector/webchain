@@ -21,7 +21,7 @@ class WebringViewSet(viewsets.ModelViewSet):
             webrings=webring,
             primary=True,
             webringpagelink__approved=True
-        ),
+        ) |
         # Include non-primary pages of subscriber accounts marked as approved
         Q(
             id__in=WebringPageLink.objects.filter(
@@ -31,6 +31,7 @@ class WebringViewSet(viewsets.ModelViewSet):
             ).values('page_id')
         )
         ).distinct().order_by('date_created')
+
 
     def create(self, request):
         user = request.user

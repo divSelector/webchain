@@ -52,7 +52,7 @@ export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
   };
 
   return (
-    <div className="form-wrapper">
+    
       <form onSubmit={handleSubmit}>
         <LabeledInputField
           type="text"
@@ -70,6 +70,6 @@ export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
 
         <p className="success-text">{feedbackMsg ? feedbackMsg : ''}</p>
       </form>
-    </div>
+ 
   );
 }

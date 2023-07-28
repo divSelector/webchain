@@ -1,1 +1,1 @@
-curl -X PATCH -H "Authorization: Token 22b8ef8ce5ec05b91305f46cdef45704edb0179a" -H "Content-Type: application/json" -d '{"namdfgdgde": "NEWUSERNfdfAME"}' "http://127.0.0.1:8000/api/user/robert10/"
+curl -X PATCH -H "Authorization: Token $1" -H "Content-Type: application/json" -d "{\"account_type\": \"$2\"}" "http://127.0.0.1:8000/api/user/rossfrank/"
