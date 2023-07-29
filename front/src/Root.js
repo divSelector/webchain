@@ -19,6 +19,7 @@ import { ProtectedRoute } from './context/ProtectedRoute';
 import WebringUpdateView from './components/Views/WebringUpdateView';
 import NotFoundView from './components/Views/NotFound';
 import ExampleRingMarkup from './components/Views/ExampleRingMarkup';
+import Payments from './components/Payments/Template';
 
 export default function App() {
 
@@ -117,6 +118,14 @@ export default function App() {
               onlyResourcesOwnedByAuthUser={true}
             >
               <WebringUpdateView />
+            </ProtectedRoute>
+          } />
+
+          <Route path={front.account+"/payment"} element={
+            <ProtectedRoute 
+              requireAuth={true}
+            >
+              <Payments />
             </ProtectedRoute>
           } />
 

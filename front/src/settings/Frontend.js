@@ -1,6 +1,7 @@
 function FrontendSettings () {
     
     const host = process.env.REACT_APP_FRONTEND_HOST
+    const stripePriceLookupKey = process.env.REACT_APP_STRIPE_PRICE_LOOKUP_KEY
 
     return (
         {
@@ -16,7 +17,8 @@ function FrontendSettings () {
             emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             pages: "/pages",
             webrings: "/webrings",
-            account: "/account"
+            account: "/account",
+            stripePriceLookupKey: stripePriceLookupKey
         }
     )
 }

@@ -4,6 +4,7 @@ import PageListView from './PageListView';
 import { useAuth } from '../../context/AuthContext';
 import WebringListView from './WebringListView';
 import UsernameUpdateForm from '../Forms/UsernameUpdateForm';
+import Payments from '../Payments/Template';
 
 export default function AccountDetails() {
   const { token } = useAuth();
@@ -59,6 +60,7 @@ export default function AccountDetails() {
         {accountType == 'free' && <>
           <p>FREE</p>
           <p>With a free account, your primary (🔘) page and webring will be availabe in the chain. The ones marked unavailable (❌) will not be. To make sure all your pages and webrings are availabe (✅), upgrade to a subscriber account!</p>
+          <Payments />
         </>}
       </div>
       <div className="form-wrapper">
