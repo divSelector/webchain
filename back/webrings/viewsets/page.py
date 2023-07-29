@@ -4,6 +4,7 @@ from ..models import Page, WebringPageLink, Account
 from ..serializers import PageSerializer, WebringSerializer, WebringPageLinkSerializer
 from ..permissions import RetrieveListOrAuthenticated
 
+from .ring import get_bad_words_query
 
 class PageViewSet(viewsets.ViewSet):
     permission_classes = [RetrieveListOrAuthenticated]
@@ -25,8 +26,11 @@ class PageViewSet(viewsets.ViewSet):
         page_id = kwargs.get('page_id')
         try:
             page = Page.objects.get(id=page_id)
+            is_inappropriate = Page.objects.filter(id=page.id).filter(get_bad_words_query()).exists()
             links = WebringPageLink.objects.filter(page=page)
-            approved_webrings = page.webrings.filter(webringpagelink__approved=True)
+            approved_webrings = page.webrings.filter(
+                webringpagelink__approved=True
+            ).exclude(get_bad_words_query()) if not is_inappropriate else []
             page_serializer = PageSerializer(page)
             links_serializer = WebringPageLinkSerializer(links, many=True)
             data = {
@@ -41,7 +45,10 @@ class PageViewSet(viewsets.ViewSet):
             return Response({'error': 'Page not found'}, status=404)
         
     def list(self, request):
-        queryset = Page.objects.all()
+        queryset = Page.objects.all().exclude(
+            get_bad_words_query()
+        ).distinct().order_by('-date_updated')
+
         serializer = PageSerializer(queryset, many=True)
         return Response(serializer.data)
     

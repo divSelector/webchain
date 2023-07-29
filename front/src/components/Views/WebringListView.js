@@ -3,6 +3,7 @@ import back from "../../settings/Backend";
 import { Link } from "react-router-dom";
 import ModalDialogue from "../Overlays/ModalDialogue";
 import { useAuth } from "../../context/AuthContext";
+import renderIcon from "../../utils/renderTools";
 
 export default function WebringListView({ ringsPassed, additionalContainerStyle, canModifyPrimary }) {
 
@@ -76,18 +77,6 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
         }
     };
 
-    
-  const renderIcon = (entry) => {
-    let icon
-    if (canModifyPrimary && authAccount) {
-      if (entry.primary) icon = '🔘'
-      else if (authAccount.account_type == 'free') icon = '❌'
-      else if (authAccount.account_type == 'subscriber') icon = '✅'
-
-      return <span className="is-primary">{icon}</span>
-    }
-  }
-
     useEffect(() => {
       if (!ringsPassed) getWebrings();
       else setWebrings(ringsPassed)
@@ -100,7 +89,7 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
             {webrings.map((webring) => (
                 <li key={webring.id}>
                     <p>
-                        {renderIcon(webring)}
+                        {renderIcon(webring, authAccount, canModifyPrimary)}
                         <Link to={'/webring/'+webring.id}>{webring.title}</Link> by {webring.account.name}
                         
                         {canModifyPrimary && !webring.primary && (

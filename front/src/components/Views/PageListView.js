@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 import { Link } from "react-router-dom";
 import ModalDialogue from "../Overlays/ModalDialogue";
+import renderIcon from "../../utils/renderTools";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -74,16 +75,6 @@ export default function PageListView({ pagesPassed, additionalContainerStyle, ca
       }
   };
 
-  const renderIcon = (entry) => {
-    let icon
-    if (canModifyPrimary && authAccount) {
-      if (entry.primary) icon = '🔘'
-      else if (authAccount.account_type == 'free') icon = '❌'
-      else if (authAccount.account_type == 'subscriber') icon = '✅'
-
-      return <span className="is-primary">{icon}</span>
-    }
-  }
 
     useEffect(() => {
       if (!pagesPassed) getPages();
@@ -97,7 +88,7 @@ export default function PageListView({ pagesPassed, additionalContainerStyle, ca
             {pages.map((page) => (
                 <li key={page.id}>
                     <p>
-                      {renderIcon(page)}
+                      {renderIcon(page, authAccount, canModifyPrimary)}
                       <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
                       {canModifyPrimary && !page.primary && (
                         <button className="is-primary" onClick={() => handleClick(page)}>Make Primary</button>

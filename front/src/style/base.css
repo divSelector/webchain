@@ -256,6 +256,10 @@ svg {
     margin-right: 6px;
 }
 
+#account-details {
+    max-width: 300px;
+}
+
 @media (max-width: 690px) {
     .view-wrapper {
         flex-direction: column;

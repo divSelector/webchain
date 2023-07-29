@@ -9,6 +9,8 @@ import urllib.parse
 from django.views.generic import RedirectView
 from random import choice
 
+from ..utils import get_bad_words_query
+
 class WebringViewSet(viewsets.ModelViewSet):
     queryset = Webring.objects.all()
     permission_classes = [WebringViewPermissions]
@@ -30,7 +32,19 @@ class WebringViewSet(viewsets.ModelViewSet):
                 approved=True
             ).values('page_id')
         )
-        ).distinct().order_by('date_created')
+        ).exclude(
+            get_bad_words_query()
+        ).distinct().order_by('-date_updated')
+    
+
+    @staticmethod
+    def get_available_webrings():
+        return Webring.objects.filter(
+            Q(primary=True) |
+            Q(account__account_type='subscriber')
+        ).exclude(
+            get_bad_words_query()
+        ).distinct().order_by('-date_updated')
 
 
     def create(self, request):
@@ -69,7 +83,7 @@ class WebringViewSet(viewsets.ModelViewSet):
         return Response(data)
 
     def list(self, request):
-        queryset = Webring.objects.all()
+        queryset = self.get_available_webrings()
         serializer = WebringSerializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -81,7 +95,7 @@ class WebringViewSet(viewsets.ModelViewSet):
             if str(instance.account.user.id) != str(self.request.user.id):
                 return Response({'error': 'User cannot PATCH this resource.'}, status=status.HTTP_403_FORBIDDEN)
             
-            allowed_keys = ['title', 'description', 'automatic_approval']
+            allowed_keys = ['title', 'description', 'automatic_approval', 'primary']
             
             filtered_data = {key: request.data.get(key) for key in allowed_keys if key in request.data}
 

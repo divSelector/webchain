@@ -52,7 +52,7 @@ export default function AccountDetails() {
   return (
     <div className="view-wrapper">
 
-      <div style={{width: "300px"}}>
+      <div id='account-details'>
         <h2>Account Details</h2>
         <p>{email}</p>
         {accountType == 'subscriber' && <p>SUBSCRIBER</p>}
