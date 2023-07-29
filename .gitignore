@@ -22,6 +22,10 @@ front/npm-debug.log*
 front/yarn-debug.log*
 front/yarn-error.log*
 
+front/.env.staging
+front/.env.development
+front/.env.production
+
 
 
 *.pyc
