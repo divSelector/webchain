@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
 
-    "webrings"
+    "webrings",
+    "payments"
 ]
 
 MIDDLEWARE = [
@@ -149,11 +150,9 @@ REST_FRAMEWORK = {
 
 if env('ENVIRONMENT') == 'development':
     FRONTEND_HOST = 'http://127.0.0.1:3000'
-    BACKEND_HOST = 'http://127.0.0.1:8000'
 
 elif env('ENVIRONMENT') == 'staging':
     FRONTEND_HOST = 'http://0.0.0.0'
-    BACKEND_HOST = 'http://0.0.0.0'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
@@ -161,7 +160,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1',
     'http://127.0.0.1:3000',
     'http://0.0.0.0',
-    'http://0.0.0.0:3000'
+    'http://0.0.0.0:3000',
+    'https://checkout.stripe.com'
 ]
 
 if env('ENVIRONMENT') == 'development':
@@ -217,3 +217,4 @@ if env('ENVIRONMENT') == 'staging':
     )
 
 STRIPE_API_KEY = env('STRIPE_API_KEY')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')

@@ -1,25 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import back from '../../settings/Backend';
 import front from '../../settings/Frontend';
+import { useAuth } from '../../context/AuthContext';
 
-const ProductDisplay = () => (
-  <section>
-    <div className="product">
-      <div className="description">
-        <h2>Subscribe</h2>
-        <h5>$5.00 / month</h5>
-        <p></p>
+
+const ProductDisplay = () => {
+  const { token } = useAuth();
+  const handleCheckout = async (event) => {
+    event.preventDefault();
+    
+    try {
+      const response = await fetch(`${back.host}/stripe/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+        body: JSON.stringify({ lookup_key: front.stripePriceLookupKey }),
+      });
+
+      if (response.ok) {
+        // Success: redirect to checkout session URL
+        const data = await response.json();
+        window.location.href = data.url;
+      } else {
+        // Handle error
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  return (
+    <section>
+      <div className="product">
+        <div className="description">
+          <h2>Subscribe</h2>
+          <h5>$5.00 / month</h5>
+          <p></p>
+        </div>
       </div>
-    </div>
-    <form action={back.host+"/stripe/create-checkout-session"} method="POST">
-      {/* Add a hidden field with the lookup_key of your Price */}
-      <input type="hidden" name="lookup_key" value={front.stripePriceLookupKey} />
-      <button id="checkout-and-portal-button" type="submit">
-        Checkout
-      </button>
-    </form>
-  </section>
-);
+      <form onSubmit={handleCheckout}>
+        {/* <input type="hidden" name="lookup_key" value={front.stripePriceLookupKey} /> */}
+        <button id="checkout-and-portal-button" type="submit">
+          Checkout
+        </button>
+      </form>
+    </section>
+  )
+};
 
 const SuccessDisplay = ({ sessionId }) => {
   return (
@@ -50,10 +80,32 @@ const Message = ({ message }) => (
   </section>
 );
 
-export default function Payments() {
+export default function Payments({ setAccountType }) {
   let [message, setMessage] = useState('');
   let [success, setSuccess] = useState(false);
   let [sessionId, setSessionId] = useState('');
+
+  const { token, authAccount } = useAuth()
+
+  const setAccountTypeSubscriber = async () => {
+    const endpoint = back.getNonAuthBaseUrl() + 'user/' + authAccount.name + '/';
+    try {
+      const response = await fetch(endpoint, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        body: JSON.stringify({
+          account_type: 'subscriber',
+        }),
+      });
+      const data = await response.json();
+      setAccountType('subscriber')
+    } catch (error) {
+      throw error
+    }
+  };
 
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout
@@ -62,6 +114,7 @@ export default function Payments() {
     if (query.get('success')) {
       setSuccess(true);
       setSessionId(query.get('session_id'));
+      setAccountTypeSubscriber()
     }
 
     if (query.get('canceled')) {

@@ -6,13 +6,13 @@ import renderIcon from "../../utils/renderTools";
 
 import { useAuth } from "../../context/AuthContext";
 
-export default function PageListView({ pagesPassed, additionalContainerStyle, canModifyPrimary }) {
+export default function PageListView({ pagesPassed, additionalContainerStyle, canModifyPrimary, accountType }) {
 
     const [pages, setPages] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
     const [selectedPage, setSelectedPage] = useState(null);
-    const { token, authAccount } = useAuth()
+    const { token } = useAuth()
     const toggleModal = () => setShowModal(!showModal);
 
     const handleClick = (page) => {
@@ -88,7 +88,7 @@ export default function PageListView({ pagesPassed, additionalContainerStyle, ca
             {pages.map((page) => (
                 <li key={page.id}>
                     <p>
-                      {renderIcon(page, authAccount, canModifyPrimary)}
+                      {renderIcon(page, accountType, canModifyPrimary)}
                       <Link to={'../page/'+page.id}>{page.title}</Link> by {page.account.name}
                       {canModifyPrimary && !page.primary && (
                         <button className="is-primary" onClick={() => handleClick(page)}>Make Primary</button>

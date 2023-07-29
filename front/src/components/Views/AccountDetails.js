@@ -60,7 +60,7 @@ export default function AccountDetails() {
         {accountType == 'free' && <>
           <h5>FREE</h5>
           <p>With a free account, your primary (🔘) page and webring will be availabe in the chain. The ones marked unavailable (❌) will not be. To make sure all your pages and webrings are availabe (✅), upgrade to a subscriber account!</p>
-          <Payments />
+          <Payments setAccountType={setAccountType} />
         </>}
       </div>
       <div className="form-wrapper">
@@ -75,11 +75,13 @@ export default function AccountDetails() {
           ringsPassed={webrings}
           additionalContainerStyle={{ flexDirection: 'column' }}
           canModifyPrimary={true}
+          accountType={accountType}
         />
         <PageListView
           pagesPassed={pages}
           additionalContainerStyle={{ flexDirection: 'column' }}
           canModifyPrimary={true}
+          accountType={accountType}
         />
       </div>
     </div>

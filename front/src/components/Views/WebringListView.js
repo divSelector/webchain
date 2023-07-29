@@ -5,13 +5,13 @@ import ModalDialogue from "../Overlays/ModalDialogue";
 import { useAuth } from "../../context/AuthContext";
 import renderIcon from "../../utils/renderTools";
 
-export default function WebringListView({ ringsPassed, additionalContainerStyle, canModifyPrimary }) {
+export default function WebringListView({ ringsPassed, additionalContainerStyle, canModifyPrimary, accountType }) {
 
     const [webrings, setWebrings] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
     const [selectedRing, setSelectedRing] = useState(null);
-    const { token, authAccount } = useAuth()
+    const { token } = useAuth()
     const toggleModal = () => setShowModal(!showModal);
 
     const handleClick = (ring) => {
@@ -89,7 +89,7 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
             {webrings.map((webring) => (
                 <li key={webring.id}>
                     <p>
-                        {renderIcon(webring, authAccount, canModifyPrimary)}
+                        {renderIcon(webring, accountType, canModifyPrimary)}
                         <Link to={'/webring/'+webring.id}>{webring.title}</Link> by {webring.account.name}
                         
                         {canModifyPrimary && !webring.primary && (
