@@ -56,9 +56,9 @@ export default function AccountDetails() {
       <div id='account-details'>
         <h2>Account Details</h2>
         <p>{email}</p>
-        {accountType == 'subscriber' && <p>SUBSCRIBER</p>}
+        {accountType == 'subscriber' && <h5>SUBSCRIBER</h5>}
         {accountType == 'free' && <>
-          <p>FREE</p>
+          <h5>FREE</h5>
           <p>With a free account, your primary (🔘) page and webring will be availabe in the chain. The ones marked unavailable (❌) will not be. To make sure all your pages and webrings are availabe (✅), upgrade to a subscriber account!</p>
           <Payments />
         </>}

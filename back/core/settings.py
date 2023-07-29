@@ -149,9 +149,11 @@ REST_FRAMEWORK = {
 
 if env('ENVIRONMENT') == 'development':
     FRONTEND_HOST = 'http://127.0.0.1:3000'
+    BACKEND_HOST = 'http://127.0.0.1:8000'
 
 elif env('ENVIRONMENT') == 'staging':
     FRONTEND_HOST = 'http://0.0.0.0'
+    BACKEND_HOST = 'http://0.0.0.0'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
@@ -213,3 +215,5 @@ if env('ENVIRONMENT') == 'staging':
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True
     )
+
+STRIPE_API_KEY = env('STRIPE_API_KEY')
