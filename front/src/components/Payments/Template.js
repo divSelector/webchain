@@ -11,7 +11,7 @@ const ProductDisplay = () => {
     event.preventDefault();
     
     try {
-      const response = await fetch(`${back.host}/stripe/create-checkout-session`, {
+      const response = await fetch(`${back.host}/stripe/session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +43,6 @@ const ProductDisplay = () => {
         </div>
       </div>
       <form onSubmit={handleCheckoutClick}>
-        {/* <input type="hidden" name="lookup_key" value={front.stripePriceLookupKey} /> */}
         <button id="checkout-and-portal-button" type="submit">
           Checkout
         </button>
@@ -59,7 +58,7 @@ const SuccessDisplay = () => {
     event.preventDefault();
     
     try {
-      const response = await fetch(`${back.host}/stripe/create-portal-session`, {
+      const response = await fetch(`${back.host}/stripe/session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

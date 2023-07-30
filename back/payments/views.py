@@ -1,80 +1,73 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 import stripe
-import json
 import datetime
 
 from django.conf import settings
 from webrings.models import Account
 
 
-@api_view(['GET'])
-def get_account_session_id(request):
-    if request.user.is_authenticated:
-        return Response({
-            "session_id": request.user.account.stripe_checkout_session_id
-        }, status=status.HTTP_200_OK)
+stripe.api_key = settings.STRIPE_API_KEY
 
-@api_view(['POST'])
-def create_checkout_session(request):
-    stripe.api_key = settings.STRIPE_API_KEY
 
-    if request.user.is_authenticated:
-        try:
-            lookup_key = request.data.get('lookup_key')
-            prices = stripe.Price.list(
-                lookup_keys=[lookup_key],
-                expand=['data.product']
-            )
+class StripeSessionViewSet(viewsets.ViewSet):
 
-            checkout_session = stripe.checkout.Session.create(
-                line_items=[
-                    {
-                        'price': prices.data[0].id,
-                        'quantity': 1,
-                    },
-                ],
-                mode='subscription',
-                success_url=settings.FRONTEND_HOST+'/account', #?success=true&session_id={CHECKOUT_SESSION_ID}',
-                cancel_url=settings.FRONTEND_HOST+'/account'   #/?canceled=true'
-            )
+    def retrieve(self, request):
+        if request.user.is_authenticated:
+            return Response({
+                "session_id": request.user.account.stripe_checkout_session_id
+            }, status=status.HTTP_200_OK)
+        return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
 
-            if request.user:
+
+    def _create_billing_portal(self, account):
+        return_url = settings.FRONTEND_HOST + '/account'
+        portal_session = stripe.billing_portal.Session.create(
+            customer=account.stripe_customer_id,
+            return_url=return_url,
+        )
+        return Response({"url": portal_session.url}, status=status.HTTP_200_OK)
+
+
+    def _create_checkout_portal(self, account, request):
+        return_url = settings.FRONTEND_HOST + '/account'
+        lookup_key = request.data.get('lookup_key')
+        prices = stripe.Price.list(
+            lookup_keys=[lookup_key],
+            expand=['data.product']
+        )
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    'price': prices.data[0].id,
+                    'quantity': 1,
+                },
+            ],
+            mode='subscription',
+            success_url=return_url,
+            cancel_url=return_url
+        )
+        account.stripe_checkout_session_id = checkout_session.id
+        account.save()
+        return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
+
+
+    def create(self, request):
+        if request.user.is_authenticated:
+            try:
                 account = Account.objects.filter(user__email=request.user).first()
-                account.stripe_checkout_session_id = checkout_session.id
-                account.save()
 
-            return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
-            return Response("Server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-    return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
+                if account.stripe_subscription_id and account.stripe_customer_id:
+                    return self._create_billing_portal(account)
+                else:
+                    return self._create_checkout_portal(account, request)
 
-@api_view(['POST'])
-def create_portal_session(request):
-    stripe.api_key = settings.STRIPE_API_KEY
-
-    if request.user.is_authenticated:
-
-        if not request.user.account.stripe_customer_id:
-            return Response("Payment Required", status=status.HTTP_402_PAYMENT_REQUIRED)
-
-        try:
-            return_url = settings.FRONTEND_HOST + '/account'
-
-            portal_session = stripe.billing_portal.Session.create(
-                customer=request.user.account.stripe_customer_id,
-                return_url=return_url,
-            )
-            return Response({"url": portal_session.url}, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
-            return Response("Server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-    return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
+            except Exception as e:
+                print(e)
+                return Response("Server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
