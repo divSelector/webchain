@@ -16,7 +16,10 @@ class Account(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=36, blank=False, null=False, unique=True)
     account_type = models.CharField(max_length=12, choices=ACCOUNT_TYPE_CHOICES, default='subscriber')
-    date_updated = models.DateTimeField(auto_now=True,  validators=[validate_date_not_in_future])
+    date_updated = models.DateTimeField(auto_now=True, validators=[validate_date_not_in_future])
+    stripe_checkout_session_id = models.CharField(max_length=255, blank=True, null=True, unique=True, default=None)
+    stripe_customer_id = models.CharField(max_length=255, blank=True, null=True, unique=True, default=None)
+    stripe_subscription_id = models.CharField(max_length=255, blank=True, null=True, unique=True, default=None)
 
     def clean(self):
         validate_date_not_in_future(self.date_updated)

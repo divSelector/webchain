@@ -60,8 +60,8 @@ export default function AccountDetails() {
         {accountType == 'free' && <>
           <h5>FREE</h5>
           <p>With a free account, your primary (🔘) page and webring will be availabe in the chain. The ones marked unavailable (❌) will not be. To make sure all your pages and webrings are availabe (✅), upgrade to a subscriber account!</p>
-          <Payments setAccountType={setAccountType} />
         </>}
+        <Payments />
       </div>
       <div className="form-wrapper">
         <UsernameUpdateForm
