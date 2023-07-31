@@ -9,7 +9,6 @@ from allauth.account.models import EmailAddress
 from allauth.account.admin import EmailAddressAdmin
 from allauth.account.adapter import get_adapter
 
-
 User = get_user_model()
 
 @admin.register(User)

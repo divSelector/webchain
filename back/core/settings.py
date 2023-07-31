@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
     
     "rest_framework",
     "rest_framework.authtoken",
@@ -49,7 +48,9 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
 
     "webrings",
-    "payments"
+    "payments",
+
+    "core"
 ]
 
 MIDDLEWARE = [
@@ -218,3 +219,16 @@ if env('ENVIRONMENT') == 'staging':
 
 STRIPE_API_KEY = env('STRIPE_API_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+
+ADMIN_UNREGISTERED_MODELS = [
+    'SocialApp',
+    'SocialAccount',
+    'SocialToken',
+    'TokenProxy'
+]
+
+if env('ENVIRONMENT') == 'production':
+    ADMIN_UNREGISTERED_MODELS += [
+        'EmailAddress',
+        'Account'
+    ]

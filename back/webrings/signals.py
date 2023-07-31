@@ -16,8 +16,7 @@ def create_account(sender, instance, created, **kwargs):
         email_address.primary = True
         email_address.save()
         
-
-
+        
 def create_pre_save_signal(model_class):
     
     @receiver(pre_save, sender=model_class, weak=False)
