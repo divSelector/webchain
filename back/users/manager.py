@@ -1,7 +1,5 @@
 from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
-from django.contrib.auth import get_user_model
-from allauth.account.models import EmailAddress
 
 class UserManager(BaseUserManager):
     def _create_user(self, email, password, is_staff, is_superuser, **extra_fields):
@@ -19,9 +17,8 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save()
-        
-        return user
 
+        return user
 
     def create_user(self, email, password, **extra_fields):
         return self._create_user(email, password, False, False, **extra_fields)

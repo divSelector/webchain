@@ -3,6 +3,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import Account, Page, Webring
 from faker import Faker
+from allauth.account.models import EmailAddress
 
 User = get_user_model()
 fake = Faker()
@@ -11,6 +12,10 @@ fake = Faker()
 def create_account(sender, instance, created, **kwargs):
     if created:
         account = Account.objects.create(user=instance, name=fake.user_name())
+        email_address = EmailAddress.objects.create(user_id=instance.id, email=instance.email)
+        email_address.primary = True
+        email_address.save()
+        
 
 
 def create_pre_save_signal(model_class):
