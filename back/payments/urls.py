@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import StripeSessionViewSet, webhook_received
+from .views import StripeSessionViewSet, StripeWebhookView
 
 urlpatterns = [
     path('session', 
@@ -7,5 +7,5 @@ urlpatterns = [
             {'get': 'retrieve', 
              'post': 'create'}
         ), name='stripe-session'),
-    path('webhook', webhook_received, name='webhook')
+    path('webhook', StripeWebhookView.as_view(), name='webhook')
 ]

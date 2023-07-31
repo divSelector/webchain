@@ -57,6 +57,7 @@ class WebringViewSet(viewsets.ModelViewSet):
 
         return Response({'message': 'Webring created', 'id': new_webring.id}, status=status.HTTP_201_CREATED)
 
+
     def retrieve(self, request, *args, **kwargs):
         webring_id = kwargs.get('webring_id')
 
@@ -67,26 +68,27 @@ class WebringViewSet(viewsets.ModelViewSet):
 
         pages = self.get_approved_pages(webring)
 
-        links = WebringPageLink.objects.filter(webring=webring)
-
         pages_serializer = PageSerializer(pages, many=True)
         webring_serializer = WebringSerializer(webring)
-        links_serializer = WebringPageLinkSerializer(links, many=True)
         data = {
             'webring': webring_serializer.data, 
             'pages': pages_serializer.data
         }
 
         if hasattr(request.user, 'account') and request.user.account == webring.account:
+            links = WebringPageLink.objects.filter(webring=webring)
+            links_serializer = WebringPageLinkSerializer(links, many=True)
             data['links'] = links_serializer.data
 
         return Response(data)
+
 
     def list(self, request):
         queryset = self.get_available_webrings()
         serializer = WebringSerializer(queryset, many=True)
         return Response(serializer.data)
     
+
     def partial_update(self, request, *args, **kwargs):
         webring_id = kwargs.get('webring_id')
         try:
@@ -131,9 +133,11 @@ class WebringViewSet(viewsets.ModelViewSet):
     def next(self, request, webring_id):
         return self.get_next_or_previous(request, webring_id, 1)
     
+
     @action(detail=True, methods=['get'])
     def previous(self, request, webring_id):
         return self.get_next_or_previous(request, webring_id, -1)
+
 
     @action(detail=True, methods=['get'])
     def random(self, request, webring_id):
