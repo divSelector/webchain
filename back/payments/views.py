@@ -47,7 +47,7 @@ class StripeSessionViewSet(viewsets.ViewSet):
             success_url=return_url,
             cancel_url=return_url
         )
-        if not account.stripe_checkout_session_id:
+        if not account.stripe_customer_id and not account.stripe_subscription_id:
             account.stripe_checkout_session_id = checkout_session.id
             account.save()
         return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
@@ -90,17 +90,20 @@ class StripeWebhookView(APIView):
     def _construct_event_or_error(self, request):
         webhook_secret = settings.STRIPE_WEBHOOK_SECRET
         if webhook_secret:
-            # DOUBLE FUCKING CHECK THAT WEBHOOK SIGNING IS CONFIGURED.
             signature = request.headers.get('stripe-signature')
             if not signature:
-                # sanity check
                 return (Response({'error': "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR), False)
             try:
                 event = stripe.Webhook.construct_event(
                     payload=request.body, sig_header=signature, secret=webhook_secret
                 )
-            except Exception as e:
+            except ValueError as e:
+                # Invalid payload
                 return (Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST), False)
+            except stripe.error.SignatureVerificationError as e:
+                # Invalid signature
+                return (Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST), False)
+            
         else:
              return (Response({'error': "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR), False)
 
@@ -113,8 +116,8 @@ class StripeWebhookView(APIView):
         stripe_subscription_id = session.get('subscription')
         try:
             account = Account.objects.get(stripe_checkout_session_id=session_id)
-        except Account.DoesNotExist:
-            return
+        except Account.DoesNotExist as e:
+            raise Exception(e)
 
         account.stripe_customer_id = stripe_customer_id
         account.stripe_subscription_id = stripe_subscription_id
