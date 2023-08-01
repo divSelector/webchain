@@ -6,6 +6,7 @@ import LabeledInputField from '../Fields/LabeledInputField';
 import { handleSubmit, renderErrorMessage } from '../../utils/formsUtils';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm({ emailState }) {
 
@@ -17,6 +18,8 @@ export default function LoginForm({ emailState }) {
   const [emailFieldError, setEmailFieldError] = useState('');
   const [passwordFieldError, setPasswordFieldError] = useState('');
   const [feedbackMsg, setFeedbackMsg] = useState('');
+
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -39,18 +42,15 @@ export default function LoginForm({ emailState }) {
           password: credentials.password
         })
       });
-
+      const data = await response.json()
       if (response.ok) {
-        const data = await response.json()
         if (data.hasOwnProperty('key')) {
           setToken(data.key)
           if (window.location.href.includes(front.verifyEmail)) {
-            window.location.href = "/";
+            navigate('/')
           }
         }
       } else {
-        const data = await response.json()
-        
         const errorMappings = [
           { key: "email", setter: setEmailFieldError },
           { key: "password", setter: setPasswordFieldError },

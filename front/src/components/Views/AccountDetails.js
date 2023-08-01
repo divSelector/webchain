@@ -4,7 +4,8 @@ import PageListView from './PageListView';
 import { useAuth } from '../../context/AuthContext';
 import WebringListView from './WebringListView';
 import UsernameUpdateForm from '../Forms/UsernameUpdateForm';
-import Payments from '../Payments/Template';
+import PaymentsPortal from '../Payments/PaymentsPortal';
+import { Link } from 'react-router-dom';
 
 export default function AccountDetails() {
   const { token } = useAuth();
@@ -50,18 +51,49 @@ export default function AccountDetails() {
     return <></>;
   }
 
+
+  const renderPages = () => {
+    if (pages.length > 0) {
+      return (
+        <PageListView
+          pagesPassed={pages}
+          additionalContainerStyle={{ flexDirection: 'column' }}
+          canModifyPrimary={true}
+          accountType={accountType}
+        />
+      )
+    } else {
+      return <h3><Link to="/page/add">Add Your First Page</Link></h3>
+    }
+  }
+
+  const renderRings = () => {
+    if (webrings.length > 0) {
+      return (
+        <WebringListView
+          ringsPassed={webrings}
+          additionalContainerStyle={{ flexDirection: 'column' }}
+          canModifyPrimary={true}
+          accountType={accountType}
+        />
+      )
+    } else {
+      return <h3><Link to="/webring/add">Add Your First Webring</Link></h3>
+    }
+  }
+
   return (
     <div className="view-wrapper">
 
       <div id='account-details'>
         <h2>Account Details</h2>
         <p>{email}</p>
-        {accountType == 'subscriber' && <h5>SUBSCRIBER</h5>}
+        {accountType == 'subscriber' && <><h5>SUBSCRIBER</h5></>}
         {accountType == 'free' && <>
           <h5>FREE</h5>
           <p>With a free account, your primary (🔘) page and webring will be availabe in the chain. The ones marked unavailable (❌) will not be. To make sure all your pages and webrings are availabe (✅), upgrade to a subscriber account!</p>
         </>}
-        <Payments />
+        <PaymentsPortal />
       </div>
       <div className="form-wrapper">
         <UsernameUpdateForm
@@ -71,18 +103,8 @@ export default function AccountDetails() {
         />
       </div>
       <div>
-        <WebringListView
-          ringsPassed={webrings}
-          additionalContainerStyle={{ flexDirection: 'column' }}
-          canModifyPrimary={true}
-          accountType={accountType}
-        />
-        <PageListView
-          pagesPassed={pages}
-          additionalContainerStyle={{ flexDirection: 'column' }}
-          canModifyPrimary={true}
-          accountType={accountType}
-        />
+        {renderRings()}
+        {renderPages()}
       </div>
     </div>
   );

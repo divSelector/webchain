@@ -7,6 +7,7 @@ import { renderErrorMessage } from "../../utils/formsUtils";
 import { useParams } from "react-router-dom";
 import NotFoundView from "./NotFound";
 import LinkListView from "./LinkListView";
+import { useNavigate } from "react-router-dom";
 
 export default function WebringUpdateView() {
 
@@ -27,6 +28,8 @@ export default function WebringUpdateView() {
     const [feedbackMsg, setFeedbackMsg] = useState('');
 
     const [error, setError] = useState(false);
+
+    const navigate = useNavigate()
 
     const getWebring = async () => {
    
@@ -72,7 +75,7 @@ export default function WebringUpdateView() {
 
             if (data.hasOwnProperty('id')) {
                 const newRingId = data.id
-                window.location.href = `/webring/${newRingId}`
+                navigate(`/webring/${newRingId}`)
             }
 
           } else {
@@ -105,11 +108,9 @@ export default function WebringUpdateView() {
           const { approved, not_approved } = data;
           setApprovedLinks(approved)
           setUnapprovedLinks(not_approved)
-        } else {
-          console.log(response)
         }
       } catch (error) {
-        console.log(error)
+        throw new Error(error)
       }
     }
 
