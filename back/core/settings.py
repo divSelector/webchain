@@ -12,16 +12,12 @@ env = environ.Env(
 
 environ.Env.read_env(BASE_DIR.parent / '.env')
 
-print(env('ENVIRONMENT'))
-
-TOKEN_EXPIRE_TIME = datetime.timedelta(hours=10)
-
-SECRET_KEY = env('SECRET_KEY')
-
 if env('ENVIRONMENT') == 'development':
     DEBUG = True
 else:
     DEBUG = False
+
+SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
@@ -84,6 +80,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+
+TOKEN_EXPIRE_TIME = datetime.timedelta(hours=10)
+
 
 if env('ENVIRONMENT') == 'development':
     DATABASES = {

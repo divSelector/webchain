@@ -1,4 +1,8 @@
 from django.db.models import Q
+import json
+
+from users.tasks import async_send_emails
+from django.conf import settings
 
 def get_bad_words_query():
 
@@ -34,3 +38,13 @@ def get_bad_words_query():
         bad_words_in_descrip |= Q(description__icontains=word)
 
     return bad_words_in_title | bad_words_in_descrip
+
+
+def send_email(from_email, recipients, message):
+    backend = 'smtp' if 'smtp' in settings.EMAIL_BACKEND else 'console'
+    data = {
+        "from_email": from_email,
+        "recipients": recipients,
+        "message": message
+    }
+    async_send_emails.delay([json.dumps(data)], backend)
