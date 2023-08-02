@@ -41,7 +41,7 @@ def get_bad_words_query():
 
 
 def send_email(from_email, recipients, message):
-    backend = 'smtp' if 'smtp' in settings.EMAIL_BACKEND else 'console'
+    backend = 'smtp' if 'Smtp' in settings.EMAIL_BACKEND else 'console'
     data = {
         "from_email": from_email,
         "recipients": recipients,
