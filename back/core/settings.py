@@ -3,6 +3,7 @@ import environ
 import datetime
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+from Crypto.Random import get_random_bytes
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -162,16 +163,15 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1',
     'http://127.0.0.1:3000',
     'http://0.0.0.0',
-    'http://0.0.0.0:3000',
-    'https://checkout.stripe.com'
+    'http://0.0.0.0:3000'
 ]
 
 
 if env('ENVIRONMENT') == 'development':
-    EMAIL_BACKEND = "users.backends.AsyncConsoleEmailBackend"
+    EMAIL_BACKEND = "users.backends.EncryptedConsoleEmailBackend"
 
 elif env('ENVIRONMENT') == 'staging':
-    EMAIL_BACKEND = "users.backends.AsyncSmtpEmailBackend"
+    EMAIL_BACKEND = "users.backends.EncryptedSmtpEmailBackend"
     EMAIL_HOST = env('EMAIL_HOST')
     EMAIL_USE_TLS = False
     EMAIL_USE_SSL = True
@@ -203,7 +203,6 @@ if env('ENVIRONMENT') == 'staging':
         },
     }
 
-
 if env('ENVIRONMENT') == 'staging':
     sentry_sdk.init(
         dsn=env('SENTRY_STAGE_DSN'),
@@ -220,11 +219,8 @@ if env('ENVIRONMENT') == 'staging':
     )
 
 
-
 STRIPE_API_KEY = env('STRIPE_API_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
-
-
 
 
 ADMIN_UNREGISTERED_MODELS = [
@@ -251,4 +247,6 @@ if env('ENVIRONMENT') == 'staging':
     RABBITMQ_PASSWORD = env('RABBITMQ_PASSWORD')
     RABBITMQ_PORT = env('RABBITMQ_PORT')
     CELERY_BROKER_URL = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PASSWORD}@rabbitmq:{RABBITMQ_PORT}//'
+
+ENCRYPTION_KEY = env("ENCRYPTION_KEY")
 

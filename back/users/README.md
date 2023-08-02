@@ -10,7 +10,7 @@ This is a template for a basic allauth users app.
 Since I originally made this, I've extended it quite a bit.
 
 - `authentication.py` contains an extension of the basic DRF TokenAuthentication that incorporates expiring tokens. To use it, you should set `TOKEN_EXPIRE_TIME` to something like `datetime.timedelta(hours=10)`
-- `backends.py` contains custom email backends that serialize EmailMessage objects to json and passes them to celery, for async processing. Also see `tasks.py`.
+- `backends.py` contains custom email backends that serialize EmailMessage objects to json and passes them to celery, for async processing. Also see `tasks.py`. The email is also encrypted before it is passed to the message broker and decrypted when it gets to the worker.
 
 ## Quick start
 

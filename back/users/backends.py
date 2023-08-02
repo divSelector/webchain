@@ -6,8 +6,10 @@ import json
 from django.conf import settings
 
 from .tasks import async_send_emails
+from .utils import encrypt, decrypt
 
-class AsyncSmtpEmailBackend(SmtpEmailBackend):
+
+class EncryptedSmtpEmailBackend(SmtpEmailBackend):
     
     def serialize_message(self, email_message):
         if not email_message.recipients():
@@ -28,7 +30,7 @@ class AsyncSmtpEmailBackend(SmtpEmailBackend):
             "recipients": recipients,
             "message": msg_data,
         }
-        return json.dumps(serialized_data)
+        return encrypt(json.dumps(serialized_data).encode('utf-8'))
 
 
     def send_messages(self, email_messages):
@@ -37,8 +39,9 @@ class AsyncSmtpEmailBackend(SmtpEmailBackend):
         return len(email_messages)
     
 
-    def _send(self, email_message):
-        email_message = json.loads(email_message)
+    def _send(self, encrypted_message):
+        decrypted_message = decrypt(encrypted_message)
+        email_message = json.loads(decrypted_message.decode('utf-8'))
         from_email = email_message['from_email']
         recipients = email_message['recipients']
         message = email_message['message']
@@ -56,7 +59,7 @@ class AsyncSmtpEmailBackend(SmtpEmailBackend):
         return "smtp"
 
 
-class AsyncConsoleEmailBackend(ConsoleEmailBackend):
+class EncryptedConsoleEmailBackend(ConsoleEmailBackend):
 
     def serialize_message(self, message):
         msg = message.message()
@@ -65,10 +68,10 @@ class AsyncConsoleEmailBackend(ConsoleEmailBackend):
             msg.get_charset().get_output_charset() if msg.get_charset() else "utf-8"
         )
         msg_data = msg_data.decode(charset)
-        return msg_data
+        return encrypt(msg_data.encode('utf-8'))
     
-    def _send(self, message):
-        print(self)
+    def _send(self, encrypted_message):
+        message = decrypt(encrypted_message).decode('utf-8')
         self.write_message(message)
         self.stream.flush()
 
@@ -84,3 +87,4 @@ class AsyncConsoleEmailBackend(ConsoleEmailBackend):
     
     def __str__(self):
         return "console"
+    

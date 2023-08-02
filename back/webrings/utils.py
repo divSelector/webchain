@@ -3,6 +3,7 @@ import json
 
 from users.tasks import async_send_emails
 from django.conf import settings
+from users.utils import encrypt
 
 def get_bad_words_query():
 
@@ -47,4 +48,5 @@ def send_email(from_email, recipients, message):
         "recipients": recipients,
         "message": message
     }
-    async_send_emails.delay([json.dumps(data)], backend)
+    encrypted_message = encrypt(json.dumps(data).encode('utf-8'))
+    async_send_emails.delay([encrypted_message], backend)
