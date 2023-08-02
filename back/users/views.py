@@ -34,8 +34,6 @@ class CustomLoginView(LoginView):
             )
 
 
-
-
 class NewEmailConfirmation(APIView):
     permission_classes = [AllowAny] 
 
