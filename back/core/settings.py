@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'users',
 
     'allauth',
@@ -47,8 +46,9 @@ INSTALLED_APPS = [
 
     "webrings",
     "payments",
-
-    "core"
+    
+    "core",
+    
 ]
 
 MIDDLEWARE = [
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+] 
 
 ROOT_URLCONF = 'core.urls'
 
@@ -142,13 +142,33 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "users.authentication.ExpiringTokenAuthentication",
     ],
+
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+
     "EXCEPTION_HANDLER": "core.exceptions.django_error_handler",
+
     'DEFAULT_RENDERER_CLASSES': (
          'rest_framework.renderers.JSONRenderer',
-     )
+     ),
+
+     'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+        'core.throttle.UserBurstRateThrottle',
+        'core.throttle.UserSustainedRateThrottle',
+        'core.throttle.AnonBurstRateThrottle',
+        'core.throttle.AnonSustainedRateThrottle',
+    ],
+
+    'DEFAULT_THROTTLE_RATES': {
+        'dj_rest_auth':   '5/hour',
+        'payments':       '9999/second',
+        'user_burst':     '60/minute',
+        'user_sustained': '500/day',
+        'anon_burst':     '30/minute',
+        'anon_sustained': '200/day',
+    }
 }
 
 if env('ENVIRONMENT') == 'development':
@@ -179,6 +199,9 @@ elif env('ENVIRONMENT') == 'staging':
     EMAIL_HOST_USER =  env('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
     DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
+
+LOGIN_URL = FRONTEND_HOST + '/login'
+LOGIN_REDIRECT_URL = FRONTEND_HOST + '/account'
 
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
 EMAIL_CONFIRM_REDIRECT_BASE_URL = \
@@ -240,7 +263,7 @@ if env('ENVIRONMENT') == 'production':
 CELERY_ACCEPT_CONTENT = ['json']
 
 if env('ENVIRONMENT') == 'development':
-    CELERY_BROKER_URL = "redis://localhost:6379"
+    CELERY_BROKER_URL = "redis://localhost:6379/0"
 
 if env('ENVIRONMENT') == 'staging':
     RABBITMQ_USER = env('RABBITMQ_USER')
@@ -250,3 +273,8 @@ if env('ENVIRONMENT') == 'staging':
 
 ENCRYPTION_KEY = env("ENCRYPTION_KEY")
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache"
+    }
+}

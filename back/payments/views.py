@@ -8,11 +8,14 @@ import datetime
 from django.conf import settings
 from webrings.models import Account
 
+from core.throttle import NoThrottle
 
 stripe.api_key = settings.STRIPE_API_KEY
 
 
 class StripeSessionViewSet(viewsets.ViewSet):
+
+    throttle_classes = [NoThrottle]
 
     def retrieve(self, request):
         if request.user.is_authenticated:
@@ -70,6 +73,8 @@ class StripeSessionViewSet(viewsets.ViewSet):
 
 
 class StripeWebhookView(APIView):
+    
+    throttle_classes = [NoThrottle]
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):

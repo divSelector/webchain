@@ -6,7 +6,7 @@ from dj_rest_auth.views import (
 )
 from users.views import email_confirm_redirect, password_reset_confirm_redirect
 from dj_rest_auth.registration.views import RegisterView
-from dj_rest_auth.views import LoginView, LogoutView
+from dj_rest_auth.views import LogoutView
 from django.urls import path
 
 from .views import NewEmailConfirmation, CustomLoginView

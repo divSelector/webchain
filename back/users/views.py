@@ -16,10 +16,12 @@ from datetime import datetime
 import pytz
 from django.conf import settings
 
+
 User = get_user_model()
 
 
 class CustomLoginView(LoginView):
+
     def login(self):
         self.user = self.serializer.validated_data['user']
         self.token_model = get_token_model()
