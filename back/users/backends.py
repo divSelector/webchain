@@ -5,7 +5,7 @@ import smtplib
 import json
 from django.conf import settings
 
-from .tasks import async_write_messages_to_console, async_send_messages_with_smtp
+from .tasks import async_send_emails
 
 class AsyncSmtpEmailBackend(SmtpEmailBackend):
     
@@ -33,7 +33,7 @@ class AsyncSmtpEmailBackend(SmtpEmailBackend):
 
     def send_messages(self, email_messages):
         msgs = [self.serialize_message(msg) for msg in email_messages]
-        async_send_messages_with_smtp.delay(msgs)
+        async_send_emails.delay(msgs, str(self))
         return len(email_messages)
     
 
@@ -51,6 +51,9 @@ class AsyncSmtpEmailBackend(SmtpEmailBackend):
                 raise
             return False
         return True
+    
+    def __str__(self):
+        return "smtp"
 
 
 class AsyncConsoleEmailBackend(ConsoleEmailBackend):
@@ -63,6 +66,11 @@ class AsyncConsoleEmailBackend(ConsoleEmailBackend):
         )
         msg_data = msg_data.decode(charset)
         return msg_data
+    
+    def _send(self, message):
+        print(self)
+        self.write_message(message)
+        self.stream.flush()
 
     def write_message(self, msg_data):
         self.stream.write("%s\n" % msg_data)
@@ -71,5 +79,8 @@ class AsyncConsoleEmailBackend(ConsoleEmailBackend):
 
     def send_messages(self, email_messages):
         msgs = [self.serialize_message(msg) for msg in email_messages]
-        async_write_messages_to_console.delay(msgs)
+        async_send_emails.delay(msgs, str(self))
         return len(email_messages)
+    
+    def __str__(self):
+        return "console"
