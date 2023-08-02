@@ -118,6 +118,9 @@ class StripeWebhookView(APIView):
             account = Account.objects.get(stripe_checkout_session_id=session_id)
         except Account.DoesNotExist as e:
             raise Exception(e)
+            # ...could potentially cancel the payment here...
+            # I'm not sure if it's possible for this error to arise outside of a testing webhooks scenario.
+            # This is here so that we'll see it on Sentry in case it does.
 
         account.stripe_customer_id = stripe_customer_id
         account.stripe_subscription_id = stripe_subscription_id

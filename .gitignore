@@ -194,3 +194,5 @@ staticfiles
 nginx/build/*
 
 nginx/*.txt
+
+*.rdb

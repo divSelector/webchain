@@ -9,7 +9,6 @@ services:
       - 80:80
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
-      # - ./nginx/include/:/etc/nginx/include/
       - static_files:/usr/share/nginx/django/
       - ./nginx/build:/usr/share/nginx/react
     depends_on:
@@ -33,14 +32,25 @@ services:
       dockerfile: ./back/Dockerfile
     container_name: api
     volumes:
-      # - ./back:/src/back/
       - static_files:/src/back/staticfiles/
     expose:
       - 8000
-    # ports:
-    #   - 8000:8000
     env_file:
       - ./.env
+    depends_on:
+      - rabbitmq
+
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbit
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+      - "1${RABBITMQ_PORT}:1${RABBITMQ_PORT}"
 
 
 volumes:

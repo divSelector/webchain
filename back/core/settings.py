@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     
     "rest_framework",
     "rest_framework.authtoken",
@@ -166,11 +167,12 @@ CORS_ALLOWED_ORIGINS = [
     'https://checkout.stripe.com'
 ]
 
+
 if env('ENVIRONMENT') == 'development':
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    EMAIL_BACKEND = "users.backends.AsyncConsoleEmailBackend"
 
 elif env('ENVIRONMENT') == 'staging':
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_BACKEND = "users.backends.AsyncSmtpEmailBackend"
     EMAIL_HOST = env('EMAIL_HOST')
     EMAIL_USE_TLS = False
     EMAIL_USE_SSL = True
@@ -218,8 +220,13 @@ if env('ENVIRONMENT') == 'staging':
         send_default_pii=True
     )
 
+
+
 STRIPE_API_KEY = env('STRIPE_API_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+
+
+
 
 ADMIN_UNREGISTERED_MODELS = [
     'SocialApp',
@@ -233,3 +240,16 @@ if env('ENVIRONMENT') == 'production':
         'EmailAddress',
         'Account'
     ]
+
+
+CELERY_ACCEPT_CONTENT = ['json']
+
+if env('ENVIRONMENT') == 'development':
+    CELERY_BROKER_URL = "redis://localhost:6379"
+
+if env('ENVIRONMENT') == 'staging':
+    RABBITMQ_USER = env('RABBITMQ_USER')
+    RABBITMQ_PASSWORD = env('RABBITMQ_PASSWORD')
+    RABBITMQ_PORT = env('RABBITMQ_PORT')
+    CELERY_BROKER_URL = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PASSWORD}@rabbitmq:{RABBITMQ_PORT}//'
+
