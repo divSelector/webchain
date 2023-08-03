@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import back from "../../settings/Backend";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import NotFoundView from "./NotFound";
+import ErrorView from "./ErrorView";
 import AddLinkToWebringForm from "../Forms/AddLinkToWebringForm";
 import ModalDialogue from "../Overlays/ModalDialogue";
 import ReactDOMServer from 'react-dom/server';
 import ExampleRingMarkup from "./ExampleRingMarkup";
 import front from "../../settings/Frontend";
+import { useCache } from "../../context/CacheContext";
+import nicerFetch from "../../utils/requestUtils";
+
 
 export default function WebringDetailView() {
 
@@ -22,6 +25,7 @@ export default function WebringDetailView() {
     const [error, setError] = useState(false);
 
     const { token, authAccount } = useAuth()
+    const cache = useCache()
 
     const [showModal, setShowModal] = useState(false);
     const [markup, setMarkup] = useState(null);
@@ -85,40 +89,27 @@ export default function WebringDetailView() {
       }
     }
 
-    const getWebring = async () => {
-   
-        const endpoint = back.getNonAuthBaseUrl() + 'webring/' + webringId
-        try {
-          let headers = {
-            'Content-Type': 'application/json'
-          }
-          if (token) {
-            headers['Authorization'] = `Token ${token}`
-          }
-          const response = await fetch(endpoint, {
-            method: 'GET',
-            headers: headers
-          });
-    
-          if (response.ok) {
-            const data = await response.json()
-            setWebring(data.webring)
-            setPages(data.pages)
-            if (data.hasOwnProperty('links')) {
-              // This is why its always correct.
-              await setLinks(data.links)
-            } else {
-              await token && getLinks()
-            }
-            setRingAccount(data.webring.account)
-          } else {
-            setError("Resource not Found")
-          }
-        } catch (error) {
-          setError("Failure communicating with server")
+    async function getWebring() {
+      const endpoint = back.getNonAuthBaseUrl() + 'webring/' + webringId
+      try {
+        const data = await nicerFetch({
+          endpoint: endpoint,
+          token: token,
+          responseCache: cache
+        });
+        setWebring(data.webring)
+        setPages(data.pages)
+        if (data.hasOwnProperty('links')) {
+          await setLinks(data.links)
+        } else {
+          await token && getLinks()
         }
-    };
-
+        setRingAccount(data.webring.account)
+      } catch (error) {
+        setError(error)
+      }
+    }
+  
     const checkRingOwnership = () => {
       if (authAccount && ringAccount && authAccount.name === ringAccount.name) {
         setIsRingOwner(true)
@@ -139,9 +130,7 @@ export default function WebringDetailView() {
       checkRingOwnership();
     }, [ringAccount, authAccount]);
     
-    if (error) {
-      return <NotFoundView />
-    }
+    if (error) return <ErrorView error={error} />
 
     return (
         <div className="view-wrapper">

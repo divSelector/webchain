@@ -5,7 +5,7 @@ import LabeledInputField from "../Fields/LabeledInputField";
 import { useAuth } from "../../context/AuthContext";
 import { renderErrorMessage } from "../../utils/formsUtils";
 import { useParams } from "react-router-dom";
-import NotFoundView from "./NotFound";
+import ErrorView from "./ErrorView";
 import LinkListView from "./LinkListView";
 import { useNavigate } from "react-router-dom";
 
@@ -168,7 +168,7 @@ export default function WebringUpdateView() {
     }, [webring]);
 
 
-    if (error) return <NotFoundView />
+    if (error) return <ErrorView />
 
     return (
         <div className="view-wrapper">

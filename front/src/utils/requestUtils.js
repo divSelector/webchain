@@ -2,7 +2,7 @@ import front from "../settings/Frontend";
 
 async function interceptResponse(response) {
     if (response.status === 429) {
-        throw new Error('Too Many Requests');
+        throw new Error('You Doing Too Much;You are sending too many requests.');
     }
 
     if (response.status === 404) {
@@ -18,12 +18,13 @@ async function interceptResponse(response) {
 
 export default async function nicerFetch({
     endpoint,
-    method = 'GET',
-    token = null,
+    method        = 'GET',
+    token         = null,
     responseCache = null,
-    body = null,
-    headers = {}
+    body          = null,
+    headers       = {}
   }) {
+
     const cacheKey = JSON.stringify({ endpoint, method, body, headers });
     if (responseCache) {
         const cached = responseCache.get(cacheKey);

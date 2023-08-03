@@ -9,11 +9,10 @@
   --matrix-rain-color: var(--bg-primary-color);
 }
 
-
 body {
-  background: linear-gradient(135deg, 
-              var(--bg-primary-color), 
-              var(--bg-secondary-color));
+  background: linear-gradient(135deg,
+      var(--bg-primary-color),
+      var(--bg-secondary-color));
   background-attachment: fixed;
 }
 
@@ -32,12 +31,9 @@ body {
   background-color: var(--card-bg-primary);
 }
 
-
-
 .form-wrapper h2 {
   color: var(--form-heading-color);
 }
-
 
 .form-wrapper button {
   background-color: var(--bg-secondary-color);
@@ -50,8 +46,6 @@ body {
   background-color: var(--bg-primary-color);
 }
 
-
-
 .labeled-input label {
   color: var(--form-heading-color);
 }
@@ -61,11 +55,9 @@ button {
   color: var(--link-color);
 }
 
-
 a:hover {
   color: var(--hover-color);
 }
-
 
 nav a {
   color: var(--link-color)
@@ -93,7 +85,6 @@ header h1 {
   background-color: #f0f0f0;
 }
 
-
 .outer-circle {
   fill: none;
   stroke: var(--bg-primary-color);
@@ -111,8 +102,6 @@ header h1 {
   stroke: var(--hover-color);
 }
 
-
-
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -126,12 +115,10 @@ header h1 {
   color: var(--heading-color);
 }
 
-
 .modal-buttons button {
   background-color: var(--bg-secondary-color);
   color: #fff;
 }
-
 
 .error-text {
   color: crimson;

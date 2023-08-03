@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import renderIcon from "../../utils/renderTools";
 import { useCache } from "../../context/CacheContext";
 import nicerFetch from "../../utils/requestUtils";
+import ErrorView from "./ErrorView";
 
 export default function WebringListView({ ringsPassed, additionalContainerStyle, canModifyPrimary, accountType }) {
 
@@ -16,6 +17,8 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
 
   const { token } = useAuth()
   const cache = useCache()
+
+  const [error, setError] = useState()
 
   const toggleModal = () => setShowModal(!showModal);
 
@@ -33,7 +36,7 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
       });
       setWebrings(data)
     } catch (error) {
-      console.log(error)
+      setError(error)
     }
   }
 
@@ -68,15 +71,16 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
     }
   }
 
-
   useEffect(() => {
     if (!ringsPassed) getWebrings();
     else setWebrings(ringsPassed)
   }, []);
 
+  if (error) {return <ErrorView error={error} />}
+
   return (
     <div className="view-wrapper" style={additionalContainerStyle ? additionalContainerStyle : null}>
-      <h2>Rings</h2>
+      <h2>Webrings</h2>
       <ul>
         {webrings.map((webring) => (
           <li key={webring.id}>

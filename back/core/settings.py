@@ -151,25 +151,25 @@ REST_FRAMEWORK = {
 
     'DEFAULT_RENDERER_CLASSES': (
          'rest_framework.renderers.JSONRenderer',
-     ),
+     )
+}
 
-     'DEFAULT_THROTTLE_CLASSES': [
+if not env('ENVIRONMENT') == 'development' and not env('ENVIRONMENT') == 'staging':
+    REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
+        'dj_rest_auth':   '5/hour',
+        'payments':       '9999999/second',
+        'user_burst':     '60/minute',
+        'user_sustained': '300/hour',
+        'anon_burst':     '30/minute',
+        'anon_sustained': '120/hour',
+    }
+    REST_FRAMEWORK['DEFAULT_THROTTLE_CLASSES'] = [
         'rest_framework.throttling.ScopedRateThrottle',
         'core.throttle.UserBurstRateThrottle',
         'core.throttle.UserSustainedRateThrottle',
         'core.throttle.AnonBurstRateThrottle',
         'core.throttle.AnonSustainedRateThrottle',
-    ],
-
-    'DEFAULT_THROTTLE_RATES': {
-        'dj_rest_auth':   '5/hour',
-        'payments':       '9999/second',
-        'user_burst':     '60/minute',
-        'user_sustained': '500/day',
-        'anon_burst':     '30/minute',
-        'anon_sustained': '200/day',
-    }
-}
+    ]
 
 if env('ENVIRONMENT') == 'development':
     FRONTEND_HOST = 'http://127.0.0.1:3000'
@@ -177,15 +177,15 @@ if env('ENVIRONMENT') == 'development':
 elif env('ENVIRONMENT') == 'staging':
     FRONTEND_HOST = 'http://0.0.0.0'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost",
-    'http://localhost:3000',
-    'http://127.0.0.1',
-    'http://127.0.0.1:3000',
-    'http://0.0.0.0',
-    'http://0.0.0.0:3000'
-]
-
+if not env('ENVIRONMENT') == 'production':
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost",
+        'http://localhost:3000',
+        'http://127.0.0.1',
+        'http://127.0.0.1:3000',
+        'http://0.0.0.0',
+        'http://0.0.0.0:3000'
+    ]
 
 if env('ENVIRONMENT') == 'development':
     EMAIL_BACKEND = "users.backends.EncryptedConsoleEmailBackend"
@@ -200,8 +200,8 @@ elif env('ENVIRONMENT') == 'staging':
     EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
     DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
 
-LOGIN_URL = FRONTEND_HOST + '/login'
-LOGIN_REDIRECT_URL = FRONTEND_HOST + '/account'
+LOGIN_URL = FRONTEND_HOST + '/'
+# LOGIN_REDIRECT_URL = FRONTEND_HOST + '/'
 
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
 EMAIL_CONFIRM_REDIRECT_BASE_URL = \

@@ -13,13 +13,12 @@ function FrontendSettings () {
             verifyEmailToken: "/email/confirm/:verifyToken",
             resetPassword: "/password-reset/confirm/:userId/:resetToken",
             getBaseUrl: () => host,
-            storageKeyName: "MOTHERFUCKINGSESSIONKEY",
-            emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            storageKeyName: "q",
             pages: "/pages",
             webrings: "/webrings",
             account: "/account",
             stripePriceLookupKey: stripePriceLookupKey,
-            cacheTime: 300
+            cacheTime: 20
         }
     )
 }

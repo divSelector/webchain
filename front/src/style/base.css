@@ -372,6 +372,10 @@ svg {
         width: unset;
     }
 
+    .view-wrapper {
+        width: 80%;
+    }
+
     div.view-wrapper div ul {
         margin: 0;
         padding: 0;

@@ -17,7 +17,7 @@ import WebringCreateView from './components/Views/WebringCreateView';
 import PageUpdateView from './components/Views/PageUpdateView';
 import { ProtectedRoute } from './context/ProtectedRoute';
 import WebringUpdateView from './components/Views/WebringUpdateView';
-import NotFoundView from './components/Views/NotFound';
+import ErrorView from './components/Views/ErrorView';
 import ExampleRingMarkup from './components/Views/ExampleRingMarkup';
 import { CacheProvider } from './context/CacheContext';
 
@@ -30,7 +30,7 @@ export default function App() {
       <div className="app-wrapper">
         <Header />
         <Routes>
-          <Route path="*" Component={NotFoundView}></Route>
+          <Route path="*" Component={ErrorView}></Route>
           
           <Route path="/" element={
             <ProtectedRoute requireAuth={true}>
@@ -120,6 +120,10 @@ export default function App() {
             >
               <WebringUpdateView />
             </ProtectedRoute>
+          } />
+
+          <Route path="/you-doing-too-much" element={
+            <ExampleRingMarkup />
           } />
 
 

@@ -3,12 +3,23 @@ from rest_framework.response import Response
 from ..models import Page, WebringPageLink, Account
 from ..serializers import PageSerializer, WebringSerializer, WebringPageLinkSerializer
 from ..permissions import RetrieveListOrAuthenticated
+from django.db.models import Q
 
 from .ring import get_bad_words_query
 
 class PageViewSet(viewsets.ViewSet):
+
     permission_classes = [RetrieveListOrAuthenticated]
     queryset = Page.objects.all()
+
+    @staticmethod
+    def get_available_pages():
+        return Page.objects.filter(
+            Q(primary=True) |
+            Q(account__account_type='subscriber')
+        ).exclude(
+            get_bad_words_query()
+        ).distinct().order_by('-date_updated')
 
     def create(self, request):
         user = request.user
@@ -45,9 +56,7 @@ class PageViewSet(viewsets.ViewSet):
             return Response({'error': 'Page not found'}, status=404)
         
     def list(self, request):
-        queryset = Page.objects.all().exclude(
-            get_bad_words_query()
-        ).distinct().order_by('-date_updated')
+        queryset = self.get_available_pages()
 
         serializer = PageSerializer(queryset, many=True)
         return Response(serializer.data)

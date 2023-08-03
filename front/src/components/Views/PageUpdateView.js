@@ -5,7 +5,7 @@ import LabeledInputField from "../Fields/LabeledInputField";
 import { useAuth } from "../../context/AuthContext";
 import { renderErrorMessage } from "../../utils/formsUtils";
 import { useParams } from "react-router-dom";
-import NotFoundView from "./NotFound";
+import ErrorView from "./ErrorView";
 
 export default function PageUpdateView() {
 
@@ -93,7 +93,7 @@ export default function PageUpdateView() {
     }, [pageId]);
 
     if (error) {
-      return <NotFoundView />
+      return <ErrorView />
     }
 
     return (
