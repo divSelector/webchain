@@ -19,12 +19,14 @@ import { ProtectedRoute } from './context/ProtectedRoute';
 import WebringUpdateView from './components/Views/WebringUpdateView';
 import NotFoundView from './components/Views/NotFound';
 import ExampleRingMarkup from './components/Views/ExampleRingMarkup';
+import { CacheProvider } from './context/CacheContext';
 
 export default function App() {
 
   return (
     <BrowserRouter>
     <AuthProvider>
+    <CacheProvider>
       <div className="app-wrapper">
         <Header />
         <Routes>
@@ -128,7 +130,8 @@ export default function App() {
         </Routes>
 
         <MatrixRain />
-      </div>
+        </div>
+      </CacheProvider>
       </AuthProvider>
     </BrowserRouter>
       

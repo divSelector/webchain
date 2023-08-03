@@ -18,7 +18,8 @@ function FrontendSettings () {
             pages: "/pages",
             webrings: "/webrings",
             account: "/account",
-            stripePriceLookupKey: stripePriceLookupKey
+            stripePriceLookupKey: stripePriceLookupKey,
+            cacheTime: 300
         }
     )
 }

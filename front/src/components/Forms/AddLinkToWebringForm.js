@@ -13,8 +13,6 @@ export default function AddLinkToWebringForm({ webring, pagesInRing, linksToRing
   const { token } = useAuth()
 
   const sendLinkRequest = async (p) => {
-    console.log(webring)
-    console.log(p)
     const endpoint = back.getNonAuthBaseUrl() + 'link/'+webring.id+'/'+p+'/'
     try {
       const response = await fetch(endpoint, {

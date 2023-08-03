@@ -4,111 +4,103 @@ import { Link } from "react-router-dom";
 import ModalDialogue from "../Overlays/ModalDialogue";
 import { useAuth } from "../../context/AuthContext";
 import renderIcon from "../../utils/renderTools";
+import { useCache } from "../../context/CacheContext";
+import nicerFetch from "../../utils/requestUtils";
 
 export default function WebringListView({ ringsPassed, additionalContainerStyle, canModifyPrimary, accountType }) {
 
-    const [webrings, setWebrings] = useState([]);
+  const [webrings, setWebrings] = useState([]);
 
-    const [showModal, setShowModal] = useState(false);
-    const [selectedRing, setSelectedRing] = useState(null);
-    const { token } = useAuth()
-    const toggleModal = () => setShowModal(!showModal);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRing, setSelectedRing] = useState(null);
 
-    const handleClick = (ring) => {
-      setSelectedRing(ring)
-      toggleModal();
-    };
+  const { token } = useAuth()
+  const cache = useCache()
 
+  const toggleModal = () => setShowModal(!showModal);
 
-    const getWebrings = async () => {
-   
-        const endpoint = back.getNonAuthBaseUrl() + 'webrings/'
-        try {
-          const response = await fetch(endpoint, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-    
-          if (response.ok) {
-            const data = await response.json()
-            setWebrings(data)
-          } else {
+  const handleClick = (ring) => {
+    setSelectedRing(ring)
+    toggleModal();
+  };
 
-            console.log("Failure to Get Pages")
-          }
-        } catch (error) {
-          console.log("Error Communicating with Server")
-          throw error
-        }
-      };
+  async function getWebrings() {
+    const endpoint = back.getNonAuthBaseUrl() + 'webrings/'
+    try {
+      const data = await nicerFetch({
+        endpoint: endpoint,
+        responseCache: cache
+      });
+      setWebrings(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-      const updatePrimaryRing = async (ring) => {
-        if (ring.primary) return;
-        
-        const endpoint = back.getNonAuthBaseUrl() + 'webring/' + ring.id + '/'
-        try {
-          const response = await fetch(endpoint, {
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Token ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              primary: true
-            })
-          });
-          const data = await response.json()
-        const previousPrimary = webrings.find((r) => r.primary);
-        if (previousPrimary) {
-          setWebrings((prevRings) =>
-            prevRings.map((r) => (r.id === previousPrimary.id ? { ...r, primary: false } : r))
-          );
-        }
-  
-        // Update the new primary page to be primary
-        const updatedRing = { ...ring, primary: true };
+  async function updatePrimaryRing(ring) {
+    if (ring.primary) return;
+    const endpoint = `${back.getNonAuthBaseUrl()}webring/${ring.id}/`
+    try {
+      const data = await nicerFetch({
+        endpoint: endpoint,
+        method: 'PATCH',
+        token: token,
+        body: {
+          primary: true
+        },
+        responseCache: cache
+      });
+
+      const previousPrimary = webrings.find((r) => r.primary);
+      if (previousPrimary) {
         setWebrings((prevRings) =>
-          prevRings.map((r) => (r.id === ring.id ? updatedRing : r))
+          prevRings.map((r) => (r.id === previousPrimary.id ? { ...r, primary: false } : r))
         );
-        } catch (error) {
-            throw error
-        }
-    };
+      }
+      // Update the new primary page to be primary
+      const updatedRing = { ...ring, primary: true };
+      setWebrings((prevRings) =>
+        prevRings.map((r) => (r.id === ring.id ? updatedRing : r))
+      );
 
-    useEffect(() => {
-      if (!ringsPassed) getWebrings();
-      else setWebrings(ringsPassed)
-    }, []);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-    return (
-        <div className="view-wrapper" style={additionalContainerStyle ? additionalContainerStyle : null}>
-            <h2>Rings</h2>
-            <ul>
-            {webrings.map((webring) => (
-                <li key={webring.id}>
-                    <p>
-                        {renderIcon(webring, accountType, canModifyPrimary)}
-                        <Link to={'/webring/'+webring.id}>{webring.title}</Link> by {webring.account.name}
-                        
-                        {canModifyPrimary && !webring.primary && (
-                        <button className="is-primary" onClick={() => handleClick(webring)}>Make Primary</button>
-                      )}
-                    </p>
-                </li>
-            ))}
-            </ul>
-            <ModalDialogue 
-                isOpen={showModal}
-                title="Change Primary Webring?"
-                message="Are you sure you want to perform this action?"
-                onConfirm={() => {
-                    updatePrimaryRing(selectedRing)
-                    toggleModal()
-                }}
-                onCancel={toggleModal}
-            />
-        </div>
-    )
+
+  useEffect(() => {
+    if (!ringsPassed) getWebrings();
+    else setWebrings(ringsPassed)
+  }, []);
+
+  return (
+    <div className="view-wrapper" style={additionalContainerStyle ? additionalContainerStyle : null}>
+      <h2>Rings</h2>
+      <ul>
+        {webrings.map((webring) => (
+          <li key={webring.id}>
+            <p>
+              {renderIcon(webring, accountType, canModifyPrimary)}
+              <Link to={'/webring/' + webring.id}>{webring.title}</Link> by {webring.account.name}
+
+              {canModifyPrimary && !webring.primary && (
+                <button className="is-primary" onClick={() => handleClick(webring)}>Make Primary</button>
+              )}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <ModalDialogue
+        isOpen={showModal}
+        title="Change Primary Webring?"
+        message="Are you sure you want to perform this action?"
+        onConfirm={() => {
+          updatePrimaryRing(selectedRing)
+          toggleModal()
+        }}
+        onCancel={toggleModal}
+      />
+    </div>
+  )
 }
