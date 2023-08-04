@@ -7,6 +7,7 @@
   --form-heading-color: var(--link-color);
   --card-bg-primary: #eaf5e1;
   --matrix-rain-color: var(--bg-primary-color);
+  --buton-color: #9c82b8;
 }
 
 body {
@@ -130,4 +131,13 @@ header h1 {
 
 .help-text {
   color: rgb(82, 70, 16);
+}
+
+#account-details button, 
+button.is-primary,
+#menu-toggle-button {
+  background-color: var(--buton-color);
+  color: #fff;
+  border: unset;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

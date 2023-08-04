@@ -1,8 +1,8 @@
 import { React, useEffect } from "react";
-import AuthenticatedView from "./AuthenticatedView";
 import { useNavigate } from "react-router-dom";
 import front from "../../settings/Frontend";
 import { useAuth } from "../../context/AuthContext";
+import AccountDetails from "./AccountDetails";
 
 export default function Dashboard() {
 
@@ -21,7 +21,7 @@ export default function Dashboard() {
         <div className="view-wrapper">
             <div>
                 {token && 
-                    <AuthenticatedView token={token} setToken={setToken} /> 
+                    <AccountDetails /> 
                 }
             </div>
         </div>

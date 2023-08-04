@@ -84,23 +84,25 @@ export default function AccountDetails() {
 
   return (
     <div className="view-wrapper">
-
+      <div className="form-wrapper">
       <div id='account-details'>
         <h2>Account Details</h2>
         <p>{email}</p>
         {accountType == 'subscriber' && <><h5>SUBSCRIBER</h5></>}
         {accountType == 'free' && <>
           <h5>FREE</h5>
-          <p>With a free account, your primary (🔘) page and webring will be availabe in the chain. The ones marked unavailable (❌) will not be. To make sure all your pages and webrings are availabe (✅), upgrade to a subscriber account!</p>
+          <p>With a free account, your primary (🔘) page and webring will be 
+            availabe in the chain. The ones marked unavailable (❌) will not be. 
+            You can change your primary with (⭐️) button. To make sure all your 
+            pages and webrings are availabe (✅), upgrade to a supporter account!</p>
         </>}
         <PaymentsPortal />
-      </div>
-      <div className="form-wrapper">
         <UsernameUpdateForm
           token={token}
           oldName={username}
           onUsernameUpdate={updateUsername}
         />
+      </div>
       </div>
       <div>
         {renderRings()}

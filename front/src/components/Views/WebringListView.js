@@ -87,9 +87,8 @@ export default function WebringListView({ ringsPassed, additionalContainerStyle,
             <p>
               {renderIcon(webring, accountType, canModifyPrimary)}
               <Link to={'/webring/' + webring.id}>{webring.title}</Link> by {webring.account.name}
-
               {canModifyPrimary && !webring.primary && (
-                <button className="is-primary" onClick={() => handleClick(webring)}>Make Primary</button>
+                <button className="is-primary" onClick={() => handleClick(webring)}>⭐️</button>
               )}
             </p>
           </li>

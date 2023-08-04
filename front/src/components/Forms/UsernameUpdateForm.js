@@ -53,7 +53,11 @@ export default function UsernameUpdateForm({ oldName, onUsernameUpdate }) {
 
   return (
     
-      <form onSubmit={handleSubmit}>
+      <form 
+        id="username-update-form" 
+        className="account-update-form" 
+        onSubmit={handleSubmit}
+      >
         <LabeledInputField
           type="text"
           id="account-name"

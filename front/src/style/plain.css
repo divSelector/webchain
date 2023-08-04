@@ -7,6 +7,7 @@
   --form-heading-color: #000;
   --card-bg-primary: #fff;
   --matrix-rain-color: #efefef;
+  --button-color: gray;
 }
 
 body {
@@ -142,4 +143,11 @@ header h1 {
 
 .help-text {
   color: rgb(82, 70, 16);
+}
+
+#account-details button, button.is-primary {
+  background-color: var(--buton-color);
+  color: #000;
+  border: unset;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

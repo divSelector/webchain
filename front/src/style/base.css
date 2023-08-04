@@ -37,7 +37,7 @@ canvas {
 .view-wrapper {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     width: 100%;
 }
 
@@ -98,6 +98,7 @@ canvas {
 
 .labeled-input input {
     margin-top: -4px;
+    max-width: 100%;
 }
 
 .checkbox-field {
@@ -258,7 +259,18 @@ svg {
 
 #account-details {
     max-width: 300px;
+    overflow: hidden;
 }
+
+.account-update-form {
+    margin-top: 40px;
+}
+
+#account-details button, #menu-toggle-button {
+    margin-top: unset;
+    padding: 5px;
+}
+
 
 @media (max-width: 690px) {
     .view-wrapper {
@@ -322,7 +334,7 @@ svg {
     }
 
     nav ul li {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 
 
@@ -380,8 +392,29 @@ svg {
         margin: 0;
         padding: 0;
     }
+
+    h1 {
+        max-width: 100%;
+    }
 }
 
+@media screen and (max-width: 196px) {
+    header h1 {
+        font-size: 1em;
+        letter-spacing: 0.0em;
+        margin-top: 10px;
+    }
+    
+}
+
+@media (max-width: 690px) {
+    #account-details {
+        max-width: unset;
+    }
+    .form-wrapper {
+        width: 80%;
+    }
+}
 
 
 @media screen and (min-width: 1500px) {

@@ -47,7 +47,7 @@ export default function LoginForm({ emailState }) {
         if (data.hasOwnProperty('key')) {
           setToken(data.key)
           if (window.location.href.includes(front.verifyEmail)) {
-            navigate('/')
+            navigate('/account')
           }
         }
       } else {

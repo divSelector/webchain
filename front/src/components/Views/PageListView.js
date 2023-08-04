@@ -86,7 +86,7 @@ export default function PageListView({ pagesPassed, additionalContainerStyle, ca
               {renderIcon(page, accountType, canModifyPrimary)}
               <Link to={'../page/' + page.id}>{page.title}</Link> by {page.account.name}
               {canModifyPrimary && !page.primary && (
-                <button className="is-primary" onClick={() => handleClick(page)}>Make Primary</button>
+                <button className="is-primary" onClick={() => handleClick(page)}>⭐️</button>
               )}
             </p>
           </li>
