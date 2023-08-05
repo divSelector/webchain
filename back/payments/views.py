@@ -50,9 +50,8 @@ class StripeSessionViewSet(viewsets.ViewSet):
             success_url=return_url,
             cancel_url=return_url
         )
-        if not account.stripe_customer_id and not account.stripe_subscription_id:
-            account.stripe_checkout_session_id = checkout_session.id
-            account.save()
+        account.stripe_checkout_session_id = checkout_session.id
+        account.save()
         return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -173,6 +172,7 @@ class StripeWebhookView(APIView):
         account.stripe_subscription_id = None
         account.stripe_checkout_session_id = None
         account.save()
+        
         print(f"{account} is now a {account.account_type} account.")
 
     def _handle_event(self):

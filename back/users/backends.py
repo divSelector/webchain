@@ -30,6 +30,7 @@ class EncryptedSmtpEmailBackend(SmtpEmailBackend):
             "recipients": recipients,
             "message": msg_data,
         }
+        print(serialized_data)
         return encrypt(json.dumps(serialized_data).encode('utf-8'))
 
 

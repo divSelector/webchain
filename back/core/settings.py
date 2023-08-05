@@ -3,7 +3,7 @@ import environ
 import datetime
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-from Crypto.Random import get_random_bytes
+from logging.config import dictConfig
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -211,20 +211,54 @@ EMAIL_CONFIRM_REDIRECT_BASE_URL = \
 PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = \
     FRONTEND_HOST + "/password-reset/confirm/"
 
-if env('ENVIRONMENT') == 'staging':
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'INFO',
+#     },
+# }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s',
+             'datefmt': '%y %b %d, %H:%M:%S',
             },
         },
-        'root': {
-            'handlers': ['console'],
-            'level': 'INFO',
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'celery': {
+            'level': 'DEBUG',
+            # 'class': 'logging.handlers.RotatingFileHandler',
+            'class': 'logging.StreamHandler',
+            # 'filename': 'celery.log',
+            'formatter': 'simple',
+            # 'maxBytes': 1024 * 1024 * 100,  # 100 mb
+        },
+    },
+    'loggers': {
+        'celery': {
+            'handlers': ['celery', 'console'],
+            'level': 'DEBUG',
         },
     }
+}
+dictConfig(LOGGING)
+
 
 if env('ENVIRONMENT') == 'staging':
     sentry_sdk.init(
