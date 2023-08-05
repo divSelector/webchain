@@ -5,7 +5,7 @@ export default function LoginRegisterText({ currentView }) {
   const oppositeView = currentView === '/login' ? '/register' : '/login';
 
   const handleToggleLoginRegister = () => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0);
   };
 
 

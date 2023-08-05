@@ -84,7 +84,7 @@ export default function AddLinkToWebringForm({ webring, pagesInRing, linksToRing
       )
     }
     setUserPagesNotOnRing(filteredPages);
-  }, [userPages, pagesInRing]);
+  }, [userPages, pagesInRing, linksToRing]);
   
 
 

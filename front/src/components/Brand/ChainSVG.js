@@ -25,7 +25,7 @@ export default function ChainSVG() {
       }
 
     return (
-      <svg 
+      <svg id="chain"
         xmlns="http://www.w3.org/2000/svg" 
         viewBox={`0 0 ${viewWidth} ${viewHeight}`} 
         width={viewWidth} 

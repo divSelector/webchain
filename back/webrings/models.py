@@ -37,7 +37,7 @@ class Account(models.Model):
     
 class Webring(models.Model):
     account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='webrings', related_query_name='webrings')
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=42)
     description = models.TextField(max_length=500)
     date_created = models.DateTimeField(auto_now_add=True, validators=[validate_date_not_in_future])
     date_updated = models.DateTimeField(auto_now=True, validators=[validate_date_not_in_future])
@@ -62,7 +62,7 @@ class Webring(models.Model):
 
 class Page(models.Model):
     account = models.ForeignKey("Account", on_delete=models.CASCADE, related_name='account', related_query_name='account')
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=42)
     description = models.TextField(max_length=500)
     url = models.URLField(validators=[validate_https_url])
     date_created = models.DateTimeField(auto_now_add=True, validators=[validate_date_not_in_future])
