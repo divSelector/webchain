@@ -195,6 +195,7 @@ nginx/build/*
 
 nginx/*.txt
 nginx/include/allowme.conf
-
+back/celerybeat*
+nginx/ssl
 
 *.rdb

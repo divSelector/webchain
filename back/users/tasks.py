@@ -1,7 +1,9 @@
 from django.core.mail import get_connection
 from celery import shared_task
-
 from django.conf import settings
+from datetime import datetime
+import pytz
+from rest_framework.authtoken.models import Token
 
 @shared_task()
 def async_send_emails(messages, backend):
@@ -14,8 +16,6 @@ def async_send_emails(messages, backend):
             stream_created = conn.open()
             if backend == 'smtp':
                 if not conn.connection or stream_created is None:
-                    # We failed silently on open().
-                    # Trying to send would be pointless.
                     return 0
             for message in messages:
                 conn._send(message)
@@ -26,3 +26,12 @@ def async_send_emails(messages, backend):
             if not conn.fail_silently:
                 raise
     return msg_count
+
+
+@shared_task()
+def cleanup_expired_tokens():
+    utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
+    tokens = Token.objects.all()
+    for token in tokens:
+        if token.created < utc_now - settings.TOKEN_EXPIRE_TIME:
+            token.delete()

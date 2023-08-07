@@ -184,7 +184,13 @@ if not env('ENVIRONMENT') == 'production':
         'http://127.0.0.1',
         'http://127.0.0.1:3000',
         'http://0.0.0.0',
-        'http://0.0.0.0:3000'
+        'http://0.0.0.0:3000',
+        "https://localhost",
+        'https://localhost:3000',
+        'https://127.0.0.1',
+        'https://127.0.0.1:3000',
+        'https://0.0.0.0',
+        'https://0.0.0.0:3000'
     ]
 
 if env('ENVIRONMENT') == 'development':
@@ -210,21 +216,6 @@ EMAIL_CONFIRM_REDIRECT_BASE_URL = \
 # <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
 PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = \
     FRONTEND_HOST + "/password-reset/confirm/"
-
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'root': {
-#         'handlers': ['console'],
-#         'level': 'INFO',
-#     },
-# }
 
 LOGGING = {
     'version': 1,
@@ -284,7 +275,7 @@ ADMIN_UNREGISTERED_MODELS = [
     'SocialApp',
     'SocialAccount',
     'SocialToken',
-    'TokenProxy'
+    #'TokenProxy'
 ]
 
 if env('ENVIRONMENT') == 'production':
@@ -312,3 +303,8 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache"
     }
 }
+
+if env("ENVIRONMENT") == 'staging':
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True

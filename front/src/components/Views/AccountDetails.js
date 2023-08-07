@@ -6,6 +6,7 @@ import WebringListView from './WebringListView';
 import UsernameUpdateForm from '../Forms/UsernameUpdateForm';
 import PaymentsPortal from '../Payments/PaymentsPortal';
 import { Link } from 'react-router-dom';
+import nicerFetch from '../../utils/requestUtils';
 
 export default function AccountDetails() {
   const { token } = useAuth();
@@ -22,17 +23,11 @@ export default function AccountDetails() {
   const fetchAccountDetails = async () => {
     try {
       const endpoint = back.getNonAuthBaseUrl() + 'user/';
-      const response = await fetch(endpoint, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
+      const data = await nicerFetch({
+        endpoint: endpoint,
+        token: token
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch account details');
-      }
-
-      const data = await response.json();
       setUsername(data.account.name);
       setAccountType(data.account.account_type)
       setEmail(data.account.user.email)

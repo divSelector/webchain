@@ -9,6 +9,10 @@ async function interceptResponse(response) {
         throw new Error('Not Found');
     }
 
+    if (response.status === 401) {
+        window.location.reload()
+    }
+
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
