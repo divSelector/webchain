@@ -184,13 +184,7 @@ if not env('ENVIRONMENT') == 'production':
         'http://127.0.0.1',
         'http://127.0.0.1:3000',
         'http://0.0.0.0',
-        'http://0.0.0.0:3000',
-        "https://localhost",
-        'https://localhost:3000',
-        'https://127.0.0.1',
-        'https://127.0.0.1:3000',
-        'https://0.0.0.0',
-        'https://0.0.0.0:3000'
+        'http://0.0.0.0:3000'
     ]
 
 if env('ENVIRONMENT') == 'development':
@@ -304,7 +298,3 @@ CACHES = {
     }
 }
 
-if env("ENVIRONMENT") == 'staging':
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True

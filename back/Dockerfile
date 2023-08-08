@@ -18,4 +18,4 @@ COPY --chown=notroot:notroot ./.env /src/back/core/.env
 WORKDIR /src/back
 
 EXPOSE 8000
-CMD gunicorn core.wsgi:application --bind 0.0.0.0:8000 & celery -A core worker -l info & celery -A core beat -l info
+CMD gunicorn core.wsgi:application --bind 0.0.0.0:8000 --error-logfile error.log --log-file access.log & celery -A core worker -l info & celery -A core beat -l info
