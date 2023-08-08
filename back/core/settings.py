@@ -175,7 +175,8 @@ if env('ENVIRONMENT') == 'development':
     FRONTEND_HOST = 'http://127.0.0.1:3000'
 
 elif env('ENVIRONMENT') == 'staging':
-    FRONTEND_HOST = 'http://0.0.0.0'
+    FRONTEND_HOST = 'https://0.0.0.0'
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 if not env('ENVIRONMENT') == 'production':
     CORS_ALLOWED_ORIGINS = [
@@ -184,8 +185,16 @@ if not env('ENVIRONMENT') == 'production':
         'http://127.0.0.1',
         'http://127.0.0.1:3000',
         'http://0.0.0.0',
-        'http://0.0.0.0:3000'
+        'http://0.0.0.0:3000',
+        "https://localhost",
+        'https://localhost:3000',
+        'https://127.0.0.1',
+        'https://127.0.0.1:3000',
+        'https://0.0.0.0',
+        'https://0.0.0.0:3000'
     ]
+
+    CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 if env('ENVIRONMENT') == 'development':
     EMAIL_BACKEND = "users.backends.EncryptedConsoleEmailBackend"
