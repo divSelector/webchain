@@ -11,7 +11,7 @@ environ.Env.read_env(BASE_DIR.parent / '.env')
 if env('ENVIRONMENT') == 'development':
     print("development")
     from .config.development import *
-    
+
 if env('ENVIRONMENT') == 'staging':
     print("staging")
     from .config.staging import *
