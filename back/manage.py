@@ -2,17 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import socket
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
     
-    try:
-        if sys.argv[1] == 'runserver':
-            os.environ.setdefault('ENVIRONMENT', 'development')
-    except IndexError:
-        pass
+    if socket.gethostname() == "oot":
+        os.environ.setdefault('ENVIRONMENT', 'development')
 
     try:
         from django.core.management import execute_from_command_line
