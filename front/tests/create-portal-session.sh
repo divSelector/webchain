@@ -1,2 +1,0 @@
-curl -XPOST -H "Authorization: Token $1" \
-    -H "Content-type: application/json" 'http://localhost:8000/stripe/create-portal-session'
