@@ -1,7 +1,7 @@
 function FrontendSettings () {
     
-    const host = import.meta.env.REACT_APP_FRONTEND_HOST
-    const stripePriceLookupKey = import.meta.env.REACT_APP_STRIPE_PRICE_LOOKUP_KEY
+    const host = import.meta.env.VITE_FRONTEND_HOST
+    const stripePriceLookupKey = import.meta.env.VITE_STRIPE_PRICE_LOOKUP_KEY
 
     return (
         {

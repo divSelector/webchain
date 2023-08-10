@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "env-cmd -f .env.development vite",
+    "dev": "env-cmd -f .env/.env.development vite",
     "build": "vite build",
-    "build:stage": "env-cmd -f .env.staging yarn build && rm -rf ../nginx/build && mv build ../nginx/build",
+    "build:stage": "env-cmd -f .env/.env.staging vite build && rm -rf ../nginx/build && mv build ../nginx/build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
