@@ -34,7 +34,6 @@ urlpatterns = [
             {'get': 'random'}
         ), name='random-from-webring'),
 
-
     path('webrings/', 
         WebringViewSet.as_view(
             {'get': 'list'}
