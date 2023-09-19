@@ -48,6 +48,8 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     hostname: rabbit
+    volumes:
+      - ~/srv/docker/template-rabbit/data:/var/lib/rabbitmq/mnesia/
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
