@@ -22,9 +22,37 @@ front/npm-debug.log*
 front/yarn-debug.log*
 front/yarn-error.log*
 
+front/env/.env.staging
+front/env/.env.development
+front/env/.env.production
+# Logs
+front/logs
+front/*.log
+front/npm-debug.log*
+front/yarn-debug.log*
+front/yarn-error.log*
+front/pnpm-debug.log*
+front/lerna-debug.log*
+
+front/node_modules
+front/dist
+front/dist-ssr
+front/*.local
+
+# Editor directories and files
+front/.vscode/*
+front/!.vscode/extensions.json
+front/.idea
+front/.DS_Store
+front/*.suo
+front/*.ntvs*
+front/*.njsproj
+front/*.sln
+front/*.sw?
 
 
-*.pyc
+
+back/*.pyc
 # Byte-compiled / optimized / DLL files
 back/*/__pycache__/
 __pycache__/
@@ -184,3 +212,14 @@ back/cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+
+.env
+staticfiles
+nginx/build/*
+
+nginx/*.txt
+nginx/include/allowme.conf
+back/celerybeat*
+nginx/ssl
+
+*.rdb

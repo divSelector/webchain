@@ -2,14 +2,12 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django import forms
-from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.admin.widgets import FilteredSelectMultiple    
 from django.contrib.auth.models import Group
 from allauth.account.models import EmailAddress
 from allauth.account.admin import EmailAddressAdmin
 from allauth.account.adapter import get_adapter
-
 
 User = get_user_model()
 
@@ -29,7 +27,7 @@ class CustomUserAdmin(UserAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         is_superuser = request.user.is_superuser
-        disabled_fields = set()  # type: Set[str]
+        disabled_fields = set() 
 
         if not is_superuser:
             disabled_fields |= {

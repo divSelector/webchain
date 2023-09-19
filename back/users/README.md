@@ -1,10 +1,16 @@
  
 # div_django_users
 
-This is a template for a basic allauth users app. It has a custom model with email for username.
-It prevents not-superuser staff users from abusing the admin page (to some capacity).
-It has stock templates and static files for the class based generic auth views.
-It's a starting point.
+This is a template for a basic allauth users app. 
+
+- It has a custom model with email for username.
+- It prevents not-superuser staff users from abusing the admin page (to some capacity).
+- It has stock templates and static files for the class based generic auth views.
+
+Since I originally made this, I've extended it quite a bit.
+
+- `authentication.py` contains an extension of the basic DRF TokenAuthentication that incorporates expiring tokens. To use it, you should set `TOKEN_EXPIRE_TIME` to something like `datetime.timedelta(hours=10)`
+- `backends.py` contains custom email backends that serialize EmailMessage objects to json and passes them to celery, for async processing. Also see `tasks.py`. The email is also encrypted before it is passed to the message broker and decrypted when it gets to the worker.
 
 ## Quick start
 
@@ -60,10 +66,7 @@ INSTALLED_APPS = [
         'allauth.account.auth_backends.AuthenticationBackend',
     ]
 
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
 
-    STATIC_ROOT = BASE_DIR / 'static'
-    STATIC_URL = '/static/'
     STATICFILES_DIRS = []
 
     SITE_ID = 1  # Required by Django-allauth
@@ -77,7 +80,7 @@ INSTALLED_APPS = [
 
     REST_FRAMEWORK = {
         "DEFAULT_AUTHENTICATION_CLASSES": [
-            "rest_framework.authentication.TokenAuthentication",
+            "rest_framework.authentication.ExpiringTokenAuthentication",
         ]
     }
 
@@ -94,19 +97,20 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "<your email host>"                    # smtp-relay.sendinblue.com
-# EMAIL_USE_TLS = False                               # False
-# EMAIL_PORT = "<your email port>"                    # 587
-# EMAIL_HOST_USER = "<your email user>"               # your email address
-# EMAIL_HOST_PASSWORD = "<your email password>"       # your password
-# DEFAULT_FROM_EMAIL = "<your default from email>"    # email ending with @sendinblue.com
+EMAIL_BACKEND = "users.backends.AsyncSmtpEmailBackend"
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_PORT =  env('EMAIL_PORT')
+EMAIL_HOST_USER =  env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
 
-# <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
+EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
 EMAIL_CONFIRM_REDIRECT_BASE_URL = \
     FRONTEND_HOST + "/email/confirm/"
 
-# <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
+PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
 PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = \
     FRONTEND_HOST + "/password-reset/confirm/"
 

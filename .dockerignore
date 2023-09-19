@@ -1,0 +1,5 @@
+back/venv
+back/restartdb.sh
+back/Dockerfile
+back/db.sqlite3
+back/dump.restartdb
