@@ -88,7 +88,7 @@ export default function AccountDetails() {
         {accountType == 'free' && <>
           <h5>FREE</h5>
           <p>With a free account, your primary (🔘) page and webring will be 
-            availabe in the chain. The ones marked unavailable (❌) will not be. 
+            available on the site. The ones marked unavailable (❌) will not be. 
             You can change your primary with (⭐️) button. To make sure all your 
             pages and webrings are availabe (✅), upgrade to a supporter account!</p>
         </>}
