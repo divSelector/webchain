@@ -6,12 +6,14 @@ services:
 
   api:
     container_name: api_prod
+    image: ghcr.io/divselector/webchain-api:latest
 
   rabbitmq:
     container_name: rabbitmq_prod
 
   nginx:
     container_name: nginx_prod
+    image: ghcr.io/divselector/webchain-nginx:latest
     build:
       dockerfile: ./nginx/Dockerfile.production
     ports:
