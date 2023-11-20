@@ -1,8 +1,17 @@
 version: '3'
 services:
 
+  db:
+    container_name: db_prod
+
+  api:
+    container_name: api_prod
+
+  rabbitmq:
+    container_name: rabbitmq_prod
+
   nginx:
-    container_name: nginx
+    container_name: nginx_prod
     build:
       dockerfile: ./nginx/Dockerfile.production
     ports:
@@ -19,6 +28,7 @@ services:
       - api
 
   certbot:
+    container_name: certbot_prod
     image: certbot/certbot:latest
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
