@@ -15,3 +15,7 @@ if env('ENVIRONMENT') == 'development':
 if env('ENVIRONMENT') == 'staging':
     print("staging")
     from .config.staging import *
+
+if env('ENVIRONMENT') == 'production':
+    print("production")
+    from .config.production import *
