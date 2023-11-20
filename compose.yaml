@@ -4,7 +4,7 @@ services:
   nginx:
     container_name: nginx
     build:
-      dockerfile: ./nginx/Dockerfile
+      dockerfile: ./nginx/Dockerfile.staging
     ports:
       - '80:80'
       - '443:443'
@@ -12,6 +12,8 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d
       - static_files:/usr/share/nginx/django
       - ./nginx/build:/usr/share/nginx/react
+    environment:
+      - ENVIRONMENT=staging
     depends_on:
       - api
 
