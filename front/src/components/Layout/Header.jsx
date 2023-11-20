@@ -7,7 +7,7 @@ export default function Header() {
         <header>
           <div id="heading-title-wrapper">
             <ChainSVG />
-            <h1>webchain</h1>
+            <h1>neorings</h1>
             <ChainSVG />
           </div>
           <Navbar />

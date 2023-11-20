@@ -51,7 +51,7 @@ export default function WebringDetailView() {
     }
 
     const stringifyMarkup = (jsx) => {
-      const containerId = 'webchain-' + webring.title.toLowerCase().replace(/\s+/g, '-') + '-container'
+      const containerId = 'neorings-' + webring.title.toLowerCase().replace(/\s+/g, '-') + '-container'
       return [
         `<div id=${containerId}>\n`,
         ReactDOMServer.renderToStaticMarkup(jsx),

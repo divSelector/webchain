@@ -34,7 +34,7 @@ export default function ProductDisplay() {
     <section>
       <div className="product">
         <div className="description">
-          <h2>Support Webchain</h2>
+          <h2>Support Neorings</h2>
           <h5>$5.00 / month</h5>
           <p></p>
         </div>

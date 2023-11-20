@@ -19,7 +19,6 @@ import PageUpdateView from './components/Views/PageUpdateView';
 import { ProtectedRoute } from './context/ProtectedRoute';
 import WebringUpdateView from './components/Views/WebringUpdateView';
 import ErrorView from './components/Views/ErrorView';
-import ExampleRingMarkup from './components/Views/ExampleRingMarkup';
 import { CacheProvider } from './context/CacheContext';
 
 export default function App() {
@@ -121,15 +120,6 @@ export default function App() {
             >
               <WebringUpdateView />
             </ProtectedRoute>
-          } />
-
-          <Route path="/you-doing-too-much" element={
-            <ExampleRingMarkup />
-          } />
-
-
-          <Route path="/test/markup" element={
-            <ExampleRingMarkup />
           } />
 
         </Routes>
