@@ -215,7 +215,6 @@ back/cython_debug/
 
 .env
 staticfiles
-nginx/build/*
 
 nginx/*.txt
 nginx/include/allowme.conf
