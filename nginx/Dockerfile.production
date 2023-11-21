@@ -7,4 +7,6 @@ COPY ./nginx/build/* /usr/share/nginx/react
 COPY ./nginx/html/* /usr/share/nginx/html
 COPY ./nginx/include/* /etc/nginx
 
+COPY /home/div/ssl/neorings.org/* /etc/nginx/ssl/live/neorings.org/
+
 WORKDIR /etc/nginx/
