@@ -23,17 +23,7 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d:ro
       - static_files:/usr/share/nginx/django
       - ./nginx/build:/usr/share/nginx/react
-      - ./certbot/www/:/var/www/certbot/:ro
     environment:
       - ENVIRONMENT=production
     depends_on:
       - api
-
-  certbot:
-    container_name: certbot_prod
-    image: certbot/certbot:latest
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/lib/letsencrypt:/var/lib/letsencrypt
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
