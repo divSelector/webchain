@@ -4,7 +4,7 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
-    ENVIRONMENT=(str, "staging")
+    # ENVIRONMENT=(str, "staging")
 )
 environ.Env.read_env(BASE_DIR.parent / '.env')
 
