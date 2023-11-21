@@ -13,6 +13,9 @@ RUN adduser -D notroot
 USER notroot
 
 COPY --chown=notroot:notroot ./back /src/back/
+
+RUN mkdir /src/back/staticfiles
+
 COPY --chown=notroot:notroot ./.env /src/back/core/.env
 
 WORKDIR /src/back
