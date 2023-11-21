@@ -23,7 +23,7 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d:ro
       - static_files:/usr/share/nginx/django
       - ./nginx/build:/usr/share/nginx/react
-      - /etc/letsencrypt/live/neorings.org:/etc/nginx/ssl/live/neorings.org:ro
+      - /etc/letsencrypt/live/neorings.org:/etc/letsencrypt/ssl/live/neorings.org
     environment:
       - ENVIRONMENT=production
     depends_on:
