@@ -32,7 +32,7 @@ class WebringPageLinkViewSet(viewsets.ViewSet):
         if created:
 
             if not link.approved:
-                subject="[example.com] A webmaster wants to join your webring."
+                subject="[neorings.org] A webmaster wants to join your webring."
                 send_email(
                     settings.DEFAULT_FROM_EMAIL, [link.webring.account.user.email],
                     f"Subject: {subject}\n\r\n\rHello, {link.page.account.name} wants to join their page '{link.page.title}' to your ring '{link.webring.title}.' Log in to accept their request!", 
@@ -77,7 +77,7 @@ class WebringPageLinkViewSet(viewsets.ViewSet):
         serializer.save()
 
         if link.approved:
-            subject = "[example.com] Your page was joined to a webring."
+            subject = "[neorings.org] Your page was joined to a webring."
             send_email(
                 settings.DEFAULT_FROM_EMAIL, [link.page.account.user.email],
                 f"Subject: {subject}\n\r\n\rHello, {link.webring.account.user.email} has accepted your page '{link.page.title}' into their ring '{link.webring.title}'", 
