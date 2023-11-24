@@ -21,7 +21,6 @@ REST_FRAMEWORK['DEFAULT_THROTTLE_CLASSES'] = [
 
 ADMIN_UNREGISTERED_MODELS += [
     'EmailAddress',
-    'Account',
     'TokenProxy'
 ]
 
