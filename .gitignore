@@ -222,3 +222,4 @@ back/celerybeat*
 nginx/ssl
 
 *.rdb
+pg-backup/*
