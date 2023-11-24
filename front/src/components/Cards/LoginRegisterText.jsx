@@ -12,16 +12,16 @@ export default function LoginRegisterText({ currentView }) {
 
   return (
     <div className="form-wrapper">
-    <h2>Neorings - Connect Your Neocities Webring</h2>
-    <p>Neorings is the dedicated platform for neocities.org users to host and connect their webrings. Join vibrant niche communities, submit your Neocities blog or personal site to attract organic traffic, and amplify your online presence.</p>
-    <p>Manage your rings and connect with other Neocities webring admins to unlock new opportunities. Neorings is the perfect space for Neocities users to collaborate and expand their reach within the Neocities community.</p>
-    <p>Register or log in to Neorings now and connect with like-minded Neocities creators. Elevate your Neocities experience with Neorings!</p>
+      <h2>Modern Webrings</h2>
+      <p>Neorings is the dedicated platform for webmasters of the oldweb to host and connect their pages to webrings. Join vibrant niche communities, submit your pages to attract organic traffic, and amplify the reach of your web projects.</p>
+      <p>Manage your rings and connect with other webring admins to unlock new connections. Neorings is the perfect space to collaborate and expand your reach within the oldweb community.</p>
+      <p>Register or log in and elevate your oldweb experience with Neorings!</p>
       <p>
-        <Link 
-          to={`${oppositeView}`} 
+        <Link
+          to={`${oppositeView}`}
           className="help-text"
           onClick={handleToggleLoginRegister}>
-            {capitalize(stripLeadingSlash(oppositeView))}
+          {capitalize(stripLeadingSlash(oppositeView))}
         </Link>
       </p>
     </div>
