@@ -12,12 +12,10 @@ export default function LoginRegisterText({ currentView }) {
 
   return (
     <div className="form-wrapper">
-      <h2>Discover, Connect, Grow with Neorings!</h2>
-      <p>Create links to your website, connect with like-minded individuals, and expand your online presence.</p>
-      <p>Webrings are at the core of Neorings. Submit your blog or personal site to niche communities who share and exchange links, attracting organic traffic.</p>
-      <p>Chain webrings together, manage your own rings, connect with other webring admins, and amplify your reach to unlock new opportunities.</p>
-      <p>Register or log in to Neorings now. Connect, flourish online.</p>
-
+    <h2>Neorings - Connect Your Neocities Webring</h2>
+    <p>Neorings is the dedicated platform for neocities.org users to host and connect their webrings. Join vibrant niche communities, submit your Neocities blog or personal site to attract organic traffic, and amplify your online presence.</p>
+    <p>Manage your rings and connect with other Neocities webring admins to unlock new opportunities. Neorings is the perfect space for Neocities users to collaborate and expand their reach within the Neocities community.</p>
+    <p>Register or log in to Neorings now and connect with like-minded Neocities creators. Elevate your Neocities experience with Neorings!</p>
       <p>
         <Link 
           to={`${oppositeView}`} 
