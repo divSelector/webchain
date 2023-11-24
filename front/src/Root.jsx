@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import front from './settings/Frontend';
 import Dashboard from './components/Views/Dashboard';
 import EmailConfirm from './components/Views/EmailConfirm';
@@ -30,6 +30,7 @@ export default function App() {
       <div className="app-wrapper">
         <Header />
         <Routes>
+          <Route path="/index.html" element={<Navigate replace to="/" />} />
           <Route path="*" Component={ErrorView}></Route>
           
           <Route path="/" element={
