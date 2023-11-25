@@ -5,6 +5,19 @@ from .models import Account, Page, Webring
 from faker import Faker
 from django.core.exceptions import ValidationError
 
+from corsheaders.signals import check_request_enabled
+
+
+def cors_allow_api_to_everyone(sender, request, **kwargs):
+    if request.method == 'GET':
+        return request.path.startswith("/api/webring/")
+
+
+check_request_enabled.connect(cors_allow_api_to_everyone)
+
+
+
+
 User = get_user_model()
 fake = Faker()
 
