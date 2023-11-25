@@ -7,7 +7,7 @@ services:
   api:
     container_name: api_prod
     image: ghcr.io/divselector/webchain-api:latest
-
+    
   rabbitmq:
     container_name: rabbitmq_prod
 
