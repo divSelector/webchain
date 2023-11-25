@@ -18,7 +18,7 @@ export default function LogoutButton() {
 
       if (data.detail.includes("Success")) {
         setToken(null)
-        sessionStorage.clear()
+        localStorage.clear()
       }
 
     } catch (error) {

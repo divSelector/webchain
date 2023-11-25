@@ -16,13 +16,13 @@ export function AuthProvider({ children }) {
   const [authAccount, setAuthAccount] = useState();
 
   const expireToken = () => {
-    sessionStorage.removeItem(storageKey);
+    localStorage.removeItem(storageKey);
     window.location.href = front.host
 
   }
 
   const getToken = () => {
-    const tokenData = JSON.parse(sessionStorage.getItem(storageKey));
+    const tokenData = JSON.parse(localStorage.getItem(storageKey));
     if (!tokenData) return null;
 
     const { t, e } = tokenData;
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
   const updateToken = (t) => {
     const e = Date.now() + expiresIn;
     const tokenData = { t, e };
-    sessionStorage.setItem(storageKey, JSON.stringify(tokenData));
+    localStorage.setItem(storageKey, JSON.stringify(tokenData));
     setToken(t);
   };
 
@@ -68,7 +68,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (token) {
-      const tokenData = JSON.parse(sessionStorage.getItem(storageKey));
+      const tokenData = JSON.parse(localStorage.getItem(storageKey));
       if (tokenData) {
         const { e } = tokenData;
         if (Date.now() >= e) {
